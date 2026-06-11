@@ -1,297 +1,107 @@
-# AI PM Playbook
+# AI PM 操作手册
 
-> AI Product Manager 的实践手册
+面向 AI 产品经理的实用框架、工作流和案例笔记——专注于 Agent、本体系统和 AI 原型开发。
 
-[![GitHub Stars](https://img.shields.io/github/stars/wenhaoyu-bryan/AI-PM-Playbook?style=social)](https://github.com/wenhaoyu-bryan/AI-PM-Playbook)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/wenhaoyu-bryan/AI-PM-Playbook)](https://github.com/wenhaoyu-bryan/AI-PM-Playbook)
-
-**中文** | **[English](README.md)** — Skills、Workflows、和对 Vibe Coding & Harness Engineering 的日常感悟
-
-[![GitHub Stars](https://img.shields.io/github/stars/wenhaoyu-bryan/AI-PM-Playbook?style=social)](https://github.com/wenhaoyu-bryan/AI-PM-Playbook)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/wenhaoyu-bryan/AI-PM-Playbook)](https://github.com/wenhaoyu-bryan/AI-PM-Playbook)
+**[English](README.md)** | **中文**
 
 ---
 
-## 📖 关于这个仓库
+## 这是什么
 
-这是一个 AI Product Manager 的**实践记录**，不是教程，不是指南，而是一个真实从业者在日常工作中的**学习笔记、技能沉淀、和认知迭代**。
+一套将模糊的业务问题转化为结构化 AI 产品概念、原型和评估计划的工作手册。
 
-**核心理念**：
-- 🎯 **实践优先**：所有内容都来自真实项目，不是理论推演
-- 🔄 **持续迭代**：每周更新，记录最新的学习和实践
-- 💡 **认知沉淀**：不只是记录"怎么做"，更记录"为什么这么做"
-- 🛠️ **可复用性**：所有技能都可以直接用在工作中
+这不是课程，不是泛泛的 AI 资源列表，也不是我的个人网站替代品。这是我在 AI 产品管理实践中的工作系统——记录我如何思考产品决策、设计 Agent 工作流、规划人工审核节点，以及协调 AI 辅助交付。
 
-**适合谁看**：
-- 想转型 AI PM 的产品经理
-- 想了解 Vibe Coding 的开发者
-- 对 AI Agent 产品化感兴趣的人
-- 想学习 Harness Engineering 的工程师
+本手册来自以下实践领域：
+
+- 本体驱动的产品系统
+- 工业 Agent 原型
+- RAG 和数据准备工作流
+- PM 主导的 Vibe Coding 和 Harness Engineering
+- Human-in-the-loop AI 产品设计
+
+## 这不是什么
+
+- **不是课程。** 没有结构化大纲，可以按任何顺序阅读。
+- **不是资源列表。** 学习材料作为补充存在，但核心是方法论。
+- **不是个人作品集。** 本仓库展示的是我*如何*构建 AI 产品。关于我*做了*什么，请看我的 [GitHub 主页](https://github.com/wenhaoyu-bryan)。
+- **不是理论研究笔记。** 所有内容都来自产品实践，不是学术分析。
+
+## 如何阅读本仓库
+
+从 [AI PM Canvas](AI_PM_CANVAS.zh-CN.md) 开始——它是连接所有内容的核心框架。
+
+然后按版块浏览：
+
+| 版块 | 内容 | 适用场景 |
+|---|---|---|
+| [01-product-thinking/](01-product-thinking/) | AI PM 角色演变、核心能力 | 理解 AI 如何改变 PM 工作 |
+| [02-ai-native-delivery/](02-ai-native-delivery/) | Vibe Coding、Harness Engineering、原型开发 | 学习 PM 如何用 AI 快速交付原型 |
+| [03-agent-and-ontology-systems/](03-agent-and-ontology-systems/) | 本体产品设计、Agent 工作流模式 | 理解知识驱动的 AI 产品 |
+| [04-case-studies/](04-case-studies/) | 项目案例笔记 | 在实践中看方法论应用 |
+| [05-templates/](05-templates/) | Canvas、案例模板、PRD-lite 模板 | 用框架指导自己的工作 |
+| [06-resources/](06-resources/) | 书籍和课程 | 构建背景知识 |
+| [archive/](archive/) | 早期版本和更新日志 | 查看仓库历史 |
 
 ---
 
-## 📂 仓库结构
+## 案例连接
+
+这些是方法论如何连接到实际项目工作的示例。案例细节已做通用化处理，避免暴露保密信息。
+
+**Prompt-to-Ontology**
+将扁平的业务语言转化为结构化的本体概念，使用 LLM 辅助 Schema 提取。展示本体驱动的产品思维。
+→ [案例笔记](04-case-studies/prompt-to-ontology.zh-CN.md) | [GitHub](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
+
+**工业 Agent 原型**
+模拟工业 Agent 如何支持诊断和决策工作流，结合结构化知识和人工审核。展示工业 AI 产品设计。
+
+**邮件工作流自动化工具包**
+自动化重复的邮件分类和路由。展示实用的业务工作流自动化。
+
+**RAG 数据准备工具包**
+为下游检索准备杂乱文档——清洗、分块、元数据提取、入库。展示对 AI 系统基础的理解。
+
+> 这些项目的详细案例笔记将在可以通用化为可复用方法论时逐步添加，不暴露保密业务上下文。
+
+---
+
+## 为什么这对 AI PM 工作很重要
+
+现代 AI 产品管理不只是写 PRD 和管理 Backlog。它需要一套不同的操作系统：
+
+| 传统 PM | AI PM |
+|---|---|
+| 写需求文档 | 将业务模糊性结构化为产品概念 |
+| 交给工程团队 | 协调 AI 辅助的原型开发和交付 |
+| 管理时间线 | 设计 Agent 工作流和人工审核节点 |
+| 跟踪功能 | 定义 AI 行为的评估指标 |
+| 上线后迭代 | 先原型验证，再决定是否投入 |
+
+AI PM 需要理解知识架构、设计人机协作模式、评估模型输出、交付可运行的原型——不是通过写代码，而是通过架构思维和有效指导 AI 工具。
+
+本手册就是我做这些工作的方式。
+
+---
+
+## 仓库结构
 
 ```
-AI-PM-Playbook/
-├── README.md                    # 你正在读的文件
-├── skills/                      # 可复用技能 & 工作流
-│   ├── pm-prototype-workflow/   # AI Native 原型开发工作流（React 版）
-│   ├── vue3-x6-prototype-stack/ # Vue 3 + Element Plus + AntV X6（B 端）
-│   ├── requirements-breakdown/  # 需求拆解框架
-│   └── ...
-├── workflows/                   # 工作流程
-│   ├── vibe-coding.md          # Vibe Coding 实践指南
-│   ├── harness-engineering.md  # Harness Engineering 入门
-│   └── ...
-├── insights/                    # 认知和感悟
-│   ├── ai-pm-role.md           # AI PM 角色认知
-│   ├── ontology-thinking.md    # 本体论思维
-│   └── ...
-├── projects/                    # 项目案例
-│   ├── Prompt-to-Ontology/     # Ontology OS 项目
-│   └── ...
-└── resources/                   # 学习资源
-    ├── books.md                # 推荐书籍
-    ├── courses.md              # 推荐课程
-    └── ...
+.
+├── README.md                          # 本文件
+├── AI_PM_CANVAS.md                   # 核心框架：12 维度 AI PM 规划 Canvas
+├── AI_PM_CANVAS.zh-CN.md             # 中文版
+├── 01-product-thinking/              # AI PM 角色、能力、成长路径
+├── 02-ai-native-delivery/            # Vibe Coding、Harness Engineering、原型开发
+├── 03-agent-and-ontology-systems/    # 本体和 Agent 产品方法论
+├── 04-case-studies/                  # 项目案例笔记
+├── 05-templates/                     # 可复用模板和框架
+├── 06-resources/                     # 书籍和课程
+└── archive/                          # 早期版本和更新日志
 ```
 
 ---
 
-## 🎯 核心技能
+## 许可证
 
-### 1. AI Native 产品开发工作流
-
-**核心理念**：PRD 不是文档，是给 AI 的指令集
-
-```
-需求输入 → AI 生成 PRD → AI 生成原型 → 快速迭代 → 交付验证
-   ↓           ↓              ↓            ↓          ↓
- 10 min     20 min         30 min       按需       即时
-```
-
-**效率提升**：从需求到原型 2-4 周 → 1-2 小时（15-20x）
-
-**详细内容**：[skills/pm-prototype-workflow/](skills/pm-prototype-workflow/)
-
----
-
-### 2. Vibe Coding 实践
-
-**核心理念**：产品经理 + LLM = 全栈开发者
-
-**关键洞察**：
-- 不是"学编程"，是"学架构思维"
-- 定义边界、指定契约、推理数据流
-- 让 LLM 处理语法，PM 处理产品逻辑
-
-**实践案例**：
-- Ontology OS：一个人、一个模型、两周迭代
-- 产出的不是代码，是认知
-
-**详细内容**：[workflows/vibe-coding.md](workflows/vibe-coding.md)
-
----
-
-### 3. Harness Engineering
-
-**核心理念**：不是写代码，是驾驭 AI 写代码
-
-**关键技能**：
-- Prompt Engineering（给 AI 的指令设计）
-- Architecture Design（系统架构设计）
-- Error Handling（错误处理和边界情况）
-- Quality Assurance（质量保证和验证）
-
-**详细内容**：[workflows/harness-engineering.md](workflows/harness-engineering.md)
-
----
-
-### 4. Vue 3 + X6 原型技术栈
-
-**核心理念**：用最少代码实现生产级图编辑能力，适合 B 端可视化产品
-
-**技术栈**：
-- Vue 3 + TypeScript + Vite 5
-- Element Plus（70+ UI 组件）
-- AntV X6（图引擎，7 个插件全开）
-- dagre（自动布局算法）
-
-**关键优势**：AntV X6 比 D3/react-flow 节省 2-4 周图编辑开发
-
-**效率提升**：60 分钟完成完整图编辑原型（20x 提速）
-
-**成本**：¥0 — 所有库均为 MIT/Apache 2.0 开源许可
-
-**详细内容**：[skills/vue3-x6-prototype-stack/](skills/vue3-x6-prototype-stack/)
-
----
-
-## 💡 认知和感悟
-
-### AI PM 的角色演变
-
-```
-传统 PM：需求 → 文档 → 设计 → 开发 → 测试 → 上线
-AI PM：  需求 → AI 指令 → AI 生成 → 验证 → 迭代
-```
-
-**核心变化**：
-- 从"写文档"到"写指令"
-- 从"管理开发"到"驾驭 AI"
-- 从"线性流程"到"快速迭代"
-
-**关键能力**：
-- 架构思维（定义边界和契约）
-- Prompt Engineering（给 AI 的指令设计）
-- 质量判断（判断 AI 产出的质量）
-- 快速验证（快速验证需求和假设）
-
----
-
-### 本体论思维
-
-**核心洞察**：
-> "构建本体系统最难的部分不是代码，是心智模型。理解图数据库不是本体，本体不是 Schema，Schema 不是数据模型——这些是同心圆的抽象层级，搞对它们是产品问题，不是工程问题。"
-
-**实践案例**：
-- Ontology OS：逆向工程 Palantir AIP
-- 关键决策：事实表是节点，不是边
-- 架构洞察：Neo4j 是数据源，NetworkX 是计算引擎，LLM 是推理层
-
----
-
-### Vibe Coding 的收获
-
-**最有价值的认知**：
-> "构建本体系统最难的部分不是代码，是心智模型。"
-
-**实践收获**：
-- 不是"学编程"，是"学架构思维"
-- 产出的不是代码，是认知框架
-- PM + LLM 可以交付全栈原型
-
-**适用场景**：
-- 技术原型验证
-- 架构探索
-- 快速 MVP 开发
-
----
-
-## 🛠️ 项目案例
-
-### Prompt to Ontology (Ontology OS)
-
-**定位**：企业本体操作系统
-
-**核心洞察**：
-> "把企业数据从'表格'变成'活的知识图谱'"
-
-**技术栈**：
-- 前端：React 18 + D3.js + Tailwind CSS 4
-- 后端：FastAPI + Neo4j + NetworkX
-- LLM：MiniMax / OpenAI / Anthropic
-
-**关键架构决策**：
-- Neo4j 是数据源，NetworkX 是计算引擎，LLM 是推理层
-- 事实表是节点，不是边
-- 动作挂对象，状态驱动行为
-
-**GitHub**：[Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
-
-**详细内容**：[projects/Prompt-to-Ontology/](projects/Prompt-to-Ontology/)
-
----
-
-## 📚 学习资源
-
-### 推荐书籍
-
-1. **《Thinking in Systems》** - Donella H. Meadows
-   - 理解系统思维
-   - 适合：想理解复杂系统的人
-
-2. **《The Design of Everyday Things》** - Don Norman
-   - 理解用户体验设计
-   - 适合：想提升产品设计能力的人
-
-3. **《Inspired》** - Marty Cagan
-   - 理解产品管理
-   - 适合：想成为产品经理的人
-
----
-
-### 推荐课程
-
-1. **Prompt Engineering for Developers**
-   - DeepLearning.AI
-   - 学习 Prompt Engineering 基础
-
-2. **LangChain for LLM Application Development**
-   - DeepLearning.AI
-   - 学习 LLM 应用开发
-
-3. **AI Product Management**
-   - Coursera
-   - 学习 AI 产品管理
-
----
-
-## 📈 更新日志
-
-### 2026-05-18
-- ✅ 创建仓库
-- ✅ 添加 PM Prototype Workflow 技能
-- ✅ 添加 Requirements Breakdown 技能
-- ✅ 添加 Vibe Coding 实践指南
-- ✅ 添加 Harness Engineering 入门
-- ✅ 添加 AI PM 角色认知
-- ✅ 添加 Prompt to Ontology 项目案例
-- ✅ 添加学习资源
-
-### 未来计划
-- [ ] 添加更多的技能
-- [ ] 添加更多的项目案例
-- [ ] 添加学习笔记
-- [ ] 添加周报/月报
-
----
-
-## 🤝 如何贡献
-
-这个仓库主要是我的个人学习记录，但欢迎：
-
-1. **提 Issue**：分享你的想法和建议
-2. **提 PR**：添加你的实践案例
-3. **讨论**：在 Discussions 中讨论
-
----
-
-## 👥 Contributors
-
-感谢以下贡献者：
-
-- **Wenhao Yu** (余文豪) - 项目创建者和主要维护者
-- **Hermes Agent** - AI 助手，协助内容生成、架构设计和代码实现
-
----
-
-## 📝 许可证
-
-MIT License - 自由使用和分享
-
----
-
-## 🙏 致谢
-
-感谢所有在 AI PM 道路上给予帮助的人：
-
-- **开源社区**：提供工具和灵感
-- **Hermes Agent**：AI 助手，协助完成这个项目
-
----
-
-**最后更新**：2026-05-26
-**维护者**：Wenhao Yu (余文豪)
-**状态**：🟢 积极更新中
+MIT License — 自由使用，适配到你自己的实践中。

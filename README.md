@@ -1,281 +1,118 @@
-# AI PM Playbook
+# AI PM Operating Playbook
 
-> A comprehensive practice handbook for AI Product Managers — Skills, Workflows, and Insights on Vibe Coding & Harness Engineering
-
-[![GitHub Stars](https://img.shields.io/github/stars/wenhaoyu-bryan/AI-PM-Playbook?style=social)](https://github.com/wenhaoyu-bryan/AI-PM-Playbook)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/wenhaoyu-bryan/AI-PM-Playbook)](https://github.com/wenhaoyu-bryan/AI-PM-Playbook)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Practical frameworks, workflows, and case notes for AI Product Managers building agents, ontology systems, and AI-native prototypes.
 
 **English** | **[中文](README.zh-CN.md)**
 
 ---
 
-## 📖 About This Repository
+## What this is
 
-This is a **living knowledge base** for AI Product Managers who want to bridge the gap between product thinking and technical implementation. It's not a tutorial or a course — it's a real practitioner's **field notes** from daily work, capturing what actually works (and what doesn't) when building AI-powered products.
+A working playbook for turning ambiguous business problems into structured AI product concepts, prototypes, and evaluation plans.
 
-### What You'll Find Here
+This is the methodology behind my AI PM practice. It captures how I think through product decisions, structure agent workflows, design human review points, and coordinate AI-assisted delivery — not as theory, but as reusable frameworks drawn from real project work.
 
-🎯 **Practical Skills**: Battle-tested workflows for turning ideas into prototypes in hours, not weeks. From requirements gathering to AI-generated code, every skill has been validated in real projects.
+The playbook is built from practice across:
 
-🔄 **Vibe Coding Insights**: How to effectively collaborate with LLMs as a PM — not by learning to code, but by learning to think architecturally. Includes real examples of building full-stack prototypes with just a PM and an AI model.
+- Ontology-driven product systems
+- Industrial agent prototypes
+- RAG and data preparation workflows
+- PM-led vibe coding and harness engineering
+- Human-in-the-loop AI product design
 
-🧠 **Cognitive Frameworks**: The mental models that separate good AI PMs from great ones. How to think about ontologies, agent architectures, and the difference between data models, schemas, and knowledge graphs.
+## What this is not
 
-🛠️ **Harness Engineering**: The emerging discipline of directing AI to write code. Learn how to design prompts, architect systems, handle errors, and ensure quality — all without writing a single line of code yourself.
+- **Not a course.** There is no structured curriculum. Read in any order.
+- **Not a resource list.** Learning materials are included, but they support the methodology — they are not the point.
+- **Not a personal portfolio.** This repo shows *how* I build AI products. For *what* I have built, see my [portfolio](https://github.com/wenhaoyu-bryan).
+- **Not a theoretical research notebook.** Everything here is grounded in product practice, not academic analysis.
 
-📊 **Real Project Cases**: Concrete examples from semiconductor manufacturing to enterprise knowledge graphs. See how these principles apply in practice, with full technical details and architecture decisions.
+## How to read this repo
 
-### Who This Is For
+Start with the [AI PM Canvas](AI_PM_CANVAS.md) — it is the central framework connecting everything else.
 
-- **Aspiring AI PMs**: Product managers looking to transition into AI-native roles
-- **Technical PMs**: Those who want to understand AI/ML without becoming engineers
-- **Vibe Coders**: Anyone interested in PM + LLM collaboration patterns
-- **Startup Founders**: Those building AI products with limited engineering resources
-- **Engineers**: Understanding the PM perspective on AI system design
+Then explore by section:
 
-### Core Philosophy
-
-> "The hardest part of building an AI system is not the code, but the mental model. Understanding that a graph database is not an ontology, an ontology is not a schema, and a schema is not a data model — these are concentric circles of abstraction levels, and getting them right is a product problem, not an engineering problem."
+| Section | What it covers | Start here if you want to... |
+|---|---|---|
+| [01-product-thinking/](01-product-thinking/) | AI PM role, competencies, growth path | Understand how AI changes PM work |
+| [02-ai-native-delivery/](02-ai-native-delivery/) | Vibe coding, harness engineering, prototyping, requirements breakdown | Learn how PMs use AI to ship prototypes |
+| [03-agent-and-ontology-systems/](03-agent-and-ontology-systems/) | Ontology product design, agent workflow patterns | Understand knowledge-driven AI products |
+| [04-case-studies/](04-case-studies/) | Project case notes | See methodology applied in practice |
+| [05-templates/](05-templates/) | Canvas, case study template, PRD-lite template | Use a framework for your own work |
+| [06-resources/](06-resources/) | Books and courses | Build background knowledge |
+| [archive/](archive/) | Earlier versions and changelog | Review repo history |
 
 ---
 
-## 🗂️ Repository Structure
+## Featured case connections
+
+These are examples of how the methodology in this playbook connects to real project work. Case-specific details are generalized to avoid exposing confidential information.
+
+**Prompt-to-Ontology**
+Turning flat business language into structured ontology concepts using LLM-assisted schema extraction. Demonstrates ontology-driven product thinking.
+→ [Case notes](04-case-studies/prompt-to-ontology.md) | [GitHub](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
+
+**Industrial Agent Prototype**
+Simulating how an industrial agent supports diagnosis and decision workflows with structured knowledge and human review loops. Demonstrates industrial AI product design.
+
+**Email Workflow Automation Toolkit**
+Automating repetitive email classification and routing. Demonstrates practical business workflow automation with AI.
+
+**RAG Data Preparation Toolkit**
+Preparing messy documents for downstream retrieval — cleaning, chunking, metadata extraction, ingestion pipelines. Demonstrates understanding of AI system foundations.
+
+> Detailed case notes for these projects will be added as they can be generalized into reusable methodology without exposing confidential business context.
+
+---
+
+## Why this matters for AI PM work
+
+Modern AI product management is not just writing PRDs and managing backlogs. It requires a different operating system:
+
+| Traditional PM | AI PM |
+|---|---|
+| Write requirements documents | Structure business ambiguity into product concepts |
+| Hand off to engineering | Coordinate AI-assisted prototyping and delivery |
+| Manage timelines | Design agent workflows and human review points |
+| Track features | Define evaluation metrics for AI behavior |
+| Launch and iterate | Prototype, validate, and learn before committing |
+
+An AI PM needs to understand knowledge architectures, design human-AI collaboration patterns, evaluate model outputs, and ship working prototypes — not by writing code, but by thinking architecturally and directing AI tools effectively.
+
+This playbook is how I do that work.
+
+---
+
+## Repository map
 
 ```
-AI-PM-Playbook/
-├── README.md                    # English version (you are here)
-├── README.zh-CN.md              # 中文版
-├── skills/                      # Reusable skills & workflows
-│   ├── pm-prototype-workflow/   # AI Native prototype development (React)
-│   ├── vue3-x6-prototype-stack/ # Vue 3 + Element Plus + AntV X6 (B-side)
-│   ├── requirements-breakdown/  # Requirements → structured tasks framework
-│   └── ...
-├── workflows/                   # Detailed workflow guides
-│   ├── vibe-coding.md          # PM + LLM collaboration methodology
-│   ├── harness-engineering.md  # Directing AI to write code
-│   └── ...
-├── insights/                    # Cognitive frameworks & reflections
-│   ├── ai-pm-role.md           # How the PM role evolves with AI
-│   └── ...
-├── projects/                    # Real-world project case studies
-│   └── Prompt-to-Ontology/     # Enterprise ontology platform (open source)
-└── resources/                   # Curated learning resources
-    ├── books.md                # Essential reading list
-    └── courses.md              # Online courses & tutorials
+.
+├── README.md                          # This file
+├── AI_PM_CANVAS.md                   # Central framework: 12-dimension AI PM planning canvas
+├── 01-product-thinking/              # AI PM role, competencies, growth path
+├── 02-ai-native-delivery/            # Vibe coding, harness engineering, prototyping
+├── 03-agent-and-ontology-systems/    # Ontology and agent product methodology
+├── 04-case-studies/                  # Project case notes
+├── 05-templates/                     # Reusable templates and frameworks
+├── 06-resources/                     # Books and courses
+└── archive/                          # Earlier versions and changelog
 ```
 
 ---
 
-## 🎯 Key Skills
+## GitHub About
 
-### 1. AI Native Product Development
+**Suggested description:**
 
-**The Core Shift**: PRDs are no longer documents for humans — they're instruction sets for AI.
+> Practical AI PM operating playbook for agents, ontology systems, RAG workflows, and PM-led AI-native prototyping.
 
-```
-Traditional: Requirements → PRD → Design → Dev → Test → Launch (2-4 weeks)
-AI Native:   Requirements → AI PRD → AI Prototype → Iterate → Ship (1-2 hours)
-```
+**Suggested topics:**
 
-**Efficiency Gain**: 15-20x faster from idea to working prototype
-
-**Details**: [skills/pm-prototype-workflow/](skills/pm-prototype-workflow/)
+`ai-product-management` `ai-agents` `ontology` `rag` `product-strategy` `vibe-coding` `harness-engineering` `ai-prototyping`
 
 ---
 
-### 2. Vibe Coding
+## License
 
-**Definition**: A methodology where a PM defines product intent, architecture boundaries, and design constraints, while an LLM handles code generation, debugging, and iteration.
-
-**Key Insights**:
-- You're not "learning to code" — you're "learning to think architecturally"
-- The output isn't code — it's a cognitive framework for understanding systems
-- One PM + one LLM can deliver full-stack prototypes that previously required a team
-
-**Real Example**: Ontology OS — built entirely through Vibe Coding in 2 weeks, no traditional engineers involved.
-
-**Details**: [workflows/vibe-coding.md](workflows/vibe-coding.md)
-
----
-
-### 3. Harness Engineering
-
-**Definition**: The practice of directing AI to write code, not writing it yourself.
-
-**Core Skills**:
-- **Prompt Engineering**: Designing instructions that AI can execute correctly
-- **Architecture Design**: Defining system boundaries and data flows
-- **Quality Assurance**: Judging and improving AI output
-- **Rapid Iteration**: Learning from failures and optimizing quickly
-
-**Details**: [workflows/harness-engineering.md](workflows/harness-engineering.md)
-
----
-
-### 4. Vue 3 + X6 Prototype Stack
-
-**What**: A frontend tech stack for B-side products with complex visualization needs — graph editing, drag-drop, auto-layout, all out of the box.
-
-**Tech Stack**:
-- Vue 3 + TypeScript + Vite 5
-- Element Plus (70+ UI components)
-- AntV X6 (graph engine with 7 plugins)
-- dagre (auto-layout algorithm)
-
-**Key Advantage**: AntV X6 saves 2-4 weeks vs building graph editing with D3 or react-flow.
-
-**Efficiency**: Full graph editing prototype in ~60 minutes, 20x faster than from-scratch development.
-
-**Cost**: $0 — All libraries MIT/Apache 2.0 licensed.
-
-**Details**: [skills/vue3-x6-prototype-stack/](skills/vue3-x6-prototype-stack/)
-
----
-
-## 💡 Key Insights
-
-### The AI PM Role Evolution
-
-```
-Traditional PM: Requirements → Documents → Design → Dev → Test → Launch
-AI PM:          Requirements → AI Instructions → AI Generation → Verify → Iterate
-```
-
-**What Changes**:
-- From "writing documents" to "writing instructions"
-- From "managing developers" to "harnessing AI"
-- From "linear process" to "rapid iteration"
-
-**What Stays the Same**:
-- Understanding user needs
-- Making product decisions
-- Ensuring quality and value
-
----
-
-### Ontology Thinking
-
-> "The hardest part of building an ontology system is not the code, but the mental model."
-
-**Key Distinctions**:
-- Graph Database ≠ Ontology
-- Ontology ≠ Schema  
-- Schema ≠ Data Model
-
-These are concentric circles of abstraction. Getting them right is a **product problem**, not an engineering problem.
-
----
-
-## 🛠️ Project Cases
-
-### Prompt to Ontology
-
-**What**: An enterprise ontology operating system that transforms flat data into living knowledge graphs
-
-**Why**: To understand how platforms like Palantir AIP actually work under the hood — not by reading whitepapers, but by building one yourself
-
-**Tech Stack**:
-- Frontend: React 18 + D3.js + Tailwind CSS 4
-- Backend: FastAPI + Neo4j + NetworkX  
-- LLM: MiniMax / OpenAI / Anthropic
-
-**Key Architecture Decisions**:
-- Neo4j is the data source, NetworkX is the compute engine, LLM is the reasoning layer
-- Fact tables are nodes, not edges (get this wrong and your entire graph topology collapses)
-- Actions are attached to objects, state drives behavior
-
-**GitHub**: [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
-
-**Details**: [projects/Prompt-to-Ontology/](projects/Prompt-to-Ontology/)
-
----
-
-## 📚 Learning Resources
-
-### Essential Reading
-
-1. **"Thinking in Systems"** — Donella H. Meadows
-   - Foundation for understanding complex systems
-   - Why: AI products are systems, not features
-
-2. **"The Design of Everyday Things"** — Don Norman
-   - User experience design principles
-   - Why: AI products still need great UX
-
-3. **"Inspired"** — Marty Cagan
-   - Modern product management
-   - Why: AI PM is still PM at its core
-
-### Online Courses
-
-1. **Prompt Engineering for Developers** (DeepLearning.AI)
-   - Foundation for working with LLMs
-   - Essential for Vibe Coding
-
-2. **LangChain for LLM Application Development** (DeepLearning.AI)
-   - Building production LLM applications
-   - Practical implementation skills
-
-3. **AI Product Management** (Coursera)
-   - Business perspective on AI products
-   - Strategy and execution
-
----
-
-## 📈 Roadmap
-
-### ✅ Done
-- [x] Core skill frameworks
-- [x] Vibe Coding methodology
-- [x] Harness Engineering guide
-- [x] Prompt to Ontology case study
-- [x] Learning resource curation
-
-### 🚧 In Progress
-- [ ] Weekly learning notes
-- [ ] More project case studies
-- [ ] Community discussions
-
-### 📋 Planned
-- [ ] AI PM interview prep guide
-- [ ] Tool comparison framework
-- [ ] Team scaling playbook
-- [ ] Industry-specific templates
-
----
-
-## 🤝 Contributing
-
-This is primarily a personal knowledge base, but contributions are welcome:
-
-1. **Issues**: Share ideas, suggestions, or corrections
-2. **Pull Requests**: Add your own practice cases or improvements
-3. **Discussions**: Share your experience and learn from others
-
----
-
-## 👥 Contributors
-
-- **[Wenhao Yu](https://github.com/wenhaoyu-bryan)** — Creator & maintainer
-- **Hermes Agent** — AI assistant (content generation, architecture design, code implementation)
-
----
-
-## 📝 License
-
-MIT License — use freely, share widely
-
----
-
-## 🙏 Acknowledgments
-
-- **Open Source Community** — For building the tools that make this possible
-- **Hermes Agent** — For being an exceptional AI coding partner
-- **Everyone** who shares their AI PM journey publicly — we learn faster together
-
----
-
-**Last Updated**: 2026-05-26  
-**Status**: 🟢 Actively maintained  
-**Stars**: If you find this useful, please star the repo!
+MIT License — use freely, adapt to your own practice.
