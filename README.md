@@ -1,6 +1,6 @@
-# AI PM Operating Playbook
+# AI PM Workbench
 
-Practical frameworks, workflows, and case notes for AI Product Managers building agents, ontology systems, and AI-native prototypes.
+Turn fuzzy AI product ideas into structured delivery artifacts. No backend, no API keys, no accounts — everything runs in your browser.
 
 **English** | [中文](README.zh-CN.md)
 
@@ -8,36 +8,48 @@ Practical frameworks, workflows, and case notes for AI Product Managers building
 
 ## What is this
 
-A playbook that turns vague business problems into structured AI product concepts, prototypes, and evaluation plans.
+A static workbench that helps AI Product Managers go from ambiguous product concepts to actionable documents in 4 steps:
 
-This is not a course, not a generic AI resource list, and not a portfolio. This is the operating system behind how I think about product decisions, design agent workflows, plan human review points, and coordinate AI-assisted delivery.
+1. **Product Framing** — Define the user, problem, business scenario, and knowledge context
+2. **Design Intelligence** — Choose the right AI capability (RAG, agent, classification, generation) and design the workflow
+3. **Evaluate & Risk** — Set metrics, acceptance criteria, and identify production risks
+4. **Export** — Generate 6 structured documents ready for stakeholder review or coding agent handoff
 
-Core content:
+**Try it:** https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/
 
-- **AI PM Canvas** — 12-dimension planning framework (interactive tool)
+## What you get
+
+The Workbench generates 6 documents from your inputs:
+
+| Document | Purpose |
+|----------|---------|
+| **AI Product Brief** | Structured concept summary for stakeholder alignment |
+| **Workflow Specification** | Step-by-step AI/agent workflow with Mermaid diagram |
+| **Evaluation Plan** | Metrics, datasets, and review processes |
+| **Acceptance Criteria** | Testable checklist for prototype and production |
+| **Coding Agent Handoff** | Implementation brief optimized for AI coding tools |
+| **CLAUDE.md Starter** | Project context file for Claude Code |
+
+## Example projects
+
+The Workbench ships with 3 pre-built examples you can load and modify:
+
+- **Prompt-to-Ontology** — Turn messy business concepts into structured ontology assets
+- **Industrial Agent Decision Support** — Diagnose manufacturing equipment issues with AI-assisted workflows
+- **RAG Knowledge Assistant** — Help employees find answers from internal documentation
+
+## Methodology
+
+The Workbench is built on a set of frameworks for AI product thinking:
+
+- **AI PM Canvas** — 12-dimension planning framework for structured AI product analysis
 - **Agent Product Design** — Designing goal-directed AI workflows with tools, boundaries, and human review
 - **Vibe Coding** — Using coding agents to turn product intent into testable prototypes
 - **Harness Engineering** — Context, tools, constraints, checks, and feedback loops for reliable coding agents
-- **Prompt-to-Ontology** — Turning messy business concepts into structured ontology assets
 
-## Online
+Read more: [Methodology](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/methodology/)
 
-**https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/**
-
-## AI PM Canvas — 12-Dimension Planning Tool
-
-The core interactive tool of this project. Use it before writing PRDs, building prototypes, or evaluating AI ideas:
-
-| Group | Dimensions |
-|-------|-----------|
-| **Context** | Business Scenario · User / Operator · Decision to Support |
-| **Knowledge** | Data / Knowledge Sources · Object Model |
-| **AI Layer** | AI / Agent Capability · Workflow Boundary · Human Review Point |
-| **Delivery** | Evaluation Metric · Prototype Scope · Production Risk · Product Narrative |
-
-Use online: [English](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/canvas/) · [中文](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/zh-CN/canvas/)
-
-## Chapters
+## Content library
 
 | Section | Content |
 |---------|---------|
@@ -48,39 +60,21 @@ Use online: [English](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/
 | [05-templates/](src/content/docs/en/ai_prd_lite_template.md) | Canvas, PRD Lite, case study templates |
 | [06-resources/](src/content/docs/en/books.md) | Recommended books and courses |
 
-## Tech Stack
+## Tech stack
 
 - **Framework:** Astro 7.x + React 19
 - **UI:** shadcn/ui + Tailwind CSS 4.x
-- **Theme:** Dark (tech / sci-fi aesthetic)
-- **Deploy:** GitHub Pages (CI/CD via GitHub Actions)
+- **State:** localStorage (client-side only, no backend)
+- **Deploy:** GitHub Pages
 - **i18n:** English + Chinese bilingual
 
-## Local Development
+## Local development
 
 ```bash
-# Install dependencies
 npm install
-
-# Start dev server
-npm run dev
-
-# Build for production
-npm run build
+npm run dev        # http://localhost:4322
+npm run build      # production build to dist/
 ```
-
-## Related Projects
-
-| Project | Purpose |
-|---------|---------|
-| **AI-PM-Operating-Playbook** | Professional methodology (tools + frameworks) |
-| [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology) | Case project — ontology-driven AI product experiment |
-
-## Asset Relationships
-
-- **[Personal homepage](https://wenhaoyu-bryan.github.io/)** — who I am and what I have built
-- **AI PM Operating Playbook** — how I structure and deliver AI products
-- **[Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)** — evidence and implementation artifacts
 
 ## Author
 
