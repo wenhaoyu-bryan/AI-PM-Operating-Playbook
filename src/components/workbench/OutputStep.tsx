@@ -1,8 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Languages, Download, FileJson, AlertTriangle, Copy, Check, Sparkles } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Download, FileJson, AlertTriangle, Copy, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   generateProductBrief,
   generateWorkflowSpec,
@@ -25,6 +23,7 @@ interface OutputStepProps {
   lang: Lang;
   exportLang: Lang;
   onExportLangChange?: (lang: Lang) => void;
+  onNavigateToStep?: (step: number) => void;
 }
 
 /* ------------------------------------------------------------------ */
@@ -36,14 +35,17 @@ const REQUIRED_FIELDS: {
   key: string;
   labelEn: string;
   labelZh: string;
+  step: number;
+  stepEn: string;
+  stepZh: string;
 }[] = [
-  { section: 'metadata', key: 'projectName', labelEn: 'Project Name', labelZh: '项目名称' },
-  { section: 'metadata', key: 'oneLineIdea', labelEn: 'One-Line Idea', labelZh: '一句话想法' },
-  { section: 'framing', key: 'businessScenario', labelEn: 'Business Scenario', labelZh: '业务场景' },
-  { section: 'framing', key: 'targetUser', labelEn: 'Target User', labelZh: '目标用户' },
-  { section: 'framing', key: 'decisionToSupport', labelEn: 'Decision to Support', labelZh: '支持的决策' },
-  { section: 'intelligence', key: 'aiCapability', labelEn: 'AI Capability', labelZh: 'AI 能力' },
-  { section: 'delivery', key: 'prototypeScope', labelEn: 'Prototype Scope', labelZh: '原型范围' },
+  { section: 'metadata', key: 'projectName', labelEn: 'Project Name', labelZh: '项目名称', step: 0, stepEn: 'Product Framing', stepZh: '产品定义' },
+  { section: 'metadata', key: 'oneLineIdea', labelEn: 'One-Line Idea', labelZh: '一句话想法', step: 0, stepEn: 'Product Framing', stepZh: '产品定义' },
+  { section: 'framing', key: 'businessScenario', labelEn: 'Business Scenario', labelZh: '业务场景', step: 0, stepEn: 'Product Framing', stepZh: '产品定义' },
+  { section: 'framing', key: 'targetUser', labelEn: 'Target User', labelZh: '目标用户', step: 0, stepEn: 'Product Framing', stepZh: '产品定义' },
+  { section: 'framing', key: 'decisionToSupport', labelEn: 'Decision to Support', labelZh: '支持的决策', step: 0, stepEn: 'Product Framing', stepZh: '产品定义' },
+  { section: 'intelligence', key: 'aiCapability', labelEn: 'AI Capability', labelZh: 'AI 能力', step: 1, stepEn: 'Workflow Design', stepZh: '工作流设计' },
+  { section: 'delivery', key: 'prototypeScope', labelEn: 'Prototype Scope', labelZh: '原型范围', step: 2, stepEn: 'Evaluation', stepZh: '评估方案' },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -120,7 +122,8 @@ function buildProjectContext(project: WorkbenchProject, lang: Lang): string {
 /*  Main component                                                     */
 /* ------------------------------------------------------------------ */
 
-export function OutputStep({ project, lang, exportLang, onExportLangChange }: OutputStepProps) {
+export function OutputStep({ project, lang, exportLang, onExportLangChange, onNavigateToStep }: OutputStepProps) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [reviewCopied, setReviewCopied] = useState(false);
   const [implCopied, setImplCopied] = useState(false);
@@ -286,121 +289,179 @@ ${context}`;
     });
   }, [implementationPrompt]);
 
-  /* ---- Labels ---- */
-  const labels = {
-    downloadAll: lang === 'zh' ? '下载全部' : 'Download All',
-    downloadJson: lang === 'zh' ? '下载 JSON' : 'Download JSON',
-    missingTitle: lang === 'zh' ? '部分必填字段尚未填写' : 'Some required fields are missing.',
-    missingHint: lang === 'zh'
-      ? '生成的文档可能不完整。'
-      : 'Generated documents may be incomplete.',
-    continueTitle: lang === 'zh' ? '用 AI 继续' : 'Continue with AI',
-    reviewPromptLabel: lang === 'zh' ? '复制评审 Prompt' : 'Copy Review Prompt',
-    implPromptLabel: lang === 'zh' ? '复制实施 Prompt' : 'Copy Implementation Prompt',
-  };
-
   return (
     <div className="space-y-6">
-      {/* ---- Top bar ---- */}
-      <div className="flex flex-wrap items-center gap-3">
-        {/* Export language toggle */}
-        <div className="flex items-center gap-1.5">
-          <Languages className="size-3.5 text-muted-foreground" />
-          <Button
-            variant={exportLang === 'en' ? 'secondary' : 'ghost'}
-            size="xs"
-            onClick={() => onExportLangChange?.('en')}
-          >
-            EN
-          </Button>
-          <Button
-            variant={exportLang === 'zh' ? 'secondary' : 'ghost'}
-            size="xs"
-            onClick={() => onExportLangChange?.('zh')}
-          >
-            中
-          </Button>
-        </div>
-
-        <div className="ml-auto flex items-center gap-2">
-          <Button variant="outline" size="xs" onClick={handleDownloadAll}>
-            <Download className="size-3" />
-            <span>{labels.downloadAll}</span>
-          </Button>
-          <Button variant="outline" size="xs" onClick={handleDownloadJson}>
-            <FileJson className="size-3" />
-            <span>{labels.downloadJson}</span>
-          </Button>
-        </div>
-      </div>
-
       {/* ---- Validation warning ---- */}
       {missingFields.length > 0 && (
-        <div className="bg-amber-500/10 ring-1 ring-amber-500/20 rounded-lg p-4 flex gap-3">
-          <AlertTriangle className="size-5 shrink-0 text-amber-400 mt-0.5" />
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-amber-300 m-0">
-              {labels.missingTitle}
-            </p>
-            <p className="text-xs text-amber-400/80 m-0">
-              {labels.missingHint}
-            </p>
-            <ul className="text-xs text-amber-400/80 m-0 mt-1 space-y-0.5 list-disc pl-4">
-              {missingFields.map((f) => (
-                <li key={`${f.section}.${f.key}`}>
-                  {lang === 'zh' ? f.labelZh : f.labelEn}
-                </li>
-              ))}
-            </ul>
+        <div className="bg-amber-500/10 ring-1 ring-amber-500/20 rounded-lg p-4">
+          <div className="flex gap-3">
+            <AlertTriangle className="size-5 shrink-0 text-amber-400 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-amber-300 m-0">
+                {lang === 'zh'
+                  ? `${missingFields.length} 个必填区域尚未完成`
+                  : `${missingFields.length} required areas are incomplete`}
+              </p>
+              <ul className="mt-2 space-y-1">
+                {missingFields.map((f) => (
+                  <li key={`${f.section}.${f.key}`} className="text-xs text-amber-400/80 flex items-center gap-2">
+                    <span>{lang === 'zh' ? f.labelZh : f.labelEn}</span>
+                    {onNavigateToStep && (
+                      <button
+                        onClick={() => onNavigateToStep(f.step)}
+                        className="text-emerald-400 hover:text-emerald-300 underline text-xs cursor-pointer bg-transparent border-0 p-0"
+                      >
+                        {lang === 'zh' ? '前往' : 'Go to'} {lang === 'zh' ? f.stepZh : f.stepEn}
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}
 
-      {/* ---- Document tabs ---- */}
-      <Tabs defaultValue={documents[0]?.key}>
-        <TabsList variant="line">
-          {documents.map((doc) => (
-            <TabsTrigger key={doc.key} value={doc.key}>
-              {doc.title}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      {/* ---- Document selector + preview ---- */}
+      <div className="flex flex-col lg:flex-row gap-0 ring-1 ring-foreground/10 rounded-xl overflow-hidden bg-card">
+        {/* Sidebar / Mobile header */}
+        <div className="lg:w-60 shrink-0 border-b lg:border-b-0 lg:border-r border-border">
+          {/* Mobile: select dropdown */}
+          <div className="lg:hidden p-3">
+            <select
+              className="w-full h-8 rounded-lg bg-input/30 border border-input px-2 text-sm"
+              value={selectedIndex}
+              onChange={(e) => setSelectedIndex(Number(e.target.value))}
+            >
+              {documents.map((doc, i) => (
+                <option key={doc.key} value={i}>
+                  {doc.title}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {documents.map((doc, index) => (
-          <TabsContent key={doc.key} value={doc.key}>
-            <DocumentPreview
-              content={doc.content}
-              title={doc.title}
-              copied={copiedIndex === index}
-              lang={lang}
-              onCopy={() => handleCopy(index)}
-              onDownload={() => handleDownload(index)}
-            />
-          </TabsContent>
-        ))}
-      </Tabs>
+          {/* Desktop: document list */}
+          <div className="hidden lg:block p-3 space-y-1">
+            {documents.map((doc, i) => (
+              <button
+                key={doc.key}
+                onClick={() => setSelectedIndex(i)}
+                className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer border-0 ${
+                  selectedIndex === i
+                    ? 'bg-secondary text-foreground font-medium'
+                    : 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                }`}
+              >
+                {doc.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Export controls */}
+          <div className="p-3 border-t border-border space-y-3">
+            {/* Export language */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">
+                {lang === 'zh' ? '导出语言' : 'Export language'}
+              </span>
+              <Button
+                variant={exportLang === 'en' ? 'secondary' : 'ghost'}
+                size="xs"
+                onClick={() => onExportLangChange?.('en')}
+              >
+                EN
+              </Button>
+              <Button
+                variant={exportLang === 'zh' ? 'secondary' : 'ghost'}
+                size="xs"
+                onClick={() => onExportLangChange?.('zh')}
+              >
+                中
+              </Button>
+            </div>
+
+            {/* Downloads */}
+            <div className="space-y-1.5">
+              <Button variant="outline" size="sm" className="w-full justify-start" onClick={handleDownloadAll}>
+                <Download className="size-3.5" />
+                <span>{lang === 'zh' ? '下载完整包' : 'Download Complete Pack'}</span>
+              </Button>
+              <Button variant="ghost" size="sm" className="w-full justify-start" onClick={handleDownloadJson}>
+                <FileJson className="size-3.5" />
+                <span>{lang === 'zh' ? '下载 JSON' : 'Download JSON'}</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Preview area */}
+        <div className="flex-1 min-w-0">
+          {/* Action bar */}
+          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
+            <span className="text-sm font-medium text-foreground">
+              {documents[selectedIndex]?.title}
+            </span>
+            <div className="ml-auto flex items-center gap-1.5">
+              <Button variant="ghost" size="xs" onClick={() => handleCopy(selectedIndex)}>
+                {copiedIndex === selectedIndex ? (
+                  <Check className="size-3" />
+                ) : (
+                  <Copy className="size-3" />
+                )}
+                <span>
+                  {copiedIndex === selectedIndex
+                    ? lang === 'zh' ? '已复制' : 'Copied'
+                    : lang === 'zh' ? '复制' : 'Copy'}
+                </span>
+              </Button>
+              <Button variant="ghost" size="xs" onClick={() => handleDownload(selectedIndex)}>
+                <Download className="size-3" />
+                <span>{lang === 'zh' ? '下载' : 'Download'}</span>
+              </Button>
+            </div>
+          </div>
+
+          {/* Document content */}
+          <div className="p-4 lg:p-6 overflow-y-auto max-h-[600px]">
+            <DocumentPreview content={documents[selectedIndex]?.content ?? ''} lang={lang} />
+          </div>
+        </div>
+      </div>
 
       {/* ---- Continue with AI ---- */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="size-4" />
-            {labels.continueTitle}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="outline" size="sm" onClick={handleCopyReviewPrompt}>
+      <div className="ring-1 ring-foreground/10 rounded-xl overflow-hidden bg-card">
+        <div className="px-4 py-3 border-b border-border flex items-center gap-2">
+          <Sparkles className="size-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-foreground">
+            {lang === 'zh' ? '用 AI 继续' : 'Continue with AI'}
+          </span>
+        </div>
+        <div className="p-4 flex flex-col sm:flex-row gap-3">
+          <div className="flex-1">
+            <Button variant="outline" size="sm" className="w-full" onClick={handleCopyReviewPrompt}>
               {reviewCopied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-              <span>{labels.reviewPromptLabel}</span>
+              <span>{lang === 'zh' ? '复制评审 Prompt' : 'Copy Review Prompt'}</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={handleCopyImplementationPrompt}>
-              {implCopied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-              <span>{labels.implPromptLabel}</span>
-            </Button>
+            <p className="text-xs text-muted-foreground mt-1.5 m-0">
+              {lang === 'zh'
+                ? '识别产品缺口、矛盾、缺失边界和评估弱点。'
+                : 'Identify product gaps, contradictions, missing boundaries, and evaluation weaknesses.'}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="flex-1">
+            <Button variant="outline" size="sm" className="w-full" onClick={handleCopyImplementationPrompt}>
+              {implCopied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+              <span>{lang === 'zh' ? '复制实施 Prompt' : 'Copy Implementation Prompt'}</span>
+            </Button>
+            <p className="text-xs text-muted-foreground mt-1.5 m-0">
+              {lang === 'zh'
+                ? '将结构化产品概念转化为分阶段技术实施方案。'
+                : 'Turn the structured product concept into a phased technical implementation plan.'}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

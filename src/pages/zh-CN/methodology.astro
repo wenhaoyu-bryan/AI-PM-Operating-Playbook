@@ -1,8 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
-<Layout title="方法论 — AI PM 工作台" description="AI PM 工作台背后的思维框架" isEn={false}>
+<Layout title="方法论 — AI PM 工作台" lang="zh-CN" description="AI PM 工作台背后的思维框架">
   <main class="max-w-4xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold mb-3">方法论</h1>
     <p class="text-muted-foreground mb-10 max-w-2xl">工作台如何构建 AI 产品思维——从问题定义到交付物生成。</p>
@@ -60,12 +62,20 @@ import Layout from '../../layouts/Layout.astro';
       <section>
         <h2 class="text-xl font-semibold mb-3">资源</h2>
         <ul class="space-y-2 text-muted-foreground">
-          <li><a href="/AI-PM-Operating-Playbook/zh-CN/ai-pm-role/" class="text-emerald-400 hover:text-emerald-300 transition-colors">AI PM 角色 &rarr;</a> — 成为 AI PM 意味着什么</li>
-          <li><a href="/AI-PM-Operating-Playbook/zh-CN/vibe-coding/" class="text-emerald-400 hover:text-emerald-300 transition-colors">Vibe Coding &rarr;</a> — PM 与编码智能体的协作</li>
-          <li><a href="/AI-PM-Operating-Playbook/zh-CN/harness-engineering/" class="text-emerald-400 hover:text-emerald-300 transition-colors">Harness Engineering &rarr;</a> — 引导 AI 编写代码</li>
-          <li><a href="/AI-PM-Operating-Playbook/zh-CN/prompt-to-ontology/" class="text-emerald-400 hover:text-emerald-300 transition-colors">Prompt-to-Ontology 案例 &rarr;</a> — 真实项目示例</li>
+          <li><a href={`${base}zh-CN/ai-pm-role/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">AI PM 角色 &rarr;</a> — 成为 AI PM 意味着什么</li>
+          <li><a href={`${base}zh-CN/vibe-coding/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">Vibe Coding &rarr;</a> — PM 与编码智能体的协作</li>
+          <li><a href={`${base}zh-CN/harness-engineering/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">Harness Engineering &rarr;</a> — 引导 AI 编写代码</li>
+          <li><a href={`${base}zh-CN/prompt-to-ontology/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">Prompt-to-Ontology 案例 &rarr;</a> — 真实项目示例</li>
         </ul>
       </section>
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-10 p-5 rounded-xl ring-1 ring-emerald-500/20 bg-emerald-500/5 text-center">
+      <p class="text-sm text-muted-foreground mb-3">在 AI PM 工作台中实践这些概念</p>
+      <a href={`${base}zh-CN/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
+        打开工作台
+      </a>
     </div>
   </main>
 </Layout>

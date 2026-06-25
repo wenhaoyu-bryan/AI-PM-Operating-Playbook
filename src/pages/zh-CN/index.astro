@@ -4,10 +4,10 @@ import Layout from '../../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 
 const steps = [
-  { num: '1', title: '产品定义', desc: '明确用户、问题和业务背景' },
-  { num: '2', title: '设计智能能力', desc: '选择合适的 AI 能力和工作流' },
-  { num: '3', title: '评估风险', desc: '设定指标、风险和验收标准' },
-  { num: '4', title: '导出交付物', desc: '生成 6 份开箱即用的交付文档' },
+  { num: '1', title: '定义产品', desc: '明确用户、问题和业务背景' },
+  { num: '2', title: '设计 AI 工作流', desc: '选择合适的 AI 能力和工作流' },
+  { num: '3', title: '明确评估与风险', desc: '设定指标、风险和验收标准' },
+  { num: '4', title: '导出交付材料', desc: '生成 6 份可复用的结构化初稿' },
 ];
 
 const outputs = [
@@ -20,9 +20,30 @@ const outputs = [
 ];
 
 const examples = [
-  { title: 'Prompt-to-Ontology', desc: '将杂乱的业务概念转化为结构化的本体资产', key: 'prompt-to-ontology' },
-  { title: '工业智能体决策支持', desc: '借助 AI 辅助工作流诊断制造设备问题', key: 'industrial-agent' },
-  { title: 'RAG 知识助手', desc: '帮助员工从内部文档中快速找到答案', key: 'rag-assistant' },
+  {
+    title: 'Prompt-to-Ontology',
+    desc: '将杂乱的业务概念转化为结构化的本体资产',
+    key: 'prompt-to-ontology',
+    tag: '本体/知识',
+    scenario: '知识管理',
+    challenge: '将模糊的业务术语转化为结构化、机器可读的本体。',
+  },
+  {
+    title: '工业智能体决策支持',
+    desc: '借助 AI 辅助工作流诊断制造设备问题',
+    key: 'industrial-agent',
+    tag: '智能体',
+    scenario: '工业 AI',
+    challenge: '整合多系统证据，同时将高影响操作置于人工控制之下。',
+  },
+  {
+    title: 'RAG 知识助手',
+    desc: '帮助员工从内部文档中快速找到答案',
+    key: 'rag-assistant',
+    tag: 'RAG',
+    scenario: '企业知识',
+    challenge: '帮助员工找到准确答案，同时避免暴露敏感或过时内容。',
+  },
 ];
 
 const iconPaths: Record<string, string> = {
@@ -39,18 +60,63 @@ const iconPaths: Record<string, string> = {
 
   <!-- Section 1: Hero -->
   <section class="text-center py-20 max-w-3xl mx-auto">
-    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-4">AI PM Workbench</p>
-    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-5">从模糊的 AI 想法到结构化交付物</h1>
+    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-4">AI PM 工作台</p>
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-5">将 AI 产品想法转化为结构化交付材料</h1>
     <p class="text-lg text-muted-foreground leading-relaxed mb-8">
-      一个静态、隐私友好的工作台，帮助 AI 产品经理将模糊的产品概念转化为产品简报、评估方案和编码智能体交付物。
+      定义业务问题，设计 AI 工作流，明确评估与人工审核，并生成可交付给团队或编码智能体的完整材料。
     </p>
     <div class="flex items-center justify-center gap-3 flex-wrap">
       <a href={`${base}zh-CN/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
-        打开工作台
+        创建新项目
       </a>
       <a href={`${base}zh-CN/examples/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg ring-1 ring-foreground/15 hover:ring-foreground/30 text-sm font-medium transition-colors no-underline">
-        查看示例
+        打开示例
       </a>
+    </div>
+  </section>
+
+  <!-- Workbench Preview Mockup -->
+  <section class="mb-20 max-w-4xl mx-auto hidden md:block">
+    <div class="rounded-xl ring-1 ring-foreground/10 bg-card overflow-hidden">
+      <!-- Mock toolbar -->
+      <div class="flex items-center gap-3 px-4 py-2.5 border-b border-border text-xs text-muted-foreground">
+        <span class="font-medium text-foreground">Industrial Agent Decision Support</span>
+        <span class="text-foreground/30">|</span>
+        <span>Agent</span>
+        <span class="ml-auto">8 of 26 fields &middot; Saved locally</span>
+      </div>
+      <div class="flex">
+        <!-- Mock sidebar -->
+        <div class="w-44 shrink-0 border-r border-border p-3 space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-emerald-400"><span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px]">1</span> Product Framing</div>
+          <div class="flex items-center gap-2 text-muted-foreground"><span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px]">2</span> AI Workflow</div>
+          <div class="flex items-center gap-2 text-muted-foreground"><span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px]">3</span> Evaluation</div>
+          <div class="flex items-center gap-2 text-muted-foreground"><span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px]">4</span> Export</div>
+        </div>
+        <!-- Mock form -->
+        <div class="flex-1 p-4 space-y-3 border-r border-border">
+          <div class="text-xs font-semibold uppercase tracking-wider text-foreground/50">Problem Context</div>
+          <div class="space-y-2">
+            <div class="space-y-1"><div class="text-xs text-muted-foreground">Business Scenario</div><div class="h-16 rounded bg-secondary/50"></div></div>
+            <div class="space-y-1"><div class="text-xs text-muted-foreground">Target User</div><div class="h-10 rounded bg-secondary/50"></div></div>
+            <div class="space-y-1"><div class="text-xs text-muted-foreground">Decision to Support</div><div class="h-10 rounded bg-secondary/50"></div></div>
+          </div>
+        </div>
+        <!-- Mock preview -->
+        <div class="w-72 shrink-0 p-4">
+          <div class="text-xs font-semibold text-foreground/50 mb-2">Live Preview</div>
+          <div class="space-y-2 text-xs text-muted-foreground">
+            <div class="font-semibold text-foreground text-sm">AI Product Brief</div>
+            <div class="h-2 w-3/4 rounded bg-secondary"></div>
+            <div class="h-2 w-full rounded bg-secondary"></div>
+            <div class="h-2 w-5/6 rounded bg-secondary"></div>
+            <div class="h-2 w-2/3 rounded bg-secondary"></div>
+            <div class="mt-3 font-semibold text-foreground text-sm">Business Problem</div>
+            <div class="h-2 w-full rounded bg-secondary"></div>
+            <div class="h-2 w-4/5 rounded bg-secondary"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -96,8 +162,13 @@ const iconPaths: Record<string, string> = {
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {examples.map((ex) => (
         <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5 flex flex-col">
-          <h3 class="text-sm font-semibold text-foreground mb-1">{ex.title}</h3>
-          <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-4 flex-1">{ex.desc}</p>
+          <h3 class="text-sm font-semibold text-foreground mb-2">{ex.title}</h3>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-flex px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium">{ex.tag}</span>
+            <span class="text-[10px] text-muted-foreground">&middot;</span>
+            <span class="text-[10px] text-muted-foreground">{ex.scenario}</span>
+          </div>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-4 flex-1">挑战：{ex.challenge}</p>
           <a
             href={`${base}zh-CN/workbench/`}
             onclick={`sessionStorage.setItem('ai-pm-load-example', '${ex.key}')`}

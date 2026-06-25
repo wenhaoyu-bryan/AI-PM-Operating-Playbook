@@ -1,72 +1,58 @@
 # AI PM Workbench
 
-Turn fuzzy AI product ideas into structured delivery artifacts. No backend, no API keys, no accounts — everything runs in your browser.
+Turn an ambiguous AI product idea into structured product briefs, workflow specifications, evaluation plans, and coding-agent handoff artifacts.
 
-**English** | [中文](README.zh-CN.md)
+[Open Workbench](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/workbench/) · [View Examples](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/examples/)
 
 ---
 
-## What is this
+## What it does
 
-A static workbench that helps AI Product Managers go from ambiguous product concepts to actionable documents in 4 steps:
+- Frame the product problem with structured questions
+- Design the AI or agent workflow
+- Define human review points and execution boundaries
+- Build an evaluation plan with metrics and acceptance criteria
+- Export reusable delivery artifacts for your team or coding agent
 
-1. **Product Framing** — Define the user, problem, business scenario, and knowledge context
-2. **Design Intelligence** — Choose the right AI capability (RAG, agent, classification, generation) and design the workflow
-3. **Evaluate & Risk** — Set metrics, acceptance criteria, and identify production risks
-4. **Export** — Generate 6 structured documents ready for stakeholder review or coding agent handoff
+## Generated outputs
 
-**Try it:** https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/
-
-## What you get
-
-The Workbench generates 6 documents from your inputs:
-
-| Document | Purpose |
+| Artifact | Purpose |
 |----------|---------|
-| **AI Product Brief** | Structured concept summary for stakeholder alignment |
-| **Workflow Specification** | Step-by-step AI/agent workflow with Mermaid diagram |
-| **Evaluation Plan** | Metrics, datasets, and review processes |
-| **Acceptance Criteria** | Testable checklist for prototype and production |
-| **Coding Agent Handoff** | Implementation brief optimized for AI coding tools |
-| **CLAUDE.md Starter** | Project context file for Claude Code |
+| AI Product Brief | Structured concept summary for stakeholder alignment |
+| Workflow Specification | Step-by-step AI/agent workflow with Mermaid diagram |
+| Evaluation Plan | Metrics, datasets, and review processes |
+| Acceptance Criteria | Testable checklist for prototype and production |
+| Coding Agent Handoff | Implementation brief optimized for AI coding tools |
+| CLAUDE.md Starter | Project context file for Claude Code |
 
 ## Example projects
 
-The Workbench ships with 3 pre-built examples you can load and modify:
+| Example | Type | Key Challenge |
+|---------|------|---------------|
+| Prompt-to-Ontology | Ontology / Knowledge | Turn ambiguous business terms into structured ontology assets |
+| Industrial Agent Decision Support | Agent | Combine multi-system evidence while keeping high-impact actions under human control |
+| RAG Knowledge Assistant | RAG | Help employees find accurate answers without surfacing sensitive or outdated content |
 
-- **Prompt-to-Ontology** — Turn messy business concepts into structured ontology assets
-- **Industrial Agent Decision Support** — Diagnose manufacturing equipment issues with AI-assisted workflows
-- **RAG Knowledge Assistant** — Help employees find answers from internal documentation
+## Privacy
 
-## Methodology
+All project data is stored locally in your browser. Nothing is uploaded to any server.
 
-The Workbench is built on a set of frameworks for AI product thinking:
+## Technology
 
-- **AI PM Canvas** — 12-dimension planning framework for structured AI product analysis
-- **Agent Product Design** — Designing goal-directed AI workflows with tools, boundaries, and human review
-- **Vibe Coding** — Using coding agents to turn product intent into testable prototypes
-- **Harness Engineering** — Context, tools, constraints, checks, and feedback loops for reliable coding agents
+- **Astro** + **React** for static site with interactive islands
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling
+- **GitHub Pages** for deployment
 
-Read more: [Methodology](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/methodology/)
+## Supporting methodology
 
-## Content library
+This tool is part of the [AI PM Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/methodology/) — a collection of frameworks for AI product thinking:
 
-| Section | Content |
-|---------|---------|
-| [01-product-thinking/](src/content/docs/en/ai-pm-role.md) | AI PM role, competency model, growth path |
-| [02-ai-native-delivery/](src/content/docs/en/vibe-coding.md) | Vibe Coding, Harness Engineering, prototype development |
-| [03-agent-and-ontology-systems/](src/content/docs/en/agent-product-design.md) | Agent product design, ontology product methodology |
-| [04-case-studies/](src/content/docs/en/prompt-to-ontology.md) | Project case notes |
-| [05-templates/](src/content/docs/en/ai_prd_lite_template.md) | Canvas, PRD Lite, case study templates |
-| [06-resources/](src/content/docs/en/books.md) | Recommended books and courses |
-
-## Tech stack
-
-- **Framework:** Astro 7.x + React 19
-- **UI:** shadcn/ui + Tailwind CSS 4.x
-- **State:** localStorage (client-side only, no backend)
-- **Deploy:** GitHub Pages
-- **i18n:** English + Chinese bilingual
+- [AI PM Role](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/ai-pm-role/) — What it means to be an AI Product Manager
+- [Vibe Coding](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/vibe-coding/) — Using coding agents for product prototyping
+- [Harness Engineering](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/harness-engineering/) — Directing AI to write code reliably
+- [Agent Product Design](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/agent-product-design/) — Designing goal-directed AI workflows
+- [Prompt-to-Ontology Case Study](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/prompt-to-ontology/) — Real project example
 
 ## Local development
 

@@ -3,8 +3,6 @@ import Layout from '../../layouts/Layout.astro';
 import { WorkbenchShell } from '../../components/workbench/WorkbenchShell.tsx';
 ---
 
-<Layout title="AI PM 工作台" description="将模糊的 AI 产品想法转化为结构化交付物" isEn={false}>
-  <main class="max-w-5xl mx-auto px-4 py-8">
-    <WorkbenchShell defaultLang="zh" client:load />
-  </main>
+<Layout title="AI PM 工作台" lang="zh-CN" description="将模糊的 AI 产品想法转化为结构化交付物" pageWidth="wide">
+  <WorkbenchShell defaultLang="zh" client:load />
 </Layout>

@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react';
-import { AlertTriangle } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { useState, useCallback, useMemo } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 import { t } from '@/data/translations';
 import { EVALUATION_GUIDANCE } from '@/data/evaluationGuidance';
 import type { WorkbenchProject, DeliveryFields, Lang, ProductType } from '@/lib/workbench/schema';
@@ -13,40 +13,108 @@ interface EvaluationStepProps {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Field descriptors                                                  */
+/*  Suggestion chip row                                                */
 /* ------------------------------------------------------------------ */
-interface FieldDef {
-  key: keyof DeliveryFields;
-  labelKey: string;
-  hintKey: string;
-  rows: number;
+function SuggestionChips({
+  items,
+  currentValue,
+  onAppend,
+  lang,
+  showAll: controlledShowAll,
+}: {
+  items: string[];
+  currentValue: string;
+  onAppend: (text: string) => void;
+  lang: Lang;
+  showAll?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(controlledShowAll ?? false);
+  const visibleItems = expanded ? items : items.slice(0, 7);
+  const hasMore = items.length > 7;
+
+  return (
+    <div className="mt-2">
+      <div className="flex flex-wrap gap-1.5">
+        {visibleItems.map((item) => {
+          const isSelected = currentValue.includes(item);
+          return (
+            <button
+              key={item}
+              type="button"
+              disabled={isSelected}
+              onClick={() => onAppend(item)}
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs transition-colors ${
+                isSelected
+                  ? 'bg-emerald-500/20 text-emerald-400 cursor-default'
+                  : 'bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground cursor-pointer'
+              }`}
+            >
+              {isSelected && '✓ '}{item}
+            </button>
+          );
+        })}
+      </div>
+      {hasMore && !expanded && (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="mt-1.5 text-xs text-emerald-400 hover:underline"
+        >
+          {lang === 'zh' ? '显示更多' : 'Show more'}
+        </button>
+      )}
+    </div>
+  );
 }
 
-const DELIVERY_FIELDS: FieldDef[] = [
-  { key: 'prototypeScope', labelKey: 'workbench.delivery.fields.prototypeScope.label', hintKey: 'workbench.delivery.fields.prototypeScope.hint', rows: 3 },
-  { key: 'nonGoals', labelKey: 'workbench.delivery.fields.nonGoals.label', hintKey: 'workbench.delivery.fields.nonGoals.hint', rows: 3 },
-  { key: 'evaluationMetrics', labelKey: 'workbench.delivery.fields.evaluationMetrics.label', hintKey: 'workbench.delivery.fields.evaluationMetrics.hint', rows: 4 },
-  { key: 'acceptanceCriteria', labelKey: 'workbench.delivery.fields.acceptanceCriteria.label', hintKey: 'workbench.delivery.fields.acceptanceCriteria.hint', rows: 4 },
-  { key: 'productionRisks', labelKey: 'workbench.delivery.fields.productionRisks.label', hintKey: 'workbench.delivery.fields.productionRisks.hint', rows: 3 },
-  { key: 'dependencies', labelKey: 'workbench.delivery.fields.dependencies.label', hintKey: 'workbench.delivery.fields.dependencies.hint', rows: 3 },
-  { key: 'openQuestions', labelKey: 'workbench.delivery.fields.openQuestions.label', hintKey: 'workbench.delivery.fields.openQuestions.hint', rows: 3 },
-];
+/* ------------------------------------------------------------------ */
+/*  Acceptance criteria examples                                       */
+/* ------------------------------------------------------------------ */
+const ACCEPTANCE_EXAMPLES: Record<Lang, string[]> = {
+  en: [
+    'The prototype supports the defined happy path.',
+    'Recommendations include supporting evidence.',
+    'High-impact actions require explicit human approval.',
+    'Failed tool calls are visible and recoverable.',
+    'The system does not act outside the defined workflow boundary.',
+  ],
+  zh: [
+    '原型支持已定义的 happy path。',
+    '建议包含支撑证据。',
+    '高影响操作需要明确的人工批准。',
+    '失败的工具调用可见且可恢复。',
+    '系统不会在定义的工作流边界之外操作。',
+  ],
+};
 
 /* ------------------------------------------------------------------ */
-/*  Count non-empty fields across all sections                         */
+/*  Section divider                                                    */
 /* ------------------------------------------------------------------ */
-function countCompleted(project: WorkbenchProject): { filled: number; total: number } {
-  const sections = [
-    Object.values(project.framing),
-    Object.values(project.knowledge),
-    Object.values(project.intelligence),
-    Object.values(project.delivery),
-  ];
-  const all = sections.flat();
-  return {
-    filled: all.filter((v) => typeof v === 'string' && v.trim().length > 0).length,
-    total: all.length,
-  };
+function SectionDivider() {
+  return <div className="border-t border-border my-4" />;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section label                                                      */
+/* ------------------------------------------------------------------ */
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-xs font-semibold uppercase tracking-wider text-foreground/50 mb-3">
+      {children}
+    </p>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Field label helper                                                 */
+/* ------------------------------------------------------------------ */
+function FieldLabel({ label, hint }: { label: string; hint: string }) {
+  return (
+    <>
+      <label className="text-sm font-medium text-foreground">{label}</label>
+      {hint && <p className="text-xs text-muted-foreground m-0 mt-0.5">{hint}</p>}
+    </>
+  );
 }
 
 /* ------------------------------------------------------------------ */
@@ -73,31 +141,20 @@ const FIELD_HINTS: Record<string, Record<Lang, string>> = {
 };
 
 /* ------------------------------------------------------------------ */
-/*  Suggestion chip row                                                */
+/*  Count non-empty fields across all sections                         */
 /* ------------------------------------------------------------------ */
-function SuggestionChips({
-  items,
-  currentValue,
-  onAppend,
-}: {
-  items: string[];
-  currentValue: string;
-  onAppend: (text: string) => void;
-}) {
-  return (
-    <div className="flex flex-wrap gap-1.5 mt-2">
-      {items.map((item) => (
-        <button
-          key={item}
-          type="button"
-          onClick={() => onAppend(item)}
-          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary text-xs text-muted-foreground hover:bg-secondary/80 hover:text-foreground cursor-pointer transition-colors"
-        >
-          {item}
-        </button>
-      ))}
-    </div>
-  );
+function countCompleted(project: WorkbenchProject): { filled: number; total: number } {
+  const sections = [
+    Object.values(project.framing),
+    Object.values(project.knowledge),
+    Object.values(project.intelligence),
+    Object.values(project.delivery),
+  ];
+  const all = sections.flat();
+  return {
+    filled: all.filter((v) => typeof v === 'string' && v.trim().length > 0).length,
+    total: all.length,
+  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -121,14 +178,23 @@ export function EvaluationStep({
   const handleAppend = useCallback(
     (key: keyof DeliveryFields, text: string) => {
       const current = delivery[key];
+      // Prevent duplicate
+      if (current.includes(text)) return;
       const next = current ? `${current}\n${text}` : text;
       updateSection('delivery', { [key]: next } as Record<string, string>);
     },
     [delivery, updateSection],
   );
 
+  const handleInsertExamples = useCallback(() => {
+    const examples = ACCEPTANCE_EXAMPLES[lang];
+    const text = examples.map(e => `- ${e}`).join('\n');
+    const current = delivery.acceptanceCriteria;
+    const next = current ? `${current}\n${text}` : text;
+    updateSection('delivery', { acceptanceCriteria: next });
+  }, [delivery.acceptanceCriteria, lang, updateSection]);
+
   const { filled, total } = useMemo(() => countCompleted(project), [project]);
-  const pct = total > 0 ? Math.round((filled / total) * 100) : 0;
 
   const metricChips =
     productType && productType !== '' && EVALUATION_GUIDANCE[productType]
@@ -141,66 +207,172 @@ export function EvaluationStep({
       : null;
 
   return (
-    <div className="space-y-6">
-      {/* ── Evaluation & Risk ── */}
+    <div className="space-y-4">
       <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <span
-              className="w-2.5 h-2.5 rounded-sm"
-              style={{ backgroundColor: 'var(--group-delivery)' }}
-            />
-            <CardTitle className="text-base">
-              {t('workbench.stepTitles.evaluate', lang) || (lang === 'zh' ? '评估与风险' : 'Evaluation & Risk')}
-            </CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-            {DELIVERY_FIELDS.map((field) => {
-              const label = t(field.labelKey, lang) || FIELD_LABELS[field.key]?.[lang] || field.key;
-              const hint = t(field.hintKey, lang) || FIELD_HINTS[field.key]?.[lang] || '';
-              const value = delivery[field.key];
+        <CardContent className="space-y-0">
+          {/* ── Group 1: Prototype Boundary ── */}
+          <SectionLabel>{lang === 'zh' ? '原型边界' : 'Prototype Boundary'}</SectionLabel>
 
-              return (
-                <div key={field.key} className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">{label}</label>
-                  <p className="text-xs text-muted-foreground m-0">{hint}</p>
-                  <Textarea
-                    value={value}
-                    onChange={(e) => handleChange(field.key, e.target.value)}
-                    placeholder={hint}
-                    rows={field.rows}
-                    className="resize-y"
-                  />
-                  {/* Suggestion chips */}
-                  {field.key === 'evaluationMetrics' && metricChips && (
-                    <SuggestionChips items={metricChips} currentValue={value} onAppend={(text) => handleAppend('evaluationMetrics', text)} />
-                  )}
-                  {field.key === 'productionRisks' && riskChips && (
-                    <SuggestionChips items={riskChips} currentValue={value} onAppend={(text) => handleAppend('productionRisks', text)} />
-                  )}
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Prototype Scope */}
+            <div className="space-y-1.5">
+              <FieldLabel
+                label={t('workbench.stepTitles.evaluate.prototypeScope', lang) || FIELD_LABELS.prototypeScope[lang]}
+                hint={FIELD_HINTS.prototypeScope[lang]}
+              />
+              <Textarea
+                value={delivery.prototypeScope}
+                onChange={(e) => handleChange('prototypeScope', e.target.value)}
+                placeholder={FIELD_HINTS.prototypeScope[lang]}
+                rows={3}
+                className="resize-y"
+              />
+            </div>
+
+            {/* Non-goals */}
+            <div className="space-y-1.5">
+              <FieldLabel
+                label={t('workbench.stepTitles.evaluate.nonGoals', lang) || FIELD_LABELS.nonGoals[lang]}
+                hint={FIELD_HINTS.nonGoals[lang]}
+              />
+              <Textarea
+                value={delivery.nonGoals}
+                onChange={(e) => handleChange('nonGoals', e.target.value)}
+                placeholder={FIELD_HINTS.nonGoals[lang]}
+                rows={3}
+                className="resize-y"
+              />
+            </div>
+          </div>
+
+          {/* Dependencies — full width */}
+          <div className="mt-4 space-y-1.5">
+            <FieldLabel
+              label={t('workbench.stepTitles.evaluate.dependencies', lang) || FIELD_LABELS.dependencies[lang]}
+              hint={FIELD_HINTS.dependencies[lang]}
+            />
+            <Textarea
+              value={delivery.dependencies}
+              onChange={(e) => handleChange('dependencies', e.target.value)}
+              placeholder={FIELD_HINTS.dependencies[lang]}
+              rows={3}
+              className="resize-y"
+            />
+          </div>
+
+          <SectionDivider />
+
+          {/* ── Group 2: Evaluation ── */}
+          <SectionLabel>{lang === 'zh' ? '评估' : 'Evaluation'}</SectionLabel>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Evaluation Metrics */}
+            <div className="space-y-1.5">
+              <FieldLabel
+                label={t('workbench.stepTitles.evaluate.evaluationMetrics', lang) || FIELD_LABELS.evaluationMetrics[lang]}
+                hint={FIELD_HINTS.evaluationMetrics[lang]}
+              />
+              <Textarea
+                value={delivery.evaluationMetrics}
+                onChange={(e) => handleChange('evaluationMetrics', e.target.value)}
+                placeholder={FIELD_HINTS.evaluationMetrics[lang]}
+                rows={4}
+                className="resize-y"
+              />
+              {metricChips && (
+                <SuggestionChips
+                  items={metricChips}
+                  currentValue={delivery.evaluationMetrics}
+                  onAppend={(text) => handleAppend('evaluationMetrics', text)}
+                  lang={lang}
+                />
+              )}
+            </div>
+
+            {/* Acceptance Criteria */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <FieldLabel
+                  label={t('workbench.stepTitles.evaluate.acceptanceCriteria', lang) || FIELD_LABELS.acceptanceCriteria[lang]}
+                  hint={FIELD_HINTS.acceptanceCriteria[lang]}
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleInsertExamples}
+                  className="text-xs h-7 shrink-0"
+                >
+                  {lang === 'zh' ? '插入示例' : 'Insert examples'}
+                </Button>
+              </div>
+              <Textarea
+                value={delivery.acceptanceCriteria}
+                onChange={(e) => handleChange('acceptanceCriteria', e.target.value)}
+                placeholder={FIELD_HINTS.acceptanceCriteria[lang]}
+                rows={4}
+                className="resize-y"
+              />
+            </div>
+          </div>
+
+          <SectionDivider />
+
+          {/* ── Group 3: Risk and Readiness ── */}
+          <SectionLabel>{lang === 'zh' ? '风险与就绪度' : 'Risk and Readiness'}</SectionLabel>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Production Risks */}
+            <div className="space-y-1.5">
+              <FieldLabel
+                label={t('workbench.stepTitles.evaluate.productionRisks', lang) || FIELD_LABELS.productionRisks[lang]}
+                hint={FIELD_HINTS.productionRisks[lang]}
+              />
+              <Textarea
+                value={delivery.productionRisks}
+                onChange={(e) => handleChange('productionRisks', e.target.value)}
+                placeholder={FIELD_HINTS.productionRisks[lang]}
+                rows={3}
+                className="resize-y"
+              />
+              {riskChips && (
+                <SuggestionChips
+                  items={riskChips}
+                  currentValue={delivery.productionRisks}
+                  onAppend={(text) => handleAppend('productionRisks', text)}
+                  lang={lang}
+                />
+              )}
+            </div>
+
+            {/* Open Questions */}
+            <div className="space-y-1.5">
+              <FieldLabel
+                label={t('workbench.stepTitles.evaluate.openQuestions', lang) || FIELD_LABELS.openQuestions[lang]}
+                hint={FIELD_HINTS.openQuestions[lang]}
+              />
+              <Textarea
+                value={delivery.openQuestions}
+                onChange={(e) => handleChange('openQuestions', e.target.value)}
+                placeholder={FIELD_HINTS.openQuestions[lang]}
+                rows={3}
+                className="resize-y"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* ── Completion Summary ── */}
-      <div className="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-muted-foreground">
-            {lang === 'zh'
-              ? `${total} 个核心字段中已完成 ${filled} 个`
-              : `${filled} of ${total} core areas completed`}
-          </span>
-          <span className="text-sm font-medium text-emerald-400">{pct}%</span>
-        </div>
-        <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
+      {/* ── Completion Summary (field count, not percentage) ── */}
+      <div className="bg-card rounded-xl ring-1 ring-foreground/10 p-4">
+        <span className="text-sm text-muted-foreground">
+          {lang === 'zh'
+            ? `${total} 个规划字段中已完成 ${filled} 个`
+            : `${filled} of ${total} planning fields completed`}
+        </span>
+        <div className="mt-2 h-1.5 rounded-full bg-secondary overflow-hidden">
           <div
             className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-            style={{ width: `${pct}%` }}
+            style={{ width: `${total > 0 ? (filled / total) * 100 : 0}%` }}
           />
         </div>
       </div>

@@ -5,9 +5,10 @@ interface Props {
   title: string;
   lang?: string;
   description?: string;
+  pageWidth?: 'content' | 'wide' | 'full';
 }
 
-const { title, lang = 'en', description = '' } = Astro.props;
+const { title, lang = 'en', description = '', pageWidth = 'content' } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 const isEn = lang === 'en';
 ---
@@ -18,30 +19,32 @@ const isEn = lang === 'en';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta property="og:title" content={`${title} | AI PM Operating Playbook`} />
+    <meta property="og:title" content={`${title} | AI PM Workbench`} />
     <meta property="og:description" content={description || 'Practical frameworks, workflows, and case notes for AI Product Managers'} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>{title} | AI PM Operating Playbook</title>
+    <title>{title} | AI PM Workbench</title>
   </head>
   <body class="min-h-screen bg-background text-foreground">
     <!-- Nav -->
     <nav class="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
-      <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div class:list={[
+        'mx-auto px-6 h-14 flex items-center justify-between',
+        pageWidth === 'wide' ? 'max-w-[1440px]' : 'max-w-5xl'
+      ]}>
         <a href={`${base}${lang}/`} class="font-semibold text-sm text-foreground no-underline tracking-tight flex items-center gap-2 hover:text-primary transition-colors">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-          AI PM Playbook
+          AI PM Workbench
         </a>
         <!-- Desktop nav -->
         <div class="hidden md:flex items-center gap-1 text-[13px]">
           <a href={`${base}${lang}/workbench/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Workbench' : '工作台'}</a>
           <a href={`${base}${lang}/examples/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
-          <a href={`${base}${lang}/templates/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Templates' : '模板'}</a>
           <a href={`${base}${lang}/methodology/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
-          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Workbench" class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="w-px h-4 bg-border mx-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
             {isEn ? '中文' : 'EN'}
@@ -58,9 +61,8 @@ const isEn = lang === 'en';
         <div class="px-6 py-3 flex flex-col gap-1 text-sm">
           <a href={`${base}${lang}/workbench/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Workbench' : '工作台'}</a>
           <a href={`${base}${lang}/examples/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
-          <a href={`${base}${lang}/templates/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Templates' : '模板'}</a>
           <a href={`${base}${lang}/methodology/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
-          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Workbench" class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="h-px bg-border my-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
             {isEn ? '中文' : 'EN'}
@@ -70,19 +72,22 @@ const isEn = lang === 'en';
     </nav>
 
     <!-- Main -->
-    <main class="max-w-5xl mx-auto px-6 py-10">
+    <main class:list={[
+      'mx-auto px-6 py-10',
+      pageWidth === 'content' && 'max-w-5xl',
+      pageWidth === 'wide' && 'max-w-[1440px]',
+      pageWidth === 'full' && 'max-w-full',
+    ]}>
       <slot />
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-border mt-20">
-      <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <span>AI PM Operating Playbook &middot; MIT License</span>
-        <div class="flex items-center gap-4">
-          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="hover:text-foreground transition-colors">GitHub</a>
-          <a href={`${base}${lang}/templates/`} class="hover:text-foreground transition-colors">Templates</a>
-          <a href={`${base}${lang}/methodology/`} class="hover:text-foreground transition-colors">{isEn ? 'Methodology' : '方法论'}</a>
-        </div>
+      <div class:list={[
+        'mx-auto px-6 py-8 text-center text-xs text-muted-foreground',
+        pageWidth === 'wide' ? 'max-w-[1440px]' : 'max-w-5xl'
+      ]}>
+        <span>{isEn ? 'AI PM Workbench · Open-source AI product thinking toolkit' : 'AI PM 工作台 · AI 产品思维工具箱'}</span>
       </div>
     </footer>
 

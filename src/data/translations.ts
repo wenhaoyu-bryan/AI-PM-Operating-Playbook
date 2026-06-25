@@ -15,6 +15,18 @@ const T = {
       evaluate: { en: 'Evaluate', zh: '评估验收' },
       export: { en: 'Export', zh: '导出' },
     },
+    projectHeader: {
+      untitled: { en: 'Untitled AI Product', zh: '未命名 AI 产品' },
+      fieldsComplete: { en: 'fields completed', zh: '个字段已完成' },
+      loadExample: { en: 'Load Example', zh: '加载示例' },
+      resetToBlank: { en: 'Reset to Blank', zh: '重置为空白' },
+      downloadJson: { en: 'Download JSON', zh: '下载 JSON' },
+      moreActions: { en: 'More actions', zh: '更多操作' },
+    },
+    preview: {
+      title: { en: 'Live Preview', zh: '实时预览' },
+      emptyState: { en: 'Your product brief will appear here as you complete the form.', zh: '填写表单后，产品简报将在这里实时生成。' },
+    },
     buttons: {
       next: { en: 'Next', zh: '下一步' },
       prev: { en: 'Back', zh: '上一步' },
@@ -112,6 +124,12 @@ const T = {
         },
       },
     },
+    stepLabels: {
+      framing: { en: 'Product Framing', zh: '产品定义' },
+      design: { en: 'AI Workflow Design', zh: 'AI 工作流设计' },
+      evaluate: { en: 'Evaluation & Risk', zh: '评估与风险' },
+      export: { en: 'Export', zh: '输出与导出' },
+    },
     stepTitles: {
       framing: {
         businessScenario: { en: 'Business scenario', zh: '业务场景' },
@@ -182,7 +200,7 @@ const T = {
   },
   homepage: {
     eyebrow: { en: 'AI Product Manager Toolkit', zh: 'AI 产品经理工具集' },
-    title: { en: 'AI PM Operating Playbook', zh: 'AI PM 工作手册' },
+    title: { en: 'AI PM Workbench', zh: 'AI PM 工作台' },
     subtitle: {
       en: 'A structured workbench for AI product managers to frame problems, design solutions, and deliver better AI products faster.',
       zh: '一个结构化的工作台，帮助 AI 产品经理定义问题、设计方案、更快更好地交付 AI 产品。',

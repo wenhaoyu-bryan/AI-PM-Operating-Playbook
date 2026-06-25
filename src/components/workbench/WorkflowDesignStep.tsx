@@ -1,11 +1,10 @@
-import { useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { t } from '@/data/translations';
-import type { WorkbenchProject, IntelligenceFields, Lang } from '@/lib/workbench/schema';
+import type { WorkbenchProject, IntelligenceFields, Lang, ProductType } from '@/lib/workbench/schema';
 
 interface WorkflowDesignStepProps {
   project: WorkbenchProject;
@@ -24,15 +23,73 @@ function parseWorkflowSteps(raw: string): string[] {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Sample workflows by product type                                   */
+/* ------------------------------------------------------------------ */
+const SAMPLE_WORKFLOWS: Record<ProductType, Record<Lang, string>> = {
+  agent: {
+    en: 'Receive user request\nClassify intent and priority\nRetrieve relevant context\nPlan multi-step execution\nExecute tool calls sequentially\nReview results and confidence\nEscalate to human if uncertain\nDeliver structured response',
+    zh: '接收用户请求\n分类意图和优先级\n检索相关上下文\n规划多步执行\n顺序执行工具调用\n审核结果和置信度\n不确定时升级给人工\n交付结构化响应',
+  },
+  rag: {
+    en: 'Receive user query\nGenerate search queries\nRetrieve relevant documents\nRerank and filter results\nConstruct grounded prompt\nGenerate answer with citations\nValidate citation accuracy',
+    zh: '接收用户查询\n生成检索查询\n检索相关文档\n重排序和过滤结果\n构建有依据的提示词\n生成带引用的答案\n验证引用准确性',
+  },
+  'content-generation': {
+    en: 'Receive content request\nGather source materials\nGenerate draft content\nApply tone and style rules\nRun factuality checks\nHuman review and edit\nPublish final content',
+    zh: '接收内容请求\n收集素材\n生成初稿\n应用语气和风格规则\n运行事实核查\n人工审核和编辑\n发布最终内容',
+  },
+  classification: {
+    en: 'Receive input text\nPreprocess and normalize\nRun classification model\nCheck confidence threshold\nAssign label or flag for review\nLog prediction and metadata',
+    zh: '接收输入文本\n预处理和规范化\n运行分类模型\n检查置信度阈值\n分配标签或标记待审核\n记录预测和元数据',
+  },
+  'ontology-knowledge': {
+    en: 'Receive domain documents\nExtract entities with NER\nIdentify relationships\nNormalize and deduplicate\nMap to ontology schema\nDomain expert validation\nUpdate knowledge graph',
+    zh: '接收领域文档\n使用 NER 提取实体\n识别关系\n规范化和去重\n映射到本体模式\n领域专家验证\n更新知识图谱',
+  },
+  'workflow-automation': {
+    en: 'Receive trigger event\nApply business rules\nRoute to appropriate workflow\nExecute automated steps\nCheck integration points\nHandle exceptions and retries\nLog completion status',
+    zh: '接收触发事件\n应用业务规则\n路由到对应工作流\n执行自动化步骤\n检查集成点\n处理异常和重试\n记录完成状态',
+  },
+  other: {
+    en: 'Receive input\nProcess with AI capability\nValidate output quality\nDeliver result to user',
+    zh: '接收输入\n使用 AI 能力处理\n验证输出质量\n向用户交付结果',
+  },
+};
+
+/* ------------------------------------------------------------------ */
 /*  Agent Suitability callout                                          */
 /* ------------------------------------------------------------------ */
 function AgentSuitabilityCallout({
   lang,
   onSelect,
+  selectedValue,
 }: {
   lang: Lang;
-  onSelect: (value: 'yes' | 'no') => void;
+  onSelect: (value: 'yes' | 'no' | '') => void;
+  selectedValue: 'yes' | 'no' | '';
 }) {
+  const [showFull, setShowFull] = useState(selectedValue === '');
+
+  if (!showFull && selectedValue) {
+    const summary =
+      selectedValue === 'yes'
+        ? t('workbench.stepTitles.design.agentMayBeAppropriate', lang)
+        : t('workbench.stepTitles.design.agentMayNotBeNeeded', lang);
+
+    return (
+      <div className="bg-secondary/50 rounded-lg p-3 flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">{summary}</span>
+        <button
+          type="button"
+          onClick={() => setShowFull(true)}
+          className="text-xs text-emerald-400 hover:underline"
+        >
+          {t('workbench.stepTitles.design.change', lang)}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-secondary/50 rounded-lg p-4 space-y-4">
       <p className="text-sm font-medium text-foreground m-0">
@@ -40,7 +97,6 @@ function AgentSuitabilityCallout({
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Agent may be appropriate */}
         <div className="space-y-2">
           <p className="text-xs font-semibold text-emerald-400 m-0">
             {t('workbench.stepTitles.design.agentMayBeAppropriate', lang)}
@@ -53,7 +109,6 @@ function AgentSuitabilityCallout({
           </ul>
         </div>
 
-        {/* Agent may not be needed */}
         <div className="space-y-2">
           <p className="text-xs font-semibold text-amber-400 m-0">
             {t('workbench.stepTitles.design.agentMayNotBeNeeded', lang)}
@@ -68,10 +123,10 @@ function AgentSuitabilityCallout({
       </div>
 
       <div className="flex flex-wrap gap-2 pt-1">
-        <Button variant="outline" size="sm" onClick={() => onSelect('yes')}>
+        <Button variant="outline" size="sm" onClick={() => { onSelect('yes'); setShowFull(false); }}>
           {t('workbench.stepTitles.design.agentYesButton', lang)}
         </Button>
-        <Button variant="ghost" size="sm" onClick={() => onSelect('no')}>
+        <Button variant="ghost" size="sm" onClick={() => { onSelect('no'); setShowFull(false); }}>
           {t('workbench.stepTitles.design.agentNoButton', lang)}
         </Button>
       </div>
@@ -80,40 +135,7 @@ function AgentSuitabilityCallout({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Agent choice badge with "Change" link                              */
-/* ------------------------------------------------------------------ */
-function AgentChoiceBadge({
-  value,
-  lang,
-  onChange,
-}: {
-  value: 'yes' | 'no';
-  lang: Lang;
-  onChange: () => void;
-}) {
-  const label =
-    value === 'yes'
-      ? t('workbench.stepTitles.design.agentYesLabel', lang)
-      : t('workbench.stepTitles.design.agentNoLabel', lang);
-
-  return (
-    <div className="flex items-center gap-2">
-      <Badge variant="secondary" className="text-xs">
-        {label}
-      </Badge>
-      <button
-        type="button"
-        onClick={onChange}
-        className="text-xs text-muted-foreground hover:text-foreground underline-offset-4 hover:underline transition-colors"
-      >
-        {t('workbench.stepTitles.design.change', lang)}
-      </button>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Workflow Preview                                                   */
+/*  Workflow Preview (collapsible)                                     */
 /* ------------------------------------------------------------------ */
 function WorkflowPreview({
   steps,
@@ -122,60 +144,60 @@ function WorkflowPreview({
   steps: string[];
   lang: Lang;
 }) {
+  const [expanded, setExpanded] = useState(true);
+
   if (steps.length === 0) return null;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-sm">
+    <div className="rounded-lg ring-1 ring-foreground/10 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setExpanded(!expanded)}
+        className="flex items-center justify-between w-full px-4 py-2.5 bg-secondary/50 hover:bg-secondary/70 transition-colors"
+      >
+        <span className="text-sm font-medium text-foreground">
           {t('workbench.stepTitles.design.workflowPreview', lang)}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col items-center gap-0">
-          {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center w-full max-w-md">
-              {/* Step row */}
-              <div className="flex items-center gap-3 w-full rounded-lg bg-secondary p-3 text-sm">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
-                  {index + 1}
-                </span>
-                <span className="text-foreground">{step}</span>
-              </div>
+        </span>
+        <ChevronDown
+          className={`size-4 text-muted-foreground transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+        />
+      </button>
 
-              {/* Arrow between steps */}
-              {index < steps.length - 1 && (
-                <ChevronDown className="size-4 text-muted-foreground my-1 mx-auto" />
-              )}
-            </div>
-          ))}
+      {expanded && (
+        <div className="p-4">
+          <div className="flex flex-col items-center gap-0">
+            {steps.map((step, index) => (
+              <div key={index} className="flex flex-col items-center w-full max-w-md">
+                <div className="flex items-center gap-3 w-full rounded-lg ring-1 ring-foreground/10 bg-secondary p-3 text-sm">
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
+                    {index + 1}
+                  </span>
+                  <span className="text-foreground">{step}</span>
+                </div>
+
+                {index < steps.length - 1 && (
+                  <ChevronDown className="size-4 text-muted-foreground my-1 mx-auto" />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Field descriptor                                                   */
+/*  Field label helper                                                 */
 /* ------------------------------------------------------------------ */
-interface FieldDef {
-  key: keyof IntelligenceFields;
-  labelKey: string;
-  hintKey: string;
-  type: 'textarea' | 'select';
-  rows?: number;
+function FieldLabel({ label, hint }: { label: string; hint: string }) {
+  return (
+    <>
+      <label className="text-sm font-medium text-foreground">{label}</label>
+      {hint && <p className="text-xs text-muted-foreground m-0 mt-0.5">{hint}</p>}
+    </>
+  );
 }
-
-const AI_FIELDS: FieldDef[] = [
-  { key: 'aiCapability', labelKey: 'workbench.stepTitles.design.aiCapability', hintKey: 'workbench.stepTitles.design.aiCapabilityHint', type: 'textarea', rows: 3 },
-  { key: 'agentRequired', labelKey: 'workbench.stepTitles.design.agentRequired', hintKey: 'workbench.stepTitles.design.agentRequiredHint', type: 'select' },
-  { key: 'agentReasoning', labelKey: 'workbench.stepTitles.design.agentReasoning', hintKey: 'workbench.stepTitles.design.agentReasoningHint', type: 'textarea', rows: 3 },
-  { key: 'tools', labelKey: 'workbench.stepTitles.design.tools', hintKey: 'workbench.stepTitles.design.toolsHint', type: 'textarea', rows: 3 },
-  { key: 'workflowSteps', labelKey: 'workbench.stepTitles.design.workflowSteps', hintKey: 'workbench.stepTitles.design.workflowStepsHint', type: 'textarea', rows: 8 },
-  { key: 'autonomyBoundary', labelKey: 'workbench.stepTitles.design.autonomyBoundary', hintKey: 'workbench.stepTitles.design.autonomyBoundaryHint', type: 'textarea', rows: 3 },
-  { key: 'humanReview', labelKey: 'workbench.stepTitles.design.humanReview', hintKey: 'workbench.stepTitles.design.humanReviewHint', type: 'textarea', rows: 3 },
-  { key: 'failureHandling', labelKey: 'workbench.stepTitles.design.failureHandling', hintKey: 'workbench.stepTitles.design.failureHandlingHint', type: 'textarea', rows: 3 },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Main Component                                                     */
@@ -186,6 +208,9 @@ export function WorkflowDesignStep({
   lang,
 }: WorkflowDesignStepProps) {
   const intelligence = project.intelligence;
+  const productType = project.metadata.productType as ProductType | '';
+
+  const [showPreview, setShowPreview] = useState(true);
 
   const handleChange = useCallback(
     (key: keyof IntelligenceFields, value: string) => {
@@ -195,110 +220,232 @@ export function WorkflowDesignStep({
   );
 
   const handleAgentSelect = useCallback(
-    (value: 'yes' | 'no') => {
+    (value: 'yes' | 'no' | '') => {
       updateSection('intelligence', { agentRequired: value } as Record<string, string>);
     },
     [updateSection],
   );
 
-  const handleAgentReset = useCallback(() => {
-    updateSection('intelligence', { agentRequired: '' } as Record<string, string>);
-  }, [updateSection]);
+  const handleInsertExample = useCallback(() => {
+    if (!productType || productType === '') return;
+    const sample = SAMPLE_WORKFLOWS[productType]?.[lang] || SAMPLE_WORKFLOWS.other[lang];
+    handleChange('workflowSteps', sample);
+  }, [productType, lang, handleChange]);
+
+  const handleClearWorkflow = useCallback(() => {
+    handleChange('workflowSteps', '');
+  }, [handleChange]);
 
   const workflowSteps = useMemo(
     () => parseWorkflowSteps(intelligence.workflowSteps),
     [intelligence.workflowSteps],
   );
 
+  const stepCount = workflowSteps.length;
+
+  // Determine which fields to show based on agentRequired
+  const isAgent = intelligence.agentRequired === 'yes';
+  const isNoAgent = intelligence.agentRequired === 'no';
+  const boundaryLabel = isNoAgent
+    ? t('workbench.stepTitles.design.autonomyBoundary', lang) // "Execution Boundary" conceptually, reuse key
+    : t('workbench.stepTitles.design.autonomyBoundary', lang);
+
   return (
-    <div className="space-y-6">
-      {/* ── Section 1: AI / Agent Workflow ── */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <span
-              className="w-2.5 h-2.5 rounded-sm"
-              style={{ backgroundColor: 'var(--group-ai)' }}
+    <Card>
+      <CardContent className="space-y-6">
+        {/* ── AI Capability ── */}
+        <div className="space-y-1.5">
+          <FieldLabel
+            label={t('workbench.stepTitles.design.aiCapability', lang)}
+            hint={t('workbench.stepTitles.design.aiCapabilityHint', lang)}
+          />
+          <Textarea
+            value={intelligence.aiCapability}
+            onChange={(e) => handleChange('aiCapability', e.target.value)}
+            placeholder={t('workbench.stepTitles.design.aiCapabilityHint', lang)}
+            rows={3}
+            className="resize-y"
+          />
+        </div>
+
+        {/* ── Agent Required ── */}
+        <div className="space-y-2">
+          <FieldLabel
+            label={t('workbench.stepTitles.design.agentRequired', lang)}
+            hint={t('workbench.stepTitles.design.agentRequiredHint', lang)}
+          />
+          <div className="flex gap-2">
+            <Button
+              variant={intelligence.agentRequired === 'yes' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => handleAgentSelect(intelligence.agentRequired === 'yes' ? '' : 'yes')}
+            >
+              {lang === 'zh' ? '是，多步自适应' : 'Yes, multi-step adaptive'}
+            </Button>
+            <Button
+              variant={intelligence.agentRequired === 'no' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => handleAgentSelect(intelligence.agentRequired === 'no' ? '' : 'no')}
+            >
+              {lang === 'zh' ? '否，确定性流程' : 'No, deterministic'}
+            </Button>
+            <Button
+              variant={intelligence.agentRequired === '' && (isAgent || isNoAgent) ? 'outline' : 'ghost'}
+              size="sm"
+              onClick={() => handleAgentSelect('')}
+              className={intelligence.agentRequired === '' ? 'text-muted-foreground' : ''}
+            >
+              {lang === 'zh' ? '不确定' : 'Not sure'}
+            </Button>
+          </div>
+        </div>
+
+        {/* Agent suitability callout — only when agentRequired is empty */}
+        {intelligence.agentRequired === '' && (
+          <AgentSuitabilityCallout
+            lang={lang}
+            onSelect={handleAgentSelect}
+            selectedValue=""
+          />
+        )}
+
+        {/* Agent choice with collapsed summary */}
+        {intelligence.agentRequired !== '' && (
+          <AgentSuitabilityCallout
+            lang={lang}
+            onSelect={handleAgentSelect}
+            selectedValue={intelligence.agentRequired}
+          />
+        )}
+
+        {/* ── Conditional fields ── */}
+        {/* Agent reasoning — only when yes or empty */}
+        {(isAgent || intelligence.agentRequired === '') && (
+          <div className="space-y-1.5">
+            <FieldLabel
+              label={t('workbench.stepTitles.design.agentReasoning', lang)}
+              hint={t('workbench.stepTitles.design.agentReasoningHint', lang)}
             />
-            <CardTitle className="text-base">
-              {t('workbench.stepTitles.design.aiWorkflowSection', lang)}
-            </CardTitle>
+            <Textarea
+              value={intelligence.agentReasoning}
+              onChange={(e) => handleChange('agentReasoning', e.target.value)}
+              placeholder={t('workbench.stepTitles.design.agentReasoningHint', lang)}
+              rows={3}
+              className="resize-y"
+            />
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-            {AI_FIELDS.map((field) => {
-              const label = t(field.labelKey, lang);
-              const hint = t(field.hintKey, lang);
-              const value = intelligence[field.key];
+        )}
 
-              // agentRequired: special rendering
-              if (field.key === 'agentRequired') {
-                return (
-                  <div key={field.key} className="space-y-1.5 md:col-span-1">
-                    <label className="text-sm font-medium text-foreground">
-                      {label}
-                    </label>
-                    <p className="text-xs text-muted-foreground m-0">{hint}</p>
-                    {intelligence.agentRequired ? (
-                      <AgentChoiceBadge
-                        value={intelligence.agentRequired}
-                        lang={lang}
-                        onChange={handleAgentReset}
-                      />
-                    ) : (
-                      <select
-                        value={intelligence.agentRequired}
-                        onChange={(e) =>
-                          handleChange('agentRequired', e.target.value)
-                        }
-                        className="flex h-9 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
-                      >
-                        <option value="">
-                          {t('workbench.stepTitles.design.selectPlaceholder', lang)}
-                        </option>
-                        <option value="yes">
-                          {t('workbench.stepTitles.design.agentYesLabel', lang)}
-                        </option>
-                        <option value="no">
-                          {t('workbench.stepTitles.design.agentNoLabel', lang)}
-                        </option>
-                      </select>
-                    )}
-                  </div>
-                );
-              }
-
-              // Default textarea fields
-              return (
-                <div key={field.key} className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">
-                    {label}
-                  </label>
-                  <p className="text-xs text-muted-foreground m-0">{hint}</p>
-                  <Textarea
-                    value={value as string}
-                    onChange={(e) => handleChange(field.key, e.target.value)}
-                    placeholder={hint}
-                    rows={field.rows ?? 3}
-                    className="resize-y"
-                  />
-                </div>
-              );
-            })}
+        {/* Tools — only when yes or empty */}
+        {(isAgent || intelligence.agentRequired === '') && (
+          <div className="space-y-1.5">
+            <FieldLabel
+              label={t('workbench.stepTitles.design.tools', lang)}
+              hint={t('workbench.stepTitles.design.toolsHint', lang)}
+            />
+            <Textarea
+              value={intelligence.tools}
+              onChange={(e) => handleChange('tools', e.target.value)}
+              placeholder={t('workbench.stepTitles.design.toolsHint', lang)}
+              rows={3}
+              className="resize-y"
+            />
           </div>
+        )}
 
-          {/* Agent suitability callout — only when agentRequired is empty */}
-          {!intelligence.agentRequired && (
-            <div className="mt-6">
-              <AgentSuitabilityCallout lang={lang} onSelect={handleAgentSelect} />
+        {/* ── Workflow Steps ── */}
+        <div className="space-y-1.5">
+          <FieldLabel
+            label={t('workbench.stepTitles.design.workflowSteps', lang)}
+            hint={t('workbench.stepTitles.design.workflowStepsHint', lang)}
+          />
+          <Textarea
+            value={intelligence.workflowSteps}
+            onChange={(e) => handleChange('workflowSteps', e.target.value)}
+            placeholder={t('workbench.stepTitles.design.workflowStepsHint', lang)}
+            rows={8}
+            className="resize-y"
+          />
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-xs text-muted-foreground">
+              {stepCount > 0
+                ? (lang === 'zh' ? `${stepCount} 个步骤` : `${stepCount} step${stepCount !== 1 ? 's' : ''}`)
+                : (lang === 'zh' ? '每行一个步骤' : 'One step per line')}
+            </span>
+            <div className="flex gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleInsertExample}
+                disabled={!productType}
+                className="text-xs h-7"
+              >
+                {lang === 'zh' ? '插入示例' : 'Insert Example'}
+              </Button>
+              {intelligence.workflowSteps.trim() && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClearWorkflow}
+                  className="text-xs h-7 text-muted-foreground hover:text-destructive"
+                >
+                  {lang === 'zh' ? '清空' : 'Clear'}
+                </Button>
+              )}
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </div>
+        </div>
 
-      {/* ── Section 2: Workflow Preview ── */}
-      <WorkflowPreview steps={workflowSteps} lang={lang} />
-    </div>
+        {/* ── Autonomy Boundary ── */}
+        <div className="space-y-1.5">
+          <FieldLabel
+            label={boundaryLabel}
+            hint={t('workbench.stepTitles.design.autonomyBoundaryHint', lang)}
+          />
+          <Textarea
+            value={intelligence.autonomyBoundary}
+            onChange={(e) => handleChange('autonomyBoundary', e.target.value)}
+            placeholder={t('workbench.stepTitles.design.autonomyBoundaryHint', lang)}
+            rows={3}
+            className="resize-y"
+          />
+        </div>
+
+        {/* ── Human Review — only when yes or empty ── */}
+        {(isAgent || intelligence.agentRequired === '') && (
+          <div className="space-y-1.5">
+            <FieldLabel
+              label={t('workbench.stepTitles.design.humanReview', lang)}
+              hint={t('workbench.stepTitles.design.humanReviewHint', lang)}
+            />
+            <Textarea
+              value={intelligence.humanReview}
+              onChange={(e) => handleChange('humanReview', e.target.value)}
+              placeholder={t('workbench.stepTitles.design.humanReviewHint', lang)}
+              rows={3}
+              className="resize-y"
+            />
+          </div>
+        )}
+
+        {/* ── Failure Handling ── */}
+        <div className="space-y-1.5">
+          <FieldLabel
+            label={t('workbench.stepTitles.design.failureHandling', lang)}
+            hint={t('workbench.stepTitles.design.failureHandlingHint', lang)}
+          />
+          <Textarea
+            value={intelligence.failureHandling}
+            onChange={(e) => handleChange('failureHandling', e.target.value)}
+            placeholder={t('workbench.stepTitles.design.failureHandlingHint', lang)}
+            rows={3}
+            className="resize-y"
+          />
+        </div>
+
+        {/* ── Workflow Preview ── */}
+        {showPreview && <WorkflowPreview steps={workflowSteps} lang={lang} />}
+      </CardContent>
+    </Card>
   );
 }

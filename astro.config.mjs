@@ -5,7 +5,7 @@ import path from 'path';
 
 export default defineConfig({
   site: 'https://wenhaoyu-bryan.github.io',
-  base: '/AI-PM-Operating-Playbook',
+  base: '/AI-PM-Workbench',
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
