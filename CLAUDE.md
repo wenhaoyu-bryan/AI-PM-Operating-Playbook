@@ -93,8 +93,8 @@ AI-PM-Operating-Playbook/
 
 ### 关键概念
 
-- **Vibe Coding：** PM + LLM = 全栈开发者。不是"学写代码"，是"学架构思维"
-- **Harness Engineering：** 设计 AI Agent 的运行框架（触发、隔离、上下文、分工、验证）
+- **Vibe Coding：** 产品判断 + 编码智能体 = 更快的原型迭代。不是"学写代码"，是"学架构思维"
+- **Harness Engineering：** 为编码智能体设计上下文、工具、约束、检查和反馈体系
 - **Loop Engineering：** 设计自动 prompt AI 的循环系统（你设计系统，系统 prompt AI）
 - **Ontology：** 企业知识图谱，把"表格"变成"活的知识网络"
 
@@ -110,9 +110,10 @@ Astro 内容在 `src/content/docs/en/` 和 `src/content/docs/zh-CN/` 下。
 
 **已完成：**
 - ✅ 基础框架搭建（Astro + React + Tailwind）
-- ✅ AI PM Canvas 框架（12 维度）
+- ✅ AI PM Canvas 框架（12 维度）+ 交互工具
 - ✅ Vibe Coding 实践指南
 - ✅ Harness Engineering 概念
+- ✅ Agent Product Design（智能体产品设计）
 - ✅ PM 原型开发工作流
 - ✅ 需求拆解方法
 - ✅ Prompt to Ontology 案例
@@ -120,17 +121,14 @@ Astro 内容在 `src/content/docs/en/` 和 `src/content/docs/zh-CN/` 下。
 - ✅ 推荐书籍和课程
 
 **待补充：**
-- ⬜ 03-agent-and-ontology-systems（Agent 和 Ontology 系统详解）
 - ⬜ 更多案例研究
 - ⬜ Loop Engineering 内容
-- ⬜ 交互式 Canvas 工具（当前是静态 Markdown）
 
 ## 与其他项目的关系
 
 - **Personal Page（my-site）：** 个人品牌（简历 + 博客）
 - **AI-PM-Operating-Playbook：** 专业方法论（工具 + 框架）
 - **Prompt to Ontology：** 案例项目（Ontology 驱动的 AI 产品）
-- **Agent-Space：** 案例项目（制造业数字员工协同平台）
 
 ## 注意事项
 
@@ -143,7 +141,4 @@ Astro 内容在 `src/content/docs/en/` 和 `src/content/docs/zh-CN/` 下。
 
 ## 作者
 
-余文豪（Wenhao Yu）
-- GitHub: wenhaoyu-bryan
-- 背景：TCL 格创东智 AI PM、百威亚太 SET、奇绩创坛、智看科技
 - 专注：工业 AI Agent、Ontology 驱动的产品、PM 主导的 Vibe Coding

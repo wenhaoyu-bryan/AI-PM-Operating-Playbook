@@ -1,197 +1,217 @@
-# Ontology OS
+**[English](prompt-to-ontology.md)** | [中文](prompt-to-ontology.md)
 
-> Enterprise Ontology Operating System
-> Transform enterprise data from "tables" into "living knowledge graphs"
-> Reverse-engineering Palantir AIP through Vibe Coding
+# Prompt-to-Ontology
 
-**English** | **[中文](README.zh-CN.md)**
+> A public product experiment for turning messy business concepts into structured ontology assets.
 
 ---
 
-## Project Overview
+## 1. Context
 
-**Positioning**: Enterprise Ontology Operating System that transforms enterprise data from "tables" into "living knowledge graphs"
+An AI Product Manager exploring ontology-driven product design through hands-on prototyping. The approach draws on publicly documented ideas about how structured knowledge representation can drive smarter enterprise products — particularly the concept of linking business entities into an explicit object model rather than leaving relationships implicit in flat tables.
 
-**Core Value**:
-- Understand the underlying logic of Palantir AIP
-- Validate ontology-driven intelligent agent architecture
-- Explore the product paradigm of industrial AI Agents
-
-**Current Status**: MVP v2
+The core question: can an AI PM, working with an LLM coding agent, convert ambiguous business language into a usable ontology without an engineering team?
 
 ---
 
-## Core Insights
+## 2. Product Problem
 
-### Architecture Insights
+Business data lives in flat tables, spreadsheets, and documents. Relationships between entities — such as which supplier feeds which production line, or which defect pattern links to a specific material batch — are implicit. They exist in people's heads, tribal knowledge, or buried in unstructured documents.
 
-**Key Decisions**:
-- Neo4j is the data source, NetworkX is the compute engine, LLM is the reasoning layer
-- All three are decoupled and can be independently replaced
-
-**Architecture Diagram**:
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Frontend  │ →   │   Backend   │ →   │   Storage   │
-│  React 18   │     │  FastAPI    │     │  Neo4j 5    │
-│  D3.js      │     │  NetworkX   │     │  SQLite     │
-└─────────────┘     └─────────────┘     └─────────────┘
-```
-
-### Product Insights
-
-**Core Cognition**:
-> "The hardest part of building an ontology system is not the code, but the mental model. Understanding that a graph database is not an ontology, an ontology is not a schema, and a schema is not a data model — these are concentric circles of abstraction levels, and getting them right is a product problem, not an engineering problem."
-
-**Key Distinctions**:
-- Graph Database ≠ Ontology
-- Ontology ≠ Schema
-- Schema ≠ Data Model
-
-### Technical Insights
-
-**Key Decisions**:
-- Fact tables are nodes, not edges
-- Actions are attached to objects, state drives behavior
-- Agent doesn't auto-execute, requires HITL approval
+Decision-makers lack structured context. When someone asks "what is affected if this supplier goes down?", the answer requires manual cross-referencing across multiple systems. There is no single structured representation of how business objects relate to each other.
 
 ---
 
-## Tech Stack
+## 3. Why Ontology
 
-| Layer | Technology | Version | Responsibility |
-|-------|------------|---------|----------------|
-| Frontend Framework | React | 18 | Component Architecture |
-| Styling | Tailwind CSS | 4 | Dark Industrial Theme |
-| Graph Rendering | D3.js | - | Force-directed Layout |
-| CSV Parsing | PapaParse | - | Multi-row Headers |
-| Backend Framework | FastAPI | 0.115 | Async REST API |
-| Graph Database | Neo4j | 5 | Persistent Graph Storage |
-| In-memory Graph Engine | NetworkX | 3.4 | Real-time Graph Computation |
-| LLM Integration | MiniMax / OpenAI / Anthropic | - | ReAct Reasoning |
-| Data Validation | Pydantic | v2 | Type Safety |
-| Lightweight Database | SQLite | - | Seed Data |
+Ontologies make entity relationships explicit. Instead of relying on joins across flat tables or asking an expert, an ontology declares:
 
----
+- **What objects exist** (entities like Supplier, ProductionLine, Material)
+- **How they relate** (relationships like SUPPLIES, USES, PRODUCES)
+- **What properties they carry** (attributes, constraints, cardinality)
 
-## Project Structure
+This structured representation enables three things:
 
-```
-Ontology MVP Demo/
-├── CLAUDE.md                  # Project Memory
-├── .gitignore
-├── backend/
-│   ├── database.py            # Data Layer: SQLite tables + queries + seed data
-│   ├── ontology.py            # Semantic Layer: NetworkX graph construction + path analysis
-│   ├── agent.py               # Agent Layer: ReAct reasoning + action execution
-│   ├── llm_client.py          # LLM Router: 3-backend hot-switching
-│   ├── data_pipeline.py       # Data Pipeline: validation + batch import
-│   ├── neo4j_connector.py     # Neo4j Connector
-│   ├── main.py                # API Layer: FastAPI 14+ endpoints
-│   └── requirements.txt
-├── frontend/
-│   ├── package.json
-│   ├── vite.config.js
-│   ├── index.html
-│   └── src/
-│       ├── App.jsx            # Global State + Navigation + View Routing
-│       ├── api.js             # Axios API Wrapper
-│       ├── index.css          # Dark Industrial Theme Global Styles
-│       └── components/
-│           ├── DataPipeline.jsx         # Multi-table Data Pipeline
-│           ├── GlobalSchemaMapper.jsx   # Global Schema Mapping Editor
-│           ├── D3GraphCanvas.jsx        # D3 Graph Canvas
-│           ├── OntologySchemaOverview.jsx # Ontology Schema Overview
-│           ├── EntityInspector.jsx      # Node 360° Detail Panel
-│           ├── OntologyBrowser.jsx      # Ontology Browser
-│           ├── AgentWorkshop.jsx        # Agent Reasoning Log
-│           └── LinkTooltip.jsx          # Link Hover Tooltip
-├── sample-data/               # Demo CSV Datasets
-└── docs/
-    ├── PRD.md                 # Product Requirements Document
-    ├── ARCHITECTURE.md        # Architecture Design Document
-    └── phases/                # Development Phase Plans
-```
+1. **Reasoning over structured knowledge** — graph traversal can answer multi-hop questions that flat queries cannot.
+2. **Bridging human understanding and machine reasoning** — the ontology is readable by both domain experts and AI agents.
+3. **Making implicit knowledge explicit** — tribal knowledge becomes a queryable, auditable asset.
 
 ---
 
-## Core Features
+## 4. Product Hypothesis
 
-### 1. Data Pipeline
+> If we can convert flat business language into structured ontology assets, we can enable more intelligent search, reasoning, and decision support.
 
-**Feature**: Import data from CSV files into knowledge graph
+Specifically:
 
-**Flow**:
-```
-CSV File → PapaParse Parse → LLM Infer Schema → UNWIND Batch Import → Neo4j
-```
-
-**Key Features**:
-- Multi-row header support
-- LLM automatic entity and relationship inference
-- Batch import optimization
+- LLMs can extract entities and relationships from unstructured business descriptions.
+- A human expert can validate and refine the extracted structure.
+- The resulting ontology can serve as the reasoning backbone for downstream AI features — intelligent search, impact analysis, and agent-guided workflows.
 
 ---
 
-### 2. Knowledge Graph
+## 5. User Workflow
 
-**Feature**: Visualize entities and relationships
+The end-to-end flow is designed as a human-AI collaboration loop:
 
-**Technical Implementation**:
-- D3.js force-directed layout
-- Canvas nodes + SVG connections
-- Supports 5000+ nodes
+1. **Input** — The user provides messy business concepts: a process description, a domain glossary, a set of flat data tables, or expert notes.
+2. **LLM Extraction** — An LLM analyzes the input and proposes entities, relationships, and a draft ontology schema. It identifies objects (nodes), their connections (edges), and key properties.
+3. **Human Review** — A domain expert reviews the proposed structure. They confirm, reject, or modify entities and relationships. Confidence thresholds flag uncertain extractions for manual attention.
+4. **Ontology Generation** — Validated entities and relationships are compiled into structured ontology assets — a schema definition and an instance-level knowledge graph.
+5. **Knowledge Graph Construction** — The ontology is materialized into a graph database, enabling traversal, querying, and visualization.
 
-**Interactions**:
-- Click node → highlight upstream/downstream
-- Drag node → adjust layout
-- Zoom and pan
+This loop is iterative. Each pass refines the ontology as more domain input is added.
 
 ---
 
-### 3. Ontology Schema
+## 6. Data and Knowledge Inputs
 
-**Feature**: Display classes, relationships, properties, cardinality
+The prototype was tested against generic categories of business knowledge:
 
-**Technical Implementation**:
-- Automatic extraction from Neo4j
-- Class cards + relationship chains + constraint status
-- Schema constraint checking
+- **Business documents** — process descriptions, SOPs, operational reports
+- **Domain glossaries** — terminology lists, taxonomies, classification schemes
+- **Expert knowledge** — verbal descriptions of how things relate, captured as structured notes
+- **Tabular data** — CSV exports with entity records (suppliers, materials, orders, defects)
 
----
-
-### 4. Agent Reasoning
-
-**Feature**: Intelligent reasoning based on knowledge graph
-
-**Technical Implementation**:
-- ReAct reasoning engine
-- Tool-Calling function calls
-- HITL approval workflow
+No specific employer data is referenced. The methodology is designed to work with any domain where entities and relationships can be described in natural language.
 
 ---
 
-## Vibe Coding Practice
+## 7. Object and Relationship Model
 
-### Practice Method
+The prototype uses a three-layer approach:
 
-**Method**: A product manager defines product intent, architecture boundaries, and design constraints, while a large language model handles code generation, debugging, and iteration.
+### Raw Data Layer
+Flat files — CSV tables, documents, glossaries. No relationships declared. This is where most business data lives today.
 
-**Most Valuable Cognition**:
-> "The hardest part of building an ontology system is not the code, but the mental model."
+### Knowledge Graph Layer
+Entities become nodes; relationships become edges. Each node carries typed properties. This layer is the materialized instance of the ontology — the actual graph you can query and traverse.
 
-**Practice Gains**:
-- Not "learning to code", but "learning to think architecturally"
-- The output is not code, but a cognitive framework
-- PM + LLM can deliver full-stack prototypes
+### Ontology Schema Layer
+The meta-level: what classes of objects exist, what relationship types are valid, what constraints apply (cardinality, required properties). This is the "schema of the schema" — it governs what the knowledge graph is allowed to contain.
 
----
-
-## GitHub
-
-**Repository**: [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
+**Key product insight:** These three layers are not the same thing. A graph database is not an ontology. An ontology is not a schema. A schema is not a data model. They are concentric circles of abstraction, and confusing them is a product design error, not just a technical one.
 
 ---
 
-*Last Updated: 2026-05-18*
-*Based on TCL Gechuang Dongzhi Project Practice*
+## 8. AI-Assisted Workflow
+
+LLMs assist at three points in the pipeline:
+
+1. **Entity Extraction** — Given a business document or glossary, the LLM identifies candidate entities (objects, concepts, roles) and classifies them by type.
+
+2. **Relationship Inference** — The LLM proposes relationships between extracted entities, including relationship type, direction, and cardinality hints. For example: "Supplier SUPPLIES Material" (1:N), "ProductionLine USES Material" (M:N).
+
+3. **Schema Suggestion** — The LLM proposes a draft ontology schema — class definitions, property types, and constraint rules — based on the extracted structure.
+
+These capabilities are tool-agnostic. The prototype used commercial LLM APIs, but the methodology applies to any sufficiently capable language model. The LLM does not "understand" the domain — it proposes structure that a human must validate.
+
+---
+
+## 9. Human Review and Governance
+
+AI extraction is the starting point, not the output. Human review is required at every stage:
+
+- **Entity validation** — Domain experts confirm whether extracted entities are real, correctly named, and properly typed. LLM hallucinations (entities that don't exist) are filtered here.
+- **Relationship validation** — Experts verify that proposed relationships are accurate. A wrong relationship in the graph is worse than a missing one — it leads to incorrect reasoning.
+- **Confidence thresholds** — Extractions below a confidence threshold are flagged for manual review rather than auto-accepted. This prevents low-confidence noise from polluting the ontology.
+- **Domain accuracy** — Technical domains (manufacturing, supply chain, finance) require subject-matter expert judgment that no LLM can fully replace.
+
+The governance model is: LLM proposes, human disposes.
+
+---
+
+## 10. Evaluation Approach
+
+How to measure whether the ontology extraction is working:
+
+| Metric | What It Measures | Target |
+|--------|-----------------|--------|
+| **Ontology Coverage** | % of domain-relevant entities captured | Covers the core domain; does not need to be exhaustive |
+| **Relationship Accuracy** | % of proposed relationships confirmed by experts | High precision — wrong relationships are costly |
+| **Expert Agreement Rate** | Inter-rater reliability on entity/relationship validation | Agreement among independent reviewers |
+| **Downstream Utility** | Can the ontology answer real business questions? | Tested via graph traversal queries against use cases |
+
+The evaluation is qualitative as much as quantitative. A smaller, accurate ontology is more useful than a large, noisy one.
+
+---
+
+## 11. Prototype Scope and Non-Goals
+
+### In Scope
+- Single-domain ontology extraction (one business area at a time)
+- Prototype-level quality (demonstrates the methodology, not production-ready)
+- Manual data input (CSV files, text documents)
+- Batch processing (not real-time)
+- Knowledge graph visualization for inspection
+
+### Non-Goals
+- Production deployment or operational SLAs
+- Multi-domain ontology scaling
+- Real-time streaming data ingestion
+- Automated ontology evolution without human review
+- Full autonomous agent reasoning over the ontology
+
+The prototype exists to validate the product hypothesis, not to ship a product.
+
+---
+
+## 12. Key Product Lessons
+
+- **The hardest part is the mental model, not the code.** Understanding the difference between a graph database, an ontology, a schema, and a data model — and why each layer matters — is a product design challenge, not an engineering one.
+
+- **An ontology is not a schema; a schema is not a data model.** These are distinct abstraction layers. Confusing them leads to systems that store data but cannot reason over it.
+
+- **LLM extraction requires human validation for domain accuracy.** LLMs are good at proposing structure, but they hallucinate entities, mislabel relationships, and miss domain-specific nuances. Expert review is not optional.
+
+- **Starting with a small, well-defined domain works better than trying to model everything.** A single business area with clear boundaries produces a better ontology than an ambitious attempt to capture the entire organization.
+
+- **The value is in making implicit relationships explicit.** The biggest product insight is not the technology — it is that most business knowledge lives in people's heads. Ontology extraction surfaces that knowledge in a structured, queryable form.
+
+- **Fact tables are nodes, not edges.** A common modeling mistake is treating transactional records (orders, inspections, shipments) as relationships. They are entities with their own properties, states, and actions.
+
+- **Actions belong to objects.** Ontology nodes are not passive data points. They carry verbs — a Supplier can be audited, a Material can be quarantined, a ProductionLine can be paused. Attaching actions to the ontology turns it from a static map into an operational tool.
+
+---
+
+## 13. Implementation Notes
+
+The prototype was built with a minimal, commodity stack:
+
+- **Language:** Python (backend), React (frontend visualization)
+- **Graph storage:** Neo4j for persistent graph storage; NetworkX for in-memory graph computation and path analysis
+- **LLM integration:** Commercial LLM APIs for entity extraction, relationship inference, and schema suggestion
+- **Visualization:** D3.js force-directed graph layout for inspecting the knowledge graph
+
+The architecture deliberately separates storage, computation, and reasoning into independent layers so each can be swapped without affecting the others. This is a prototype architecture — it prioritizes learning speed over operational robustness.
+
+---
+
+## 14. Links
+
+- **Source repository:** [Prompt-to-Ontology on GitHub](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
+- **AI PM Canvas:** [Open AI PM Canvas](/AI-PM-Operating-Playbook/en/canvas/) — the 12-dimension framework used to structure this case study
+- **Methodology pages:** [Return to all pages](/AI-PM-Operating-Playbook/en/)
+
+---
+
+## Canvas Snapshot
+
+| Dimension | Summary |
+|-----------|---------|
+| **Business Scenario** | Business knowledge scattered across flat tables, documents, and tribal knowledge — no structured representation of entity relationships. |
+| **User / Operator** | AI PM as primary operator; domain experts as reviewers and validators of extracted ontology. |
+| **Decision to Support** | How do business objects relate to each other, and what is affected when one changes? |
+| **Data / Knowledge Sources** | Business documents, domain glossaries, expert knowledge, flat CSV data tables. |
+| **Object Model** | Three-layer model: raw data layer, knowledge graph layer (nodes + edges), ontology schema layer (classes + constraints). |
+| **AI / Agent Capability** | LLM-assisted entity extraction, relationship inference, and draft schema generation. |
+| **Workflow Boundary** | Ends at validated ontology + knowledge graph. Does not include production deployment or autonomous agent actions. |
+| **Human Review Point** | Every extraction output — entities, relationships, and schema suggestions — requires domain expert validation before acceptance. |
+| **Evaluation Metric** | Ontology coverage, relationship accuracy, expert agreement rate, downstream query utility. |
+| **Prototype Scope** | Single-domain, batch-input, prototype-quality ontology extraction with manual review loop. |
+| **Production Risk** | LLM hallucination in entity/relationship extraction; domain accuracy requires ongoing expert involvement; scaling to multiple domains is untested. |
+| **Product Narrative** | A PM-led experiment demonstrating that LLMs can bootstrap structured ontology from messy business language, with human review as the essential governance layer. |
+
+---
+
+View source repository · [Open AI PM Canvas](/AI-PM-Operating-Playbook/en/canvas/) · [Return to all pages](/AI-PM-Operating-Playbook/en/)

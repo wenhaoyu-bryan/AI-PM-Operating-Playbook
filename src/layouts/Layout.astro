@@ -18,17 +18,16 @@ const isEn = lang === 'en';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta property="og:title" content={`${title} | AI PM Operating Playbook`} />
+    <meta property="og:description" content={description || 'Practical frameworks, workflows, and case notes for AI Product Managers'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title} | AI PM Operating Playbook</title>
   </head>
   <body class="min-h-screen bg-background text-foreground">
-    <!-- Reading progress bar -->
-    <div id="reading-progress" class="fixed top-0 left-0 w-full h-[2px] z-[60]">
-      <div id="reading-progress-bar" class="h-full bg-emerald-500 origin-left transition-[transform] duration-150 ease-out" style="transform: scaleX(0); width: 100%;"></div>
-    </div>
-
     <!-- Nav -->
     <nav class="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
       <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -38,11 +37,11 @@ const isEn = lang === 'en';
         </a>
         <!-- Desktop nav -->
         <div class="hidden md:flex items-center gap-1 text-[13px]">
-          <a href={`${base}${lang}/ai-pm-role/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Thinking</a>
-          <a href={`${base}${lang}/vibe-coding/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Delivery</a>
-          <a href={`${base}${lang}/harness-engineering/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Agents</a>
-          <a href={`${base}${lang}/prompt-to-ontology/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Cases</a>
-          <a href={`${base}${lang}/canvas/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">Canvas</a>
+          <a href={`${base}${lang}/workbench/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Workbench' : '工作台'}</a>
+          <a href={`${base}${lang}/examples/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
+          <a href={`${base}${lang}/templates/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Templates' : '模板'}</a>
+          <a href={`${base}${lang}/methodology/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="w-px h-4 bg-border mx-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
             {isEn ? '中文' : 'EN'}
@@ -57,11 +56,11 @@ const isEn = lang === 'en';
       <!-- Mobile nav -->
       <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
         <div class="px-6 py-3 flex flex-col gap-1 text-sm">
-          <a href={`${base}${lang}/ai-pm-role/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Thinking</a>
-          <a href={`${base}${lang}/vibe-coding/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Delivery</a>
-          <a href={`${base}${lang}/harness-engineering/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Agents</a>
-          <a href={`${base}${lang}/prompt-to-ontology/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">Cases</a>
-          <a href={`${base}${lang}/canvas/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">Canvas</a>
+          <a href={`${base}${lang}/workbench/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Workbench' : '工作台'}</a>
+          <a href={`${base}${lang}/examples/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
+          <a href={`${base}${lang}/templates/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Templates' : '模板'}</a>
+          <a href={`${base}${lang}/methodology/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="h-px bg-border my-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
             {isEn ? '中文' : 'EN'}
@@ -80,14 +79,9 @@ const isEn = lang === 'en';
       <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <span>AI PM Operating Playbook &middot; MIT License</span>
         <div class="flex items-center gap-4">
-          <a href="https://wenhaoyu-bryan.github.io/" class="inline-flex items-center gap-1.5 hover:text-foreground transition-colors group">
-            <span class="w-5 h-5 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[9px] font-bold text-white shrink-0">WY</span>
-            <span>{isEn ? 'Wenhao Yu (Bryan)' : '余文豪'}</span>
-          </a>
-          <span class="w-px h-3 bg-border" />
           <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="hover:text-foreground transition-colors">GitHub</a>
-          <a href={`${base}${lang}/ai_pm_case_study_template/`} class="hover:text-foreground transition-colors">Templates</a>
-          <a href={`${base}${lang}/books/`} class="hover:text-foreground transition-colors">Resources</a>
+          <a href={`${base}${lang}/templates/`} class="hover:text-foreground transition-colors">Templates</a>
+          <a href={`${base}${lang}/methodology/`} class="hover:text-foreground transition-colors">{isEn ? 'Methodology' : '方法论'}</a>
         </div>
       </div>
     </footer>
@@ -107,18 +101,6 @@ const isEn = lang === 'en';
         });
       }
 
-      // Reading progress bar
-      const bar = document.getElementById('reading-progress-bar');
-      if (bar) {
-        const update = () => {
-          const scrollTop = window.scrollY;
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
-          bar.style.transform = `scaleX(${progress})`;
-        };
-        window.addEventListener('scroll', update, { passive: true });
-        update();
-      }
     </script>
   </body>
 </html>

@@ -44,8 +44,8 @@
 - ✅ insights/ - 认知和感悟
   - ai-pm-role.md - AI PM 角色认知
 - ✅ projects/ - 项目案例
-  - fab-agent-space/ - Fab Agent Space 项目
-  - ontology-os/ - Ontology OS 项目
+  - fab-agent-space/ - 工业智能体平台原型项目
+  - ontology-os/ - 本体产品实验项目
 - ✅ resources/ - 学习资源
   - books.md - 推荐书籍
   - courses.md - 推荐课程

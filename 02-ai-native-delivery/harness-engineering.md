@@ -1,383 +1,187 @@
-# Harness Engineering Primer
+# Harness Engineering：面向 AI 辅助产品交付的约束体系设计
 
-**English** | **[中文](harness-engineering.zh-CN.md)**
+**English** | **[Chinese](harness-engineering.zh-CN.md)**
 
-
-> Not writing code — harnessing AI to write code
-> Core Skills: Prompt Engineering + Architecture Design + Quality Assurance
+> Designing the context, constraints, tools, checks, and feedback loops that help coding agents work reliably.
 
 ---
 
-## What is Harness Engineering?
+## What Is Harness Engineering?
 
-**Definition**: The engineering practice of harnessing AI tools (such as Claude Code, Cursor) for software development.
+Harness Engineering is the discipline of designing the **environment** in which a coding agent operates. A large language model can generate and reason. An agent adds a loop around the model — planning, acting, observing, and iterating. The harness wraps that agent loop with the context, tools, constraints, checks, memory, and recovery mechanisms it needs to produce reliable results.
 
-**Core Philosophy**:
-- Not "writing code" — "harnessing AI to write code"
-- Not "learning to code" — "learning to think architecturally"
-- Not "managing development" — "managing AI development"
+The improvement does not come from a single larger prompt. It comes from creating a staged workflow in which each phase produces an artifact that constrains and improves the next phase.
 
-**How It Differs from Traditional Development**:
+### Model, Agent, and Harness
 
-| Dimension | Traditional Development | Harness Engineering |
-|-----------|------------------------|---------------------|
-| Core Skill | Programming Languages | Prompt Engineering |
-| Working Style | Writing Code | Harnessing AI to Write Code |
-| Knowledge Focus | Syntax Details | Architecture Design |
-| Quality Assurance | Unit Tests | Acceptance Criteria |
-| Iteration Style | Modify Code | Modify Instructions |
+| Layer | Role |
+|-------|------|
+| **Model** | Generates text, reasons about code, drafts solutions |
+| **Agent loop** | Plans a step, takes an action (edit a file, run a test), observes the result, and iterates |
+| **Harness** | Provides repository instructions, product context, architecture decisions, tool access, scope constraints, automated checks, and session memory |
+
+The harness is the **environment** around the agent — not just the prompt. It includes project files, CI checks, tool definitions, decision logs, and the workflow structure that guides work from idea to shipped product.
 
 ---
 
-## Core Skills
+## The Six Parts of a Harness
 
-### 1. Prompt Engineering
+A well-designed harness has six parts:
 
-**Definition**: Designing instructions for AI so that it understands your intent and produces high-quality code.
+### 1. Context
 
-**Key Elements**:
-- **Clear Requirement Descriptions**: Describe requirements in a structured way
-- **Explicit Technical Constraints**: Specify tech stack, performance requirements, security restrictions
-- **Specific Acceptance Criteria**: Define what "done" and "correct" mean
-- **Edge Case Handling**: Account for anomalies and error handling
+Repository instructions, product intent, architecture decisions, domain terminology, and concrete examples — including counter-examples that show what not to do. Context is what the agent reads before it starts working.
 
-**Prompt Template**:
+Examples of context artifacts:
+- `CLAUDE.md` or `AGENTS.md` — top-level instructions for the coding agent
+- `docs/product-context.md` — who the user is, what problem is being solved, what success looks like
+- `docs/architecture.md` — system boundaries, tech stack, key patterns
 
-```markdown
-You are a senior [role], skilled at [skill].
+### 2. Workflow
 
-Based on the following [input], generate [output].
+The staged sequence of work: brainstorming, specification, implementation planning, incremental execution, review, and correction. Each phase produces a written artifact that the next phase depends on.
 
-Requirements:
-1. [Requirement 1]
-2. [Requirement 2]
-3. [Requirement 3]
+### 3. Tools
 
-Constraints:
-- [Constraint 1]
-- [Constraint 2]
+The capabilities available to the agent: file access, terminal commands, test runners, linters, browser or screenshot tools, and documentation lookup. The set of tools should be intentional — each tool the agent can call is a capability, and each missing tool is a boundary.
 
-Acceptance Criteria:
-- [Criterion 1]
-- [Criterion 2]
+### 4. Constraints
 
-Input:
-[Paste input content]
-```
+Scope limits, architecture boundaries, security restrictions, non-goals, and invariants. Constraints prevent the agent from expanding scope, introducing unsupported patterns, or violating safety requirements. They are most effective when written as explicit rules in project-level instructions.
 
-**Example**:
+### 5. Sensors and Evaluation
 
-```markdown
-You are a senior frontend engineer skilled at rapidly building prototypes with React + Vite + Tailwind CSS.
+Automated checks that give the agent feedback: build checks, test suites, linting, visual inspection, acceptance criteria, and regression detection. Sensors close the loop — without them the agent cannot know whether its output is correct.
 
-Based on the following PRD, generate a runnable prototype project.
+### 6. State and Handoff
 
-Requirements:
-1. Use React 19 + Vite 8 + Tailwind CSS 4
-2. All components must be functional components with hooks
-3. All styling must use Tailwind CSS — no custom CSS
-4. Use Lucide React icons
-5. Use mock data — do not call real APIs
-
-Constraints:
-- Fixed port 5175
-- Deploy to GitHub Pages (base: './')
-- Responsive design (desktop support)
-
-Acceptance Criteria:
-- All core features are interactive
-- No console errors
-- Responsive layout works correctly
-
-PRD:
-[Paste PRD content]
-```
+Project memory, decision logs, implementation plans, progress artifacts, version control history, and the context prepared for the next session. State is what lets work continue across sessions and across people.
 
 ---
 
-### 2. Architecture Design
-
-**Definition**: Designing system architecture, defining component boundaries and data flows.
-
-**Key Elements**:
-- **System Layering**: Frontend, backend, database
-- **Component Design**: Component responsibilities, interfaces, dependencies
-- **Data Flow**: How data moves through the system
-- **API Design**: Interface definitions, request/response formats
-
-**Architecture Diagram Template**:
-
-```markdown
-## System Architecture
+## Staged Workflow
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Frontend  │ →   │   Backend   │ →   │  Database   │
-│   React     │     │   FastAPI   │     │   Neo4j     │
-└─────────────┘     └─────────────┘     └─────────────┘
+Ambiguous idea
+    |
+    v
+Structured brainstorming
+    |
+    v
+Agreed product direction
+    |
+    v
+Written specification
+    |
+    v
+Implementation plan
+    |
+    v
+Incremental coding-agent execution
+    |
+    v
+Build / test / visual review
+    |
+    v
+Content and product judgment
+    |
+    v
+Update the harness and repeat
 ```
 
-## Component Tree
+Each phase produces a concrete artifact: a brainstorm summary, a product direction document, a specification, an implementation plan, working code, test results, review notes. The next phase inherits the constraints and context from the previous one. This is what makes agent work reliable — not a better prompt, but a better structure.
+
+---
+
+## What the AI PM Owns in the Harness
+
+Harness Engineering is not solely an engineering discipline. The product manager owns specific parts of the harness that are about intent, scope, and judgment.
+
+**What the AI PM owns:**
+
+- Product intent and user/business context
+- Scope definition and non-goals
+- Interaction and workflow requirements
+- Examples and counter-examples
+- Acceptance criteria and evaluation metrics
+- Human review points — where a person must inspect before the work continues
+- Business and product risk assessment
+- Stakeholder narrative — what to communicate and when
+
+**What still requires engineering judgment:**
+
+- Security architecture and threat modeling
+- Infrastructure and deployment design
+- Scalability and performance characteristics
+- Production data handling and privacy
+- Observability, logging, and alerting
+- Code maintainability and technical debt
+- Integration reliability and failure recovery
+- Incident response procedures
+
+The PM defines what good looks like. Engineering defines how to make it safe and reliable.
+
+---
+
+## Project Structure Example
+
+A harness lives in the repository itself. The exact structure depends on the project, but the pattern is consistent:
 
 ```
-App
-├── Sidebar (Left Navigation)
-│   ├── Logo
-│   ├── NavMenu
-│   └── UserProfile
-├── Dashboard
-│   ├── MetricCards
-│   ├── RecentTasks
-│   └── QuickActions
-└── Workbench
-    ├── TaskPanel
-    ├── AgentChat
-    └── ContextPanel
+CLAUDE.md / AGENTS.md          # Top-level agent instructions
+docs/
+  product-context.md            # Who the user is, what problem we solve
+  architecture.md               # System boundaries, tech stack, patterns
+  decisions.md                  # Log of key decisions and rationale
+  acceptance-criteria.md        # What "done" means for this project
+  plans/                        # Implementation plans for each work phase
+tests/                          # Automated checks the agent can run
+scripts/                        # Helper scripts (build, deploy, lint)
 ```
 
-## Data Flow
+**Purpose of each artifact:**
 
-1. User Click → Frontend Component
-2. Frontend Component → API Call
-3. API Call → Backend Processing
-4. Backend Processing → Database Query
-5. Database Query → Return Result
-6. Return Result → Frontend Rendering
-
-## API Contract
-
-| Endpoint | Method | Description | Request | Response |
-|----------|--------|-------------|---------|----------|
-| /api/tasks | GET | Get task list | - | Task[] |
-| /api/tasks | POST | Create task | Task | Task |
-| /api/tasks/:id | PUT | Update task | Task | Task |
-| /api/tasks/:id | DELETE | Delete task | - | - |
-```
+- **`CLAUDE.md` / `AGENTS.md`** — The first thing the agent reads. Contains project-wide rules, constraints, and conventions.
+- **`product-context.md`** — Keeps the agent aligned with user needs and business goals across sessions.
+- **`architecture.md`** — Documents system design decisions so the agent does not introduce incompatible patterns.
+- **`decisions.md`** — A running log of why choices were made, preventing the agent from revisiting settled decisions.
+- **`acceptance-criteria.md`** — Defines the definition of done. Agents and humans both use this to evaluate output.
+- **`plans/`** — Step-by-step implementation plans that break work into reviewable increments.
+- **`tests/`** — The sensors that give the agent feedback on whether its code works.
+- **`scripts/`** — Automation that keeps the feedback loop fast and consistent.
 
 ---
 
-### 3. Quality Assurance
+## Key Principles
 
-**Definition**: Ensuring the quality of AI-generated code, identifying and fixing issues.
+### Structure over prompts
 
-**Key Elements**:
-- **Functional Verification**: Do core features work correctly?
-- **Edge Case Testing**: Are anomalies handled properly?
-- **Performance Evaluation**: Response times, resource usage
-- **Security Review**: Are there security vulnerabilities?
+A single prompt, no matter how detailed, cannot substitute for a structured workflow. Build the scaffolding first — the agent will use it.
 
-**Quality Checklist**:
+### Artifacts over conversations
 
-```markdown
-## Functional Verification
-- [ ] Core feature 1 works correctly
-- [ ] Core feature 2 works correctly
-- [ ] Core feature 3 works correctly
+Every important decision should be written down in a file the agent can read, not buried in a chat history. Documents persist. Conversations do not.
 
-## Edge Case Testing
-- [ ] Empty input handling
-- [ ] Excessively long input handling
-- [ ] Special character handling
-- [ ] Concurrent request handling
+### Constraints over instructions
 
-## Performance Evaluation
-- [ ] Page load time < 3s
-- [ ] API response time < 500ms
-- [ ] Reasonable memory usage
+Telling the agent what not to do is often more effective than telling it what to do. Explicit constraints — scope limits, banned patterns, non-goals — reduce the space of possible errors.
 
-## Security Review
-- [ ] Input validation
-- [ ] Access control
-- [ ] Sensitive data protection
-- [ ] SQL injection prevention
-```
+### Feedback over trust
+
+Never assume the agent's output is correct. Build checks — tests, linters, visual reviews, acceptance criteria — that make correctness verifiable rather than assumed.
+
+### Incremental over monolithic
+
+Break work into small, reviewable steps. Each step should produce something testable. This makes errors visible early and corrections cheap.
 
 ---
 
-### 4. Iteration Management
+## Further Reading
 
-**Definition**: Managing the iteration process of AI development, rapid validation and optimization.
-
-**Key Elements**:
-- **Rapid Validation**: Quickly validate requirements and assumptions
-- **Continuous Improvement**: Optimize based on feedback
-- **Version Control**: Preserve useful code versions
-- **Knowledge Capture**: Document lessons learned
-
-**Iteration Process**:
-
-```markdown
-## Iteration Process
-
-### 1. Requirements Input (10 min)
-- Clarify the changes needed
-- Define acceptance criteria
-
-### 2. AI Generation (10 min)
-- Describe requirements in a prompt
-- Generate code
-
-### 3. Validation Testing (10 min)
-- Test functionality
-- Verify edge cases
-
-### 4. Feedback & Refinement (As Needed)
-- Document issues
-- Refine the prompt
-- Regenerate
-```
+- [Anthropic — Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code)
+- [Anthropic — Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+- [Anthropic — Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-for-long-running-application-development)
 
 ---
 
-## Toolchain
-
-### Essential Tools
-
-| Tool | Purpose | Recommended |
-|------|---------|-------------|
-| Claude Code | AI coding assistant | ✅ |
-| Cursor | AI coding assistant | ✅ |
-| Node.js | Runtime environment | 18+ |
-| Git | Version control | ✅ |
-
-### Recommended Tools
-
-| Tool | Purpose | Recommended |
-|------|---------|-------------|
-| Figma | Design reference | Optional |
-| Excalidraw | Wireframing | Optional |
-| Vercel | Quick deployment | Optional |
-
----
-
-## Practice Cases
-
-### Case 1: Fab Agent Space
-
-**Requirement**: An intelligent knowledge engine for semiconductor FAB engineers
-
-**Tech Stack**: React 19 + Vite 8 + Tailwind CSS 4
-
-**Development Process**:
-1. Requirements Definition (10 min)
-2. Architecture Design (20 min)
-3. Code Generation (30 min)
-4. Iterative Refinement (As Needed)
-
-**Results**:
-- 10 core components
-- Complete interaction logic
-- Port 5175
-- GitHub Pages deployment
-
----
-
-### Case 2: Ontology OS
-
-**Requirement**: An enterprise ontology operating system
-
-**Tech Stack**:
-- Frontend: React 18 + D3.js + Tailwind CSS 4
-- Backend: FastAPI + Neo4j + NetworkX
-- LLM: MiniMax / OpenAI / Anthropic
-
-**Development Process**:
-1. Reverse-engineered Palantir AIP
-2. Designed ontology architecture
-3. Implemented data pipeline
-4. Integrated LLM reasoning
-
-**Results**:
-- 53 nodes, 100+ semantic links
-- ReAct agent
-- HITL approval workflow
-- Multi-LLM support
-
----
-
-## Best Practices
-
-### 1. Understand Before Building
-
-**Wrong Approach**:
-- Having AI write code directly
-- Making changes without understanding the architecture
-- Starting over when encountering problems
-
-**Right Approach**:
-- Understand the business requirements first
-- Design the system architecture first
-- Define the interface contracts first
-
-### 2. Define Clear Boundaries
-
-**Wrong Approach**:
-- Vague requirement descriptions
-- Unclear technical constraints
-- No acceptance criteria
-
-**Right Approach**:
-- Structured requirement documents
-- Explicit technical constraints
-- Specific acceptance criteria
-
-### 3. Iterate, Don't Rewrite
-
-**Wrong Approach**:
-- Rewriting when encountering problems
-- Not preserving previous code
-- Starting from scratch every time
-
-**Right Approach**:
-- Iterate on the existing foundation
-- Preserve useful code
-- Optimize and improve incrementally
-
-### 4. Verify, Don't Trust
-
-**Wrong Approach**:
-- Fully trusting AI output
-- Using without testing
-- Not verifying edge cases
-
-**Right Approach**:
-- Test key features
-- Verify edge cases
-- Check error handling
-
----
-
-## Efficiency Comparison
-
-| Phase | Traditional Development | Harness Engineering | Improvement |
-|-------|------------------------|---------------------|-------------|
-| Requirements Analysis | 2–3 days | 10 min | 15x |
-| Architecture Design | 3–5 days | 20 min | 15x |
-| Code Development | 1–2 weeks | 30 min | 20x |
-| Iterative Refinement | 2–3 days/round | 10 min/round | 15x |
-| **Total** | **2–4 weeks** | **1–2 hours** | **15–20x** |
-
----
-
-## Summary
-
-**Core Philosophy**:
-- Not "writing code" — "harnessing AI to write code"
-- Not "learning to code" — "learning to think architecturally"
-- Not "managing development" — "managing AI development"
-
-**Core Skills**:
-- Prompt Engineering (Designing instructions for AI)
-- Architecture Design (System architecture design)
-- Quality Assurance (Quality assurance and validation)
-- Iteration Management (Iteration management)
-
-**Efficiency Gains**:
-- From requirements to prototype: 2–4 weeks → 1–2 hours
-- Iteration cycle: 2–3 days → 10 minutes
-- Communication cost: Multiple meetings → One conversation
-
----
-
-*Last Updated: 2026-05-26*
-*Based on practice from the Ontology OS and Fab Agent Space projects*
+*Last updated: 2026-06-25*

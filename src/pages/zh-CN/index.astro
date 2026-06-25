@@ -1,123 +1,128 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import CanvasBuilder from '../../components/CanvasBuilder';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
-import { Separator } from '../../components/ui/separator';
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 
-const sections = [
-  { href: `${base}zh-CN/ai-pm-role/`, title: 'AI PM 角色', desc: 'AI 如何改变 PM 工作——核心能力、成长路径、新操作系统', icon: 'thinking', group: '思考' },
-  { href: `${base}zh-CN/vibe-coding/`, title: 'Vibe Coding', desc: 'PM 定义意图，LLM 生成代码——新的交付范式', icon: 'code', group: '交付' },
-  { href: `${base}zh-CN/harness-engineering/`, title: 'Harness Engineering', desc: '指挥 AI 工具交付原型，无需写代码', icon: 'tool', group: 'Agent' },
-  { href: `${base}zh-CN/prompt-to-ontology/`, title: '案例：Prompt-to-Ontology', desc: 'LLM 辅助从扁平业务语言提取本体 Schema', icon: 'database', group: '案例' },
-  { href: `${base}zh-CN/ai_prd_lite_template/`, title: 'PRD Lite 模板', desc: '轻量级 AI 产品需求文档模板', icon: 'file', group: '模板' },
-  { href: `${base}zh-CN/ai_pm_case_study_template/`, title: '案例模板', desc: '12 节模板，用于记录 AI PM 项目工作', icon: 'file', group: '模板' },
+const steps = [
+  { num: '1', title: '产品定义', desc: '明确用户、问题和业务背景' },
+  { num: '2', title: '设计智能能力', desc: '选择合适的 AI 能力和工作流' },
+  { num: '3', title: '评估风险', desc: '设定指标、风险和验收标准' },
+  { num: '4', title: '导出交付物', desc: '生成 6 份开箱即用的交付文档' },
 ];
 
-const stats = [
-  { label: '维度', value: '12', desc: 'Canvas 框架' },
-  { label: '章节', value: '06', desc: '方法论内容' },
-  { label: '模板', value: '2', desc: '开箱即用' },
-  { label: '许可证', value: 'MIT', desc: '开源免费' },
+const outputs = [
+  { title: 'AI 产品简报', desc: '产品概念的结构化摘要', icon: 'brief' },
+  { title: '工作流规格说明', desc: '逐步的 AI/智能体工作流及 Mermaid 流程图', icon: 'workflow' },
+  { title: '评估方案', desc: '指标、数据集和审核流程', icon: 'eval' },
+  { title: '验收标准', desc: '原型和生产环境的可测试标准', icon: 'criteria' },
+  { title: '编码智能体交付物', desc: '针对 AI 编码工具优化的实施简报', icon: 'handoff' },
+  { title: 'CLAUDE.md 起始模板', desc: '面向 Claude Code 的项目上下文文件', icon: 'claude' },
+];
+
+const examples = [
+  { title: 'Prompt-to-Ontology', desc: '将杂乱的业务概念转化为结构化的本体资产', key: 'prompt-to-ontology' },
+  { title: '工业智能体决策支持', desc: '借助 AI 辅助工作流诊断制造设备问题', key: 'industrial-agent' },
+  { title: 'RAG 知识助手', desc: '帮助员工从内部文档中快速找到答案', key: 'rag-assistant' },
 ];
 
 const iconPaths: Record<string, string> = {
-  thinking: 'M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7zM9 21h6M10 17v4M14 17v4',
-  code: 'm16 18 6-6-6-6M8 6l-6 6 6 6',
-  tool: 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z',
-  database: 'M12 2C6.48 2 2 4.02 2 6.5S6.48 11 12 11s10-2.02 10-4.5S17.52 2 12 2zM2 9.5C2 11.98 6.48 14 12 14s10-2.02 10-4.5M2 14.5c0 2.48 4.48 4.5 10 4.5s10-2.02 10-4.5',
-  layout: 'M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM9 3v18M3 9h18',
-  file: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
+  brief: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
+  workflow: 'M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z M13 2v7h7 M6 13h4 M6 17h4 M13 13h4 M13 17h4',
+  eval: 'M18 20V10 M12 20V4 M6 20v-6',
+  criteria: 'M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',
+  handoff: 'M22 2L11 13 M22 2l-7 20-4-9-9-4 20-7z',
+  claude: 'M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7zM9 21h6M10 17v4M14 17v4',
 };
 ---
 
-<Layout title="首页" lang="zh-CN" description="面向 AI 产品经理的实用框架、工作流和案例笔记">
-  <!-- Hero -->
-  <section class="mb-10">
-    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-3">开源方法论</p>
-    <h1 class="text-4xl font-bold tracking-tight mb-4">AI PM 操作手册</h1>
-    <p class="text-lg text-muted-foreground leading-relaxed max-w-xl">
-      面向 AI 产品经理的实用框架、工作流和案例笔记——专注于 Agent、本体系统和 AI 原型开发。
+<Layout title="AI PM 工作台" lang="zh-CN" description="一个静态、隐私友好的工作台，帮助 AI 产品经理将模糊的产品概念转化为产品简报、评估方案和编码智能体交付物。">
+
+  <!-- Section 1: Hero -->
+  <section class="text-center py-20 max-w-3xl mx-auto">
+    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-4">AI PM Workbench</p>
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-5">从模糊的 AI 想法到结构化交付物</h1>
+    <p class="text-lg text-muted-foreground leading-relaxed mb-8">
+      一个静态、隐私友好的工作台，帮助 AI 产品经理将模糊的产品概念转化为产品简报、评估方案和编码智能体交付物。
     </p>
-    <!-- Quick stats -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
-      {stats.map((s) => (
-        <div class="p-3 rounded-lg bg-card ring-1 ring-foreground/10">
-          <p class="text-2xl font-bold text-foreground m-0">{s.value}</p>
-          <p class="text-xs text-muted-foreground m-0">{s.label}</p>
+    <div class="flex items-center justify-center gap-3 flex-wrap">
+      <a href={`${base}zh-CN/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
+        打开工作台
+      </a>
+      <a href={`${base}zh-CN/examples/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg ring-1 ring-foreground/15 hover:ring-foreground/30 text-sm font-medium transition-colors no-underline">
+        查看示例
+      </a>
+    </div>
+  </section>
+
+  <!-- Section 2: How It Works -->
+  <section class="mb-20">
+    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest text-center mb-10">工作流程</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative">
+      <!-- Connector line (desktop only) -->
+      <div class="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-foreground/10 z-0" />
+      {steps.map((step) => (
+        <div class="relative z-10 flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold mb-3">
+            {step.num}
+          </div>
+          <h3 class="text-sm font-semibold text-foreground mb-1">{step.title}</h3>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0">{step.desc}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <Separator class="my-8" />
-
-  <!-- Canvas Tool - Front and Center -->
-  <section class="mb-16">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest m-0 pb-0 border-0">AI PM Canvas — 12 维度规划工具</h2>
-      <a href={`${base}zh-CN/canvas/`} class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">全屏打开 →</a>
-    </div>
-    <CanvasBuilder defaultLang="zh" client:load />
-  </section>
-
-  <Separator class="my-8" />
-
-  <!-- Why this matters -->
-  <section class="mb-16">
-    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-6">为什么这对 AI PM 很重要</h2>
-    <Card>
-      <CardContent className="p-0">
-        <table class="m-0">
-          <thead>
-            <tr>
-              <th class="bg-card text-xs">传统 PM</th>
-              <th class="bg-card text-xs">AI PM</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>写需求文档</td><td class="font-medium text-foreground">将业务模糊性结构化为产品概念</td></tr>
-            <tr><td>交给工程团队</td><td class="font-medium text-foreground">协调 AI 辅助的原型开发和交付</td></tr>
-            <tr><td>管理时间线</td><td class="font-medium text-foreground">设计 Agent 工作流和人工审核节点</td></tr>
-            <tr><td>跟踪功能</td><td class="font-medium text-foreground">定义 AI 行为的评估指标</td></tr>
-            <tr><td>上线后迭代</td><td class="font-medium text-foreground">先原型验证，再决定是否投入</td></tr>
-          </tbody>
-        </table>
-      </CardContent>
-    </Card>
-  </section>
-
-  <Separator class="my-8" />
-
-  <!-- Explore -->
-  <section class="mb-16">
-    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-6">浏览</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {sections.map((s) => (
-        <a href={s.href} class="group flex items-start gap-3.5 p-4 rounded-xl border border-transparent hover:border-border hover:bg-secondary/50 transition-all duration-200 no-underline">
-          <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-colors">
+  <!-- Section 3: What You Get -->
+  <section class="mb-20">
+    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest text-center mb-10">交付物清单</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {outputs.map((item) => (
+        <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
+          <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d={iconPaths[s.icon]} />
+              <path d={iconPaths[item.icon]} />
             </svg>
           </div>
-          <div class="min-w-0">
-            <h3 class="text-sm font-semibold text-foreground mb-0.5">{s.title}</h3>
-            <p class="text-xs text-muted-foreground leading-relaxed m-0">{s.desc}</p>
-          </div>
-        </a>
+          <h3 class="text-sm font-semibold text-foreground mb-1">{item.title}</h3>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0">{item.desc}</p>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- Central framework -->
-  <section>
-    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">核心框架</h2>
-    <p class="text-sm text-muted-foreground">
-      上方的 <a href={`${base}zh-CN/canvas/`}>AI PM Canvas</a> 是一个 12 维度的规划框架，连接本手册的所有内容——涵盖业务场景、用户/运营者、支持的决策、数据来源、对象模型、AI 能力、工作流边界、人工审核、评估指标、原型范围、生产风险和产品叙事。
-    </p>
-    <p class="text-sm text-muted-foreground">
-      使用 <a href={`${base}zh-CN/ai_pm_case_study_template/`}>案例模板</a> 或 <a href={`${base}zh-CN/ai_prd_lite_template/`}>PRD Lite 模板</a> 记录你的工作。
-    </p>
+  <!-- Section 4: Example Concepts -->
+  <section class="mb-20">
+    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest text-center mb-10">示例概念</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {examples.map((ex) => (
+        <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5 flex flex-col">
+          <h3 class="text-sm font-semibold text-foreground mb-1">{ex.title}</h3>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-4 flex-1">{ex.desc}</p>
+          <a
+            href={`${base}zh-CN/workbench/`}
+            onclick={`sessionStorage.setItem('ai-pm-load-example', '${ex.key}')`}
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors no-underline"
+          >
+            在工作台中打开
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      ))}
+    </div>
   </section>
+
+  <!-- Section 5: Author -->
+  <section class="mb-8">
+    <div class="p-5 rounded-xl ring-1 ring-foreground/10 bg-card">
+      <h3 class="text-sm font-semibold text-foreground mb-1">余文豪</h3>
+      <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-3">
+        AI 产品经理，专注于工业智能体、本体驱动系统和 AI 原型开发。
+      </p>
+      <div class="flex items-center gap-3">
+        <a href="https://wenhaoyu-bryan.github.io/" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-secondary hover:bg-secondary/80 text-xs font-medium transition-colors no-underline" target="_blank" rel="noopener">个人主页</a>
+        <a href="https://github.com/wenhaoyu-bryan" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md ring-1 ring-foreground/10 hover:ring-foreground/20 text-xs font-medium transition-colors no-underline" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
 </Layout>

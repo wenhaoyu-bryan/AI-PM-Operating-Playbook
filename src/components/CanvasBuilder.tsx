@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -38,22 +39,86 @@ const GROUPS = {
 type FormData = Record<string, string>;
 type Lang = 'en' | 'zh';
 
+interface ProjectMeta {
+  name: string;
+  idea: string;
+  date: string;
+}
+
+interface StorageData {
+  meta: ProjectMeta;
+  data: FormData;
+}
+
 const STORAGE_KEY = 'ai-pm-canvas-data';
 
-const EXAMPLE_PROJECT: FormData = {
-  businessScenario: 'Industrial semiconductor FAB. Engineers manage complex equipment and processes across multiple systems.',
-  userOperator: 'FAB engineers (primary). Equipment supervisors (secondary). IT team (operators).',
-  decisionToSupport: 'Which equipment needs attention? What is the likely root cause? Should we escalate or monitor?',
-  dataSources: 'Equipment sensor logs (time-series), maintenance history (DB), engineering SOPs (docs), expert knowledge (tacit).',
-  objectModel: 'Equipment → has → Sensors\nEquipment → belongs_to → Area\nAnomaly → triggers → Alert\nEngineer → owns → Equipment',
-  aiCapability: 'LLM for query understanding. RAG over SOPs and maintenance docs. Agent workflow for multi-step diagnosis with tool use.',
-  workflowBoundary: 'AI: data retrieval, initial diagnosis, SOP lookup, report generation.\nHuman: final decision, equipment intervention, safety-critical actions.',
-  humanReview: 'Before any equipment action recommendation. Before escalation to supervisor. On confidence scores below 80%.',
-  evalMetric: 'Diagnosis accuracy (vs. expert label). Time-to-diagnosis (<5 min vs. 30 min manual). Engineer satisfaction. False positive rate.',
-  prototypeScope: 'MVP: Dashboard + single equipment diagnosis flow.\nOut: multi-equipment correlation, predictive maintenance, mobile.',
-  productionRisk: 'Hallucinated diagnosis → wrong equipment action. Data latency between sensor systems. Engineer over-reliance on AI.',
-  productNarrative: 'An AI co-pilot for FAB engineers that turns scattered equipment data into actionable diagnosis — reducing downtime from hours to minutes.',
-};
+const EXAMPLES: { key: string; label: { en: string; zh: string }; meta: ProjectMeta; data: FormData }[] = [
+  {
+    key: 'prompt-to-ontology',
+    label: { en: 'Prompt-to-Ontology', zh: 'Prompt-to-Ontology' },
+    meta: { name: 'Prompt-to-Ontology', idea: 'Turn messy business language into structured ontology assets — making implicit knowledge explicit and machine-readable.', date: new Date().toISOString().slice(0, 10) },
+    data: {
+      businessScenario: "Enterprise knowledge management. Organizations store data across disconnected systems — spreadsheets, documents, databases. Relationships between business concepts are implicit and hard to discover.",
+      userOperator: "Knowledge engineers (primary). Domain experts who validate extracted relationships. Data analysts who query the knowledge graph.",
+      decisionToSupport: "What entities exist in this domain? How are they related? Which relationships are well-supported by evidence vs. inferred?",
+      dataSources: "Business documents (SOPs, process descriptions), domain glossaries, database schemas, expert interviews.",
+      objectModel: "Entity → has → Attributes\nEntity → related_to → Entity\nRelationship → supported_by → Evidence\nSchema → constrains → Entity",
+      aiCapability: "LLM for entity and relationship extraction from natural language. Confidence scoring for extracted relationships. Schema suggestion based on domain patterns.",
+      workflowBoundary: "AI: entity extraction, relationship inference, schema suggestion, confidence scoring.\nHuman: domain validation, relationship confirmation, schema approval.",
+      humanReview: "Before adding any entity to the production ontology. Before accepting inferred relationships with confidence below 85%.",
+      evalMetric: "Extraction precision (vs. expert labels). Relationship recall. Schema coverage. Expert agreement rate. Time-to-useful-ontology.",
+      prototypeScope: "MVP: Single-domain entity extraction with human review.\nOut: Multi-domain scaling, real-time updates, production deployment.",
+      productionRisk: "Hallucinated entities polluting the ontology. Incorrect relationships leading to wrong inferences. Over-reliance on automated extraction.",
+      productNarrative: "Turn messy business language into structured ontology assets — making implicit knowledge explicit and machine-readable.",
+    },
+  },
+  {
+    key: 'industrial-agent',
+    label: { en: 'Industrial Agent Decision Support', zh: '工业 Agent 决策支持' },
+    meta: { name: 'Industrial Agent Decision Support', idea: 'An AI co-pilot for equipment engineers that turns scattered data into actionable diagnosis — reducing downtime from hours to minutes.', date: new Date().toISOString().slice(0, 10) },
+    data: {
+      businessScenario: "Manufacturing operations. Engineers manage complex equipment across multiple systems, needing to diagnose issues and make maintenance decisions under time pressure.",
+      userOperator: "Equipment engineers (primary). Maintenance supervisors (secondary). Operations managers (oversight).",
+      decisionToSupport: "Which equipment needs attention now? What is the likely root cause? Should we escalate, monitor, or intervene?",
+      dataSources: "Equipment sensor data (time-series), maintenance history, engineering SOPs, expert knowledge, alarm logs.",
+      objectModel: "Equipment → has → Sensors\nEquipment → belongs_to → Area\nAnomaly → triggers → Alert\nEngineer → owns → Equipment",
+      aiCapability: "LLM for natural language query understanding. RAG over SOPs and maintenance docs. Agent workflow for multi-step diagnosis with tool use.",
+      workflowBoundary: "AI: data retrieval, initial diagnosis, SOP lookup, report generation.\nHuman: final decision, equipment intervention, safety-critical actions.",
+      humanReview: "Before any equipment action recommendation. Before escalation to supervisor. On confidence scores below 80%.",
+      evalMetric: "Diagnosis accuracy (vs. expert label). Time-to-diagnosis. Engineer satisfaction. False positive rate.",
+      prototypeScope: "MVP: Single equipment diagnosis flow with dashboard.\nOut: Multi-equipment correlation, predictive maintenance, mobile.",
+      productionRisk: "Incorrect diagnosis leading to wrong equipment action. Data latency between sensor systems. Engineer over-reliance on AI recommendations.",
+      productNarrative: "An AI co-pilot for equipment engineers that turns scattered data into actionable diagnosis — reducing downtime from hours to minutes.",
+    },
+  },
+  {
+    key: 'rag-knowledge-assistant',
+    label: { en: 'RAG Knowledge Assistant', zh: 'RAG 知识助手' },
+    meta: { name: 'RAG Knowledge Assistant', idea: 'An internal knowledge assistant that gives employees accurate, cited answers from company documents — reducing search time and knowledge silos.', date: new Date().toISOString().slice(0, 10) },
+    data: {
+      businessScenario: "Internal knowledge access. Employees spend significant time searching for information across wikis, docs, and internal systems.",
+      userOperator: "All employees (primary). Knowledge managers who curate content. IT team (operators).",
+      decisionToSupport: "Where is the relevant information? What does the policy say? Who has done this before?",
+      dataSources: "Internal wiki pages, policy documents, Slack conversations, project documentation, HR policies.",
+      objectModel: "Document → belongs_to → Topic\nDocument → authored_by → Person\nQuestion → answered_by → Document\nTopic → related_to → Topic",
+      aiCapability: "Embedding-based document retrieval. LLM for answer synthesis with citations. Query understanding and reformulation.",
+      workflowBoundary: "AI: document retrieval, answer generation, citation extraction.\nHuman: content curation, accuracy verification, sensitive content filtering.",
+      humanReview: "For answers referencing policy or compliance. When confidence is low. For sensitive HR or legal topics.",
+      evalMetric: "Answer accuracy (human-rated). Citation relevance. Time-to-answer vs. manual search. User satisfaction.",
+      prototypeScope: "MVP: Single-domain Q&A over curated document set.\nOut: Multi-source integration, conversation memory, proactive suggestions.",
+      productionRisk: "Stale or outdated answers. Hallucinated citations. Sensitive information leakage. Over-reliance on AI for compliance questions.",
+      productNarrative: "An internal knowledge assistant that gives employees accurate, cited answers from company documents — reducing search time and knowledge silos.",
+    },
+  },
+];
+
+function getToday(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function defaultMeta(): ProjectMeta {
+  return { name: '', idea: '', date: getToday() };
+}
 
 interface Props {
   defaultLang?: Lang;
@@ -78,36 +143,74 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
   const [lang, setLang] = useState<Lang>(defaultLang);
   const [mounted, setMounted] = useState(false);
   const [data, setData] = useState<FormData>({});
+  const [meta, setMeta] = useState<ProjectMeta>(defaultMeta);
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setData(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object' && 'meta' in parsed && 'data' in parsed) {
+          setMeta(parsed.meta);
+          setData(parsed.data);
+        } else {
+          setData(parsed);
+        }
+      }
     } catch {}
     setMounted(true);
   }, []);
 
   useEffect(() => {
     if (mounted) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ meta, data }));
+        setSaved(true);
+        const t = setTimeout(() => setSaved(false), 1500);
+        return () => clearTimeout(t);
+      } catch {}
     }
-  }, [data, mounted]);
+  }, [data, meta, mounted]);
 
   const updateField = useCallback((key: string, value: string) => {
     setData((prev) => ({ ...prev, [key]: value }));
   }, []);
 
+  const updateMeta = useCallback((key: keyof ProjectMeta, value: string) => {
+    setMeta((prev) => ({ ...prev, [key]: value }));
+  }, []);
+
   const filledCount = DIMENSIONS.filter((d) => data[d.key]?.trim()).length;
 
   const generateMarkdown = useCallback(() => {
-    const lines = DIMENSIONS.map((d) => {
-      const value = data[d.key] || (lang === 'zh' ? '_未填写_' : '_Not filled_');
-      return `## ${d.label[lang]}\n\n${value}\n`;
-    });
-    return '# AI PM Canvas\n\n' + lines.join('\n');
-  }, [data, lang]);
+    const title = meta.name?.trim() || (lang === 'zh' ? '未命名项目' : 'Untitled Project');
+    const ideaLine = meta.idea?.trim();
+    const dateStr = meta.date || getToday();
+
+    let md = `# AI PM Canvas: ${title}\n\n`;
+    if (ideaLine) {
+      md += `> ${ideaLine}\n\n`;
+    }
+    md += `**Generated**: ${dateStr}\n`;
+    md += `**Tool**: [AI PM Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/canvas/)\n\n---\n\n`;
+
+    const groupEntries = Object.entries(GROUPS);
+    for (const [groupKey, group] of groupEntries) {
+      md += `## ${group[lang]}\n\n`;
+      const dims = DIMENSIONS.filter((d) => d.group === groupKey);
+      for (const d of dims) {
+        const globalIdx = DIMENSIONS.indexOf(d) + 1;
+        const value = data[d.key] || (lang === 'zh' ? '_未填写_' : '_Not filled_');
+        md += `### ${globalIdx}. ${d.label[lang]}\n\n${value}\n\n`;
+      }
+    }
+
+    md += `---\n*Created with AI PM Operating Playbook*\n`;
+    return md;
+  }, [data, meta, lang]);
 
   const copyMarkdown = useCallback(async () => {
     try {
@@ -122,10 +225,23 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'ai-pm-canvas.md';
+    const safeName = meta.name?.trim().replace(/[^a-zA-Z0-9一-鿿_-]/g, '-').replace(/-+/g, '-').slice(0, 60);
+    a.download = safeName ? `${safeName}-ai-pm-canvas.md` : 'ai-pm-canvas.md';
     a.click();
     URL.revokeObjectURL(url);
-  }, [generateMarkdown]);
+  }, [generateMarkdown, meta.name]);
+
+  const loadExample = useCallback((example: typeof EXAMPLES[number]) => {
+    if (!window.confirm(lang === 'zh' ? '加载示例将覆盖当前内容，确定继续？' : 'Loading an example will replace your current content. Continue?')) return;
+    setMeta({ ...example.meta, date: getToday() });
+    setData({ ...example.data });
+  }, [lang]);
+
+  const clearAll = useCallback(() => {
+    if (!window.confirm(lang === 'zh' ? '确定清空所有字段？此操作不可撤销。' : 'Clear all fields? This cannot be undone.')) return;
+    setMeta(defaultMeta());
+    setData({});
+  }, [lang]);
 
   const labels = {
     canvasView: lang === 'zh' ? '概览' : 'Overview',
@@ -134,9 +250,17 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
     copy: lang === 'zh' ? '复制' : 'Copy',
     copied: lang === 'zh' ? '已复制' : 'Copied',
     download: lang === 'zh' ? '下载 .md' : 'Download .md',
-    example: lang === 'zh' ? '示例' : 'Example',
+    examples: lang === 'zh' ? '示例' : 'Examples',
     clear: lang === 'zh' ? '清空' : 'Clear',
     filled: lang === 'zh' ? '已填写' : 'filled',
+    saved: lang === 'zh' ? '已保存' : 'Saved',
+    startBlank: lang === 'zh' ? '空白' : 'Blank',
+    projectName: lang === 'zh' ? '项目名称' : 'Project Name',
+    oneLineIdea: lang === 'zh' ? '一句话描述' : 'One-line idea',
+    date: lang === 'zh' ? '日期' : 'Date',
+    privacy: lang === 'zh'
+      ? '你的 Canvas 数据保存在浏览器本地，不会上传。'
+      : 'Your Canvas stays in this browser and is not uploaded.',
   };
 
   const groupedDimensions = Object.entries(GROUPS).map(([groupKey, group]) => ({
@@ -147,7 +271,50 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
 
   return (
     <div className="space-y-4">
-      {/* Toolbar: tabs + controls on same row */}
+      {/* Metadata section */}
+      <Card className="border-dashed">
+        <CardContent className="pt-4 pb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label className="text-[11px] font-medium text-muted-foreground mb-1 block">{labels.projectName}</label>
+              <Input
+                value={meta.name}
+                onChange={(e) => updateMeta('name', e.target.value)}
+                placeholder={lang === 'zh' ? '我的 AI 产品' : 'My AI Product'}
+                className="h-8 text-sm"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-medium text-muted-foreground mb-1 block">{labels.oneLineIdea}</label>
+              <Input
+                value={meta.idea}
+                onChange={(e) => updateMeta('idea', e.target.value)}
+                placeholder={lang === 'zh' ? '用一句话描述你的产品想法' : 'Describe your product idea in one line'}
+                className="h-8 text-sm"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-medium text-muted-foreground mb-1 block">{labels.date}</label>
+              <Input
+                type="date"
+                value={meta.date}
+                onChange={(e) => updateMeta('date', e.target.value)}
+                className="h-8 text-sm"
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-2">
+            <span className="text-[10px] text-muted-foreground/60">{labels.privacy}</span>
+            {saved && (
+              <span className="text-[10px] text-emerald-500 flex items-center gap-1">
+                <Check className="w-3 h-3" /> {labels.saved}
+              </span>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Toolbar: tabs + controls */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <Tabs defaultValue="canvas" className="w-full">
           <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -158,7 +325,7 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
             </TabsList>
 
             {/* Right side controls */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="flex items-center gap-3 flex-wrap">
               <div className="relative flex items-center justify-center">
                 <ProgressRing value={filledCount} />
                 <span className="absolute text-[10px] font-bold text-foreground" suppressHydrationWarning>{filledCount}</span>
@@ -181,15 +348,40 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
                 {labels.download}
               </Button>
               <span className="w-px h-4 bg-border" />
-              <Button variant="ghost" size="sm" onClick={() => setData(EXAMPLE_PROJECT)}>
-                <Sparkles className="w-3.5 h-3.5" />
-                {labels.example}
-              </Button>
-              <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => setData({})}>
+              <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={clearAll}>
                 <RotateCcw className="w-3.5 h-3.5" />
                 {labels.clear}
               </Button>
             </div>
+          </div>
+
+          {/* Examples row */}
+          <div className="flex items-center gap-1.5 flex-wrap mt-2 pt-2 border-t border-border/50">
+            <span className="text-[11px] text-muted-foreground mr-0.5">{labels.examples}:</span>
+            {EXAMPLES.map((ex) => (
+              <Button
+                key={ex.key}
+                variant="outline"
+                size="sm"
+                className="text-[11px] h-7 px-2.5"
+                onClick={() => loadExample(ex)}
+              >
+                <Sparkles className="w-3 h-3 mr-1" />
+                {ex.label[lang]}
+              </Button>
+            ))}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-[11px] h-7 px-2.5"
+              onClick={() => {
+                if (!window.confirm(lang === 'zh' ? '加载空白模板将覆盖当前内容，确定继续？' : 'Starting blank will replace your current content. Continue?')) return;
+                setMeta(defaultMeta());
+                setData({});
+              }}
+            >
+              {labels.startBlank}
+            </Button>
           </div>
 
           {/* Canvas / Overview View */}

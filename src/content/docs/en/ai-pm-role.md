@@ -2,64 +2,54 @@
 
 **English** | **[中文](ai-pm-role.zh-CN.md)**
 
-
 > From "writing documents" to "writing instructions"
 > From "managing development" to "harnessing AI"
 > From "linear processes" to "rapid iteration"
 
 ---
 
-## Traditional PM vs AI PM
+## How AI Changes the PM Role
 
-### Traditional PM
+### Existing PM Responsibilities Remain
 
-**Core Responsibilities**:
-- Requirements analysis and document writing
-- Project management and progress tracking
-- Cross-department communication and coordination
-- Product launch and operations
+**Core responsibilities that do not go away:**
+- Requirements analysis and prioritization
+- Cross-functional coordination and communication
+- Stakeholder alignment and expectation management
+- Product launch, operations, and delivery management
+- User research and feedback synthesis
 
-**Workflow**:
-```
-Requirements → PRD → Design → Development → Testing → Launch
-```
-
-**Core Skills**:
-- Requirements analysis
-- Document writing
-- Project management
-- Communication and coordination
-
-**Toolchain**:
-- Documentation: Word, Excel, PPT
-- Design: Figma, Sketch
-- Project management: Jira, Trello
-- Communication: Email, meetings
+**Traditional tools still apply:**
+- Documentation: Markdown, Figma, Confluence
+- Project management: Jira, Linear, GitHub Issues
+- Communication: Slack, meetings, written updates
 
 ---
 
-### AI PM
+### What AI Adds to the Role
 
-**Core Responsibilities**:
-- Requirements analysis and AI instruction design
-- Architecture design and technology selection
-- Quality assessment and verification
-- Rapid iteration and optimization
+AI does not replace product judgment, engineering collaboration, or research skills. It changes how quickly PMs can explore, prototype, validate, and communicate ideas.
 
-**Workflow**:
+**New capabilities:**
+- AI-assisted requirements structuring and instruction design
+- Rapid prototyping without depending on engineering bandwidth
+- Direct technical architecture exploration through working prototypes
+- Faster validation cycles with stakeholders and users
+
+**Emerging workflow:**
 ```
-Requirements → AI Instructions → AI Generation → Verification → Iteration
+Requirements → Structured Instructions → AI-Assisted Generation → Verification → Iteration
 ```
 
-**Core Skills**:
-- Prompt Engineering
-- Architecture Design
-- Quality Assurance
-- Iteration Management
+**Supporting skills:**
+- Prompt and context design (supporting skill, not the core identity)
+- Architecture and system thinking
+- Quality assessment of AI-generated output
+- Iteration management
 
-**Toolchain**:
-- AI tools: Claude Code, Cursor
-- Design: Figma (optional)
+**AI-augmented toolchain:**
+- AI-assisted development: Claude Code, Cursor
+- Design: Figma
 - Project management: GitHub Issues
 - Communication: Slack, Feishu
 
@@ -67,159 +57,211 @@ Requirements → AI Instructions → AI Generation → Verification → Iteratio
 
 ## Core Competencies of an AI PM
 
-### 1. Architectural Thinking
+### 1. Problem and Decision Framing
 
-**Definition**: Understanding how systems work, defining component boundaries and data flows.
+**Definition**: Translating ambiguous business situations into clearly scoped problems and concrete decisions that AI or product systems can support.
 
 **Key Abilities**:
-- Define system boundaries
-- Design component interfaces
-- Reason about data flows
-- Evaluate technology choices
+- Identify the actual decision stakeholders need to make
+- Distinguish symptoms from root causes
+- Frame problems in terms AI tooling can act on
+- Prioritize by impact and feasibility
 
 **Practice Methods**:
-- Draw architecture diagrams before writing code
-- Define clear API interfaces
-- Clarify data flows and dependencies
-
-**Examples**:
-- Ontology OS: Neo4j as data source, NetworkX as computation engine, LLM as reasoning layer
-- Fab Agent Space: React frontend + mock data + component-based design
+- Use structured frameworks (e.g., AI PM Canvas) before any prototyping
+- Write decision-focused briefs rather than feature wishlists
+- Validate problem framing with domain experts early
 
 ---
 
-### 2. Prompt Engineering
+### 2. AI Capability and Limitation Judgment
 
-**Definition**: Designing instructions for AI so that it understands your intent and produces high-quality results.
+**Definition**: Understanding what AI can and cannot do in a given context, and making informed decisions about when to apply it.
 
 **Key Abilities**:
-- Translate requirements into instructions AI can understand
-- Design clear constraints and acceptance criteria
-- Handle edge cases and errors
+- Assess fit between AI capabilities and specific problem types
+- Recognize failure modes (hallucination, bias, context limits)
+- Decide when AI assistance adds value vs. when human expertise is essential
+- Evaluate trade-offs between automation and oversight
 
 **Practice Methods**:
-- Describe requirements in a structured way
-- Provide concrete examples and counterexamples
-- Specify technical constraints and limitations
-
-**Prompt Design Principles**:
-1. **Clear**: Use concise language to describe requirements
-2. **Specific**: Provide concrete examples and constraints
-3. **Complete**: Cover all edge cases
-4. **Verifiable**: Define clear acceptance criteria
+- Test AI tools against real domain problems before committing
+- Build a mental model of capability boundaries through repeated use
+- Document what works and what does not in specific domains
 
 ---
 
-### 3. Quality Assessment
+### 3. Data and Knowledge Modeling
 
-**Definition**: Evaluating the quality of AI output, identifying potential issues and risks.
+**Definition**: Structuring the information a system needs so that AI, agents, and humans can reason about it effectively.
 
 **Key Abilities**:
-- Identify code quality issues
-- Detect architecture design flaws
-- Assess performance and security risks
-- Decide when human intervention is needed
+- Define entity types, relationships, and attributes
+- Design ontology and knowledge graph structures
+- Map data sources to conceptual models
+- Evaluate data quality and completeness
 
 **Practice Methods**:
-- Establish quality checklists
-- Test critical functionality and edge cases
-- Verify the validity of architectural decisions
-
-**Quality Check Dimensions**:
-- Functional correctness
-- Edge case handling
-- Performance
-- Security
+- Start from the decision to support, not from available data
+- Model the domain before designing the interface
+- Iterate on the object model as understanding deepens
 
 ---
 
-### 4. Rapid Validation
+### 4. Workflow and Boundary Design
 
-**Definition**: Quickly validating requirements and hypotheses, verifying ideas at minimal cost.
+**Definition**: Defining how work flows between humans and AI systems, including handoff points, escalation paths, and system boundaries.
 
 **Key Abilities**:
-- Design minimum viable products (MVPs)
-- Rapidly generate prototypes
-- Collect user feedback
-- Iterate and optimize
+- Map end-to-end workflows with clear human/AI boundaries
+- Design approval and escalation paths
+- Identify where automation is safe and where human review is required
+- Define integration points between systems
 
 **Practice Methods**:
-- Use AI to rapidly generate prototypes
-- Have users try and provide feedback
+- Draw workflow diagrams that show both human and automated steps
+- Define explicit entry/exit criteria for each stage
+- Prototype boundary decisions before production deployment
+
+---
+
+### 5. Evaluation Design
+
+**Definition**: Building systems to measure whether AI-augmented products actually deliver value.
+
+**Key Abilities**:
+- Define measurable success criteria before building
+- Design evaluation rubrics for AI-generated output
+- Build feedback loops between user actions and product decisions
+- Distinguish between output quality and outcome quality
+
+**Practice Methods**:
+- Write evaluation criteria alongside requirements, not after launch
+- Use structured evaluation frameworks for AI output
+- Track both leading indicators (engagement) and lagging indicators (business impact)
+
+---
+
+### 6. Human-in-the-Loop and Governance
+
+**Definition**: Designing systems where humans maintain appropriate oversight, control, and accountability for AI-assisted decisions.
+
+**Key Abilities**:
+- Identify which decisions require human approval
+- Design review interfaces that support efficient human judgment
+- Establish audit trails and accountability structures
+- Plan for failure scenarios and recovery paths
+
+**Practice Methods**:
+- Default to human review for high-stakes decisions
+- Design governance models that scale with product maturity
+- Document decision authority and escalation procedures
+
+---
+
+### 7. AI-Assisted Prototyping
+
+**Definition**: Using AI tools to rapidly build working prototypes for validation, communication, and exploration.
+
+**Key Abilities**:
+- Translate requirements into AI-interpretable instructions
+- Generate functional prototypes from structured specifications
+- Evaluate prototype quality and identify gaps
 - Iterate quickly based on feedback
-- Validate core assumptions
 
-**Validation Checklist**:
-- [ ] Does the core functionality solve the user's problem?
-- [ ] Is the interaction flow smooth?
-- [ ] Are users willing to use it?
-- [ ] Is there business value?
+**Practice Methods**:
+- Based on AI-assisted prototyping experience in industrial settings, start with the simplest version that demonstrates the core concept
+- Use prototypes to communicate with stakeholders instead of relying solely on documents
+- Validate technical assumptions through working code rather than theoretical analysis
+
+---
+
+### 8. Cross-Functional Delivery
+
+**Definition**: Coordinating across product, engineering, design, data, and domain expert teams to ship AI-augmented products.
+
+**Key Abilities**:
+- Communicate technical product concepts to non-technical stakeholders
+- Align engineering and business teams on priorities and constraints
+- Manage dependencies across AI, data, and application layers
+- Facilitate decision-making across functions
+
+**Practice Methods**:
+- Use prototypes as a shared language between teams
+- Run structured reviews with engineering, design, and domain experts
+- Maintain clear documentation of decisions and rationale
 
 ---
 
 ## AI PM Workflow
 
-### Phase 1: Requirements Analysis (10 min)
+### Phase 1: Requirements Analysis
 
-**Input**: Vague requirements description
+**Input**: Vague requirements or business situation
 
-**Output**: Structured requirements document
+**Output**: Structured problem definition and decision brief
 
 **Key Activities**:
-- Understand the business context
-- Identify target users
-- Define the core problem
-- Determine priorities
+- Understand the business context and stakeholders
+- Identify the target decision or workflow to support
+- Define the core problem and success criteria
+- Determine priorities and constraints
 
-**Tools**: Markdown
+**Tools**: Markdown, structured canvas frameworks
 
 ---
 
-### Phase 2: Architecture Design (20 min)
+### Phase 2: Architecture and Design
 
 **Input**: Structured requirements document
 
-**Output**: System architecture and API design
+**Output**: System architecture, workflow design, and data model
 
 **Key Activities**:
-- Design system architecture
-- Define component boundaries
-- Design API interfaces
+- Design system architecture and component boundaries
+- Define the object/ontology model
+- Map data sources and knowledge flows
 - Select technology stack
 
-**Tools**: Markdown, Excalidraw
+**Tools**: Markdown, Excalidraw, diagramming tools
 
 ---
 
-### Phase 3: AI Generation (30 min)
+### Phase 3: Prototype and Generate
 
-**Input**: System architecture and API design
+**Input**: System architecture and design specifications
 
 **Output**: Working prototype
 
 **Key Activities**:
-- Write AI instructions (Prompts)
-- Generate code
-- Verify functionality
-- Fix issues
+- Write structured instructions for AI-assisted development
+- Generate and verify functionality
+- Identify and fix issues
+- Validate against success criteria
 
 **Tools**: Claude Code, Cursor
 
 ---
 
-### Phase 4: Validation & Iteration (as needed)
+### Phase 4: Validate and Iterate
 
-**Input**: User feedback
+**Input**: User and stakeholder feedback
 
-**Output**: Optimized version
+**Output**: Refined version with validated assumptions
 
 **Key Activities**:
-- Collect user feedback
-- Analyze issues
-- Optimize prompts
-- Regenerate
+- Collect structured feedback
+- Analyze gaps between expected and actual behavior
+- Refine instructions and regenerate
+- Update evaluation criteria
 
-**Tools**: Claude Code, Cursor
+**Tools**: Claude Code, Cursor, feedback collection tools
+
+---
+
+### Effort Note
+
+In narrowly scoped prototype exercises, initial exploration stages may sometimes be completed within a single working session. Actual effort depends on scope, data readiness, technical constraints, and quality requirements.
 
 ---
 
@@ -227,102 +269,93 @@ Requirements → AI Instructions → AI Generation → Verification → Iteratio
 
 ### 1. Technical Understanding
 
-**Challenge**: Need to understand technical architecture and implementation details
+**Challenge**: Need to understand technical architecture and implementation details sufficiently to make informed product decisions.
 
 **Approach**:
-- Learn foundational technical knowledge
-- Communicate and collaborate with engineers
-- Deepen understanding through practice
-
-**Examples**:
-- Ontology OS: Understanding ontology systems by reverse-engineering Palantir AIP
-- Fab Agent Space: Understanding React architecture by building prototypes
+- Learn foundational technical knowledge through hands-on practice
+- Communicate and collaborate closely with engineers
+- Deepen understanding by building and reviewing prototypes
+- Based on AI-assisted prototyping experience in industrial settings, focus on understanding the architecture rather than memorizing syntax
 
 ---
 
 ### 2. Quality Control
 
-**Challenge**: AI-generated code quality is inconsistent
+**Challenge**: AI-generated output quality is inconsistent and requires structured evaluation.
 
 **Approach**:
-- Establish quality checklists
+- Establish quality checklists and evaluation rubrics
 - Test critical functionality and edge cases
-- Verify the validity of architectural decisions
-
-**Quality Check Dimensions**:
-- Functional correctness
-- Edge case handling
-- Performance
-- Security
+- Verify architectural decisions through working prototypes
+- Design human review processes for high-stakes outputs
 
 ---
 
-### 3. Communication & Collaboration
+### 3. Communication and Collaboration
 
-**Challenge**: Need to communicate with engineers, designers, users, and other stakeholders
+**Challenge**: Need to communicate technical product concepts across engineering, design, domain experts, and business stakeholders.
 
 **Approach**:
-- Use prototypes instead of documents
-- Use demos instead of meetings
-- Let data speak
-
-**Communication Tips**:
-- Use prototypes to showcase ideas
-- Use data to support decisions
-- Use feedback to validate assumptions
+- Use prototypes instead of documents where possible
+- Use demos and working examples instead of abstract presentations
+- Support decisions with data and structured evaluation results
+- Based on AI-assisted prototyping experience in industrial settings, working prototypes significantly improve cross-functional alignment
 
 ---
 
-## AI PM Growth Path
+## AI PM Capability Stages
 
-### Phase 1: Learning the Basics (0-3 months)
+### Stage 1: Foundation
 
-**Goal**: Master AI tools and foundational skills
+**Focus**: Building the baseline skills needed to work effectively with AI tools.
 
-**Learning Content**:
-- Prompt Engineering fundamentals
-- React + Vite + Tailwind CSS
-- Version control (Git)
-- Basic architecture design
+**Learning Areas**:
+- AI product fundamentals and capability boundaries
+- Prompt and context design basics
+- Basic prototyping with AI-assisted tools
+- Git literacy and version control
+- Foundational architecture thinking
 
-**Practice Projects**:
-- Simple CRUD applications
-- Static websites
-- Data visualization
-
----
-
-### Phase 2: Practical Application (3-6 months)
-
-**Goal**: Apply AI tools in real projects
-
-**Learning Content**:
-- Complex architecture design
-- Performance optimization
-- User experience design
-- Product thinking
-
-**Practice Projects**:
-- Internal tools
-- MVP products
-- Technical validation
+**Practice**:
+- Simple CRUD applications and data visualizations
+- Structured requirements documents
+- Small-scale prototype exercises
 
 ---
 
-### Phase 3: Deep Practice (6-12 months)
+### Stage 2: Applied Practice
 
-**Goal**: Become an AI PM expert
+**Focus**: Applying AI tools in real product contexts with structured approaches.
 
-**Learning Content**:
-- Ontological thinking
-- System architecture design
-- Product strategy
-- Team management
+**Learning Areas**:
+- Structured requirements and decision framing
+- Prototype validation with real users and stakeholders
+- Workflow and boundary design
+- Collaboration with engineering and domain experts
+- Evaluation design and feedback loops
 
-**Practice Projects**:
-- Core products
-- Technical platforms
-- Team building
+**Practice**:
+- Internal tools and MVP products
+- End-to-end prototype-to-validation cycles
+- Cross-functional product delivery
+
+---
+
+### Stage 3: System-Level Practice
+
+**Focus**: Designing complex AI-augmented systems with governance and production readiness.
+
+**Learning Areas**:
+- Agent workflow design and orchestration
+- Ontology and knowledge architecture
+- Evaluation systems and observability
+- Governance, compliance, and production risk management
+- Team capability building
+
+**Practice**:
+- Multi-agent systems and ontology-driven products
+- Production-grade AI product launches
+- Organizational AI product strategy
 
 ---
 
@@ -330,66 +363,64 @@ Requirements → AI Instructions → AI Generation → Verification → Iteratio
 
 ### For Individuals
 
-**Skill Development**:
-- Architectural thinking
-- Prompt Engineering
-- Quality assessment
-- Rapid validation
+**Capability Development**:
+- Problem framing and decision structuring
+- AI capability and limitation judgment
+- Data and knowledge modeling
+- Workflow and boundary design
+- AI-assisted prototyping
 
-**Career Growth**:
-- Broader career options
-- Higher salary levels
-- Stronger competitiveness
+**Professional Impact**:
+- Broader ability to collaborate across product and engineering
+- Stronger prototype and validation capability
+- Clearer communication of technical product concepts
+- Better ability to evaluate AI product feasibility and risk
 
 ---
 
 ### For Teams
 
-**Efficiency Gains**:
-- Requirements to prototype: 2-4 weeks → 1-2 hours
-- Iteration cycle: 2-3 days → 10 minutes
-- Communication overhead: Multiple meetings → One conversation
+**Capability Improvements**:
+- Faster exploration and validation of product ideas
+- More iteration cycles before committing engineering resources
+- Better alignment between product, engineering, and domain experts
+- Reduced communication overhead through working prototypes
 
-**Quality Improvements**:
-- Faster validation speed
-- More iteration cycles
-- Better user experience
+**Quality Outcomes**:
+- More structured evaluation of AI-generated output
+- Earlier identification of technical and product risks
+- Stronger human-in-the-loop governance
 
 ---
 
-### For Companies
+### For Organizations
 
-**Business Value**:
-- Faster time to market
-- Lower development costs
-- Higher product success rate
-
-**Competitive Advantage**:
-- Faster response to market changes
-- Stronger innovation capability
-- Better user experience
+**Strategic Value**:
+- Faster identification of viable AI product opportunities
+- Lower cost of early-stage exploration and validation
+- Better alignment between AI capabilities and business decisions
+- Stronger foundation for scaling AI-augmented products
 
 ---
 
 ## Summary
 
-**Core Shifts**:
-- From "writing documents" to "writing instructions"
-- From "managing development" to "harnessing AI"
-- From "linear processes" to "rapid iteration"
+**Core Reframing**:
+AI does not replace traditional PM skills. It extends them. Product judgment, engineering collaboration, user research, and delivery management remain essential. AI changes how quickly PMs can explore, prototype, validate, and communicate.
 
-**Core Competencies**:
-- Architectural thinking
-- Prompt Engineering
-- Quality assessment
-- Rapid validation
+**8 Core Competencies**:
+1. Problem and decision framing
+2. AI capability and limitation judgment
+3. Data and knowledge modeling
+4. Workflow and boundary design
+5. Evaluation design
+6. Human-in-the-loop and governance
+7. AI-assisted prototyping
+8. Cross-functional delivery
 
-**Core Value**:
-- 15-20x efficiency improvement
-- Quality improvement
-- Cost reduction
+**Growth Path**: Foundation, Applied Practice, System-Level Practice
 
 ---
 
-*Last Updated: 2026-05-26*
-*Based on work practices at TCL CGC Dongzhi*
+*Last Updated: 2026-06-25*
+*Based on AI-assisted prototyping experience in industrial settings*

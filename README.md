@@ -15,10 +15,10 @@ This is not a course, not a generic AI resource list, and not a portfolio. This 
 Core content:
 
 - **AI PM Canvas** — 12-dimension planning framework (interactive tool)
-- **Vibe Coding** — PM + LLM = Full-Stack Developer
-- **Harness Engineering** — Designing the operating framework for AI Agents
-- **Ontology Systems** — Enterprise knowledge graph-driven AI products
-- **Case Studies** — From Prompt to Ontology, industrial agent prototypes
+- **Agent Product Design** — Designing goal-directed AI workflows with tools, boundaries, and human review
+- **Vibe Coding** — Using coding agents to turn product intent into testable prototypes
+- **Harness Engineering** — Context, tools, constraints, checks, and feedback loops for reliable coding agents
+- **Prompt-to-Ontology** — Turning messy business concepts into structured ontology assets
 
 ## Online
 
@@ -43,7 +43,7 @@ Use online: [English](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/
 |---------|---------|
 | [01-product-thinking/](src/content/docs/en/ai-pm-role.md) | AI PM role, competency model, growth path |
 | [02-ai-native-delivery/](src/content/docs/en/vibe-coding.md) | Vibe Coding, Harness Engineering, prototype development |
-| [03-agent-and-ontology-systems/](src/content/docs/en/prompt-to-ontology.md) | Agent workflows, ontology product design |
+| [03-agent-and-ontology-systems/](src/content/docs/en/agent-product-design.md) | Agent product design, ontology product methodology |
 | [04-case-studies/](src/content/docs/en/prompt-to-ontology.md) | Project case notes |
 | [05-templates/](src/content/docs/en/ai_prd_lite_template.md) | Canvas, PRD Lite, case study templates |
 | [06-resources/](src/content/docs/en/books.md) | Recommended books and courses |
@@ -74,15 +74,20 @@ npm run build
 | Project | Purpose |
 |---------|---------|
 | **AI-PM-Operating-Playbook** | Professional methodology (tools + frameworks) |
-| [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology) | Case project — ontology-driven AI product |
-| [Agent-Space](https://github.com/wenhaoyu-bryan/Agent-Space) | Case project — manufacturing digital worker platform |
+| [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology) | Case project — ontology-driven AI product experiment |
+
+## Asset Relationships
+
+- **[Personal homepage](https://wenhaoyu-bryan.github.io/)** — who I am and what I have built
+- **AI PM Operating Playbook** — how I structure and deliver AI products
+- **[Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)** — evidence and implementation artifacts
 
 ## Author
 
 **Wenhao Yu (余文豪)**
 - GitHub: [@wenhaoyu-bryan](https://github.com/wenhaoyu-bryan)
 - Homepage: [wenhaoyu-bryan.github.io](https://wenhaoyu-bryan.github.io/)
-- Focus: Industrial AI Agent, ontology-driven products, PM-led Vibe Coding
+- Focus: Industrial AI Agent, ontology-driven products, AI-native prototyping
 
 ## License
 

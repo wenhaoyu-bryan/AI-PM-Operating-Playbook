@@ -18,7 +18,6 @@ triggers:
   - "拖拽连线"
   - "Vue 3 原型"
 version: 1.0.0
-author: Wenhao Yu
 last_updated: 2026-05-26
 ---
 
@@ -74,7 +73,7 @@ last_updated: 2026-05-26
 | Theme system | CSS variables + Sass | Tailwind config |
 | Best for | B-side, visualization | Consumer, content |
 
-**Key insight:** If your product needs graph editing (nodes, edges, drag-drop), AntV X6 saves 2-4 weeks of development vs building with D3 or react-flow.
+**Key insight:** If your product needs graph editing (nodes, edges, drag-drop), AntV X6 significantly reduces development effort vs building with D3 or react-flow.
 
 ---
 
@@ -213,14 +212,12 @@ Standard B-side layout:
 ## Prototype Workflow
 
 ```
-1. Define pages in router     (5 min)
-2. Create layout with X6Canvas (10 min)
-3. Define node types in factory (10 min)
-4. Add drag-drop interactions  (15 min)
-5. Style with Element Plus     (10 min)
-6. Add mock data               (10 min)
-                               --------
-Total: ~60 min for a full graph editing prototype
+1. Define pages in router
+2. Create layout with X6Canvas
+3. Define node types in factory
+4. Add drag-drop interactions
+5. Style with Element Plus
+6. Add mock data
 ```
 
 ---
@@ -295,24 +292,15 @@ setTimeout(() => fitView(), 100)
 
 ## Efficiency Comparison
 
-| Task | Without This Stack | With This Stack | Speedup |
-|------|-------------------|-----------------|---------|
-| Graph canvas setup | 2-3 days | 10 min | 30x |
-| Node drag-drop | 1-2 days | 5 min | 30x |
-| Undo/redo | 1 day | 0 (built-in) | ∞ |
-| Auto-layout | 2-3 days | 5 min | 50x |
-| Theme system | 1 day | 0 (built-in) | ∞ |
-| **Total prototype** | **2-3 weeks** | **1-2 hours** | **20x** |
+In narrowly scoped prototype exercises, some stages may be completed quickly. Actual effort depends on scope, data readiness, technical constraints, and quality requirements.
 
 ---
 
 ## Starter Template
 
-A ready-to-use project skeleton is available at:
-`~/Desktop/Git/Prototype_Dev`
+A ready-to-use project skeleton can be set up in the project directory:
 
 ```bash
-cd Prototype_Dev
 npm install
 npm run dev
 # Open http://localhost:5173

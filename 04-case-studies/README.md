@@ -4,7 +4,7 @@ Project case notes showing how the methodology in this playbook applies to real 
 
 ## Contents
 
-- [Prompt-to-Ontology](prompt-to-ontology.md) — Enterprise ontology operating system that transforms flat data into structured knowledge graphs. Built through vibe coding with a PM + LLM workflow.
+- [Prompt-to-Ontology](prompt-to-ontology.md) — Turning messy business concepts into structured ontology assets through AI-assisted schema extraction.
 
 ## When to use this
 

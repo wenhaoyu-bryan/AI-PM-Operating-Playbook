@@ -5,7 +5,7 @@
 **[English](README.md)** | **中文**
 
 包括：
-- Vibe Coding — PM + LLM 协作方法论
+- Vibe Coding — 用编码智能体把产品意图转化为原型
 - Harness Engineering — 指导 AI 写代码的实践
 - PM 主导的原型开发 — 快速原型的结构化工作流
 - 需求拆解 — 将模糊需求转化为结构化任务
@@ -15,7 +15,7 @@
 
 - [Vibe Coding](vibe-coding.zh-CN.md) — PM 如何与 LLM 协作构建全栈原型
 - [Harness Engineering](harness-engineering.zh-CN.md) — 指导 AI 写代码的实践，而非自己写代码
-- [PM 原型开发工作流](pm-prototype-workflow.zh-CN.md) — 从需求到可交互原型 1-2 小时
+- [PM 原型开发工作流](pm-prototype-workflow.zh-CN.md) — 从需求到可交互原型的高效流程
 - [需求拆解](requirements-breakdown.zh-CN.md) — MoSCoW 优先级排序和功能分解框架
 - [Vue 3 + X6 原型技术栈](vue3-x6-prototype-stack.zh-CN.md) — B 端可视化原型技术栈，含图编辑能力
 

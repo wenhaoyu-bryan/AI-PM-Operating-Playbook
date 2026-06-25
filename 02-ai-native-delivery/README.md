@@ -3,7 +3,7 @@
 This section covers how an AI PM uses AI-assisted development workflows to move from product idea to working prototype.
 
 It includes notes on:
-- Vibe coding — PM + LLM collaboration methodology
+- Vibe Coding — using coding agents to turn product intent into prototypes
 - Harness engineering — directing AI to write code
 - PM-led prototyping — structured workflows for rapid prototype development
 - Requirements breakdown — turning vague requirements into structured tasks
@@ -13,7 +13,7 @@ It includes notes on:
 
 - [Vibe Coding](vibe-coding.md) — How PMs collaborate with LLMs to build full-stack prototypes
 - [Harness Engineering](harness-engineering.md) — The practice of directing AI to write code, not writing it yourself
-- [PM Prototype Workflow](pm-prototype-workflow.md) — From requirements to interactive prototype in 1-2 hours
+- [PM Prototype Workflow](pm-prototype-workflow.md) — From requirements to interactive prototype efficiently
 - [Requirements Breakdown](requirements-breakdown.md) — MoSCoW prioritization and functional decomposition framework
 - [Vue 3 + X6 Prototype Stack](vue3-x6-prototype-stack.md) — B-side visualization prototype stack with graph editing
 

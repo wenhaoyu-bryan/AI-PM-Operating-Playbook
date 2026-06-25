@@ -1,47 +1,64 @@
-# Vibe Coding Practice Guide
+# Vibe Coding for Product Discovery and Prototyping
 
 **English** | **[中文](vibe-coding.zh-CN.md)**
 
+Using coding agents to turn product intent into testable prototypes — without confusing prototypes with production software.
 
-> Product Manager + LLM = Full-Stack Developer
-> Not "learning to code" — "learning to think architecturally"
+> **In this playbook**, vibe coding means AI-assisted product prototyping in which the PM defines product intent, scope, constraints, examples, and acceptance criteria while a coding agent assists with implementation. It does not mean accepting generated code without understanding or verification.
+
+> Product judgment + coding agents = a faster prototype and learning loop
 
 ---
 
-## What is Vibe Coding?
+## What Is Vibe Coding?
 
-**Definition**: A product manager defines product intent, architectural boundaries, and design constraints, while a large language model handles code generation, debugging, and iteration.
+**Definition**: A product manager defines product intent, architectural boundaries, and design constraints, while a coding agent handles code generation, debugging, and iteration. The PM retains responsibility for what gets built and why.
 
 **Core Value**:
-- Product managers work directly with implementation, no traditional software engineers needed
-- The output is not code — it's understanding
-- Understand systems by building them, not by reading documentation
+- AI PMs can independently build many early prototypes, reducing engineering dependency during discovery
+- The output is not code — it is a deeper understanding of the problem domain
+- You learn systems by building them, not by reading specifications alone
 
 **Use Cases**:
-- Technical prototype validation
-- Architecture exploration
-- Rapid MVP development
+- Interaction prototypes and workflow demonstrations
+- Technical exploration and architecture feasibility checks
+- Internal tools with controlled risk
+- Product concept validation
+- Executable specifications for engineering handoff
 
 ---
 
-## My Practice Cases
+## Practice Cases
 
-### Ontology OS
+### An Ontology Product Experiment
 
-**Background**: Entering the semiconductor industry as an AI PM, needing to understand the underlying logic of Palantir AIP.
+**Background**: Entering the semiconductor industry as an AI PM, needing to understand the underlying logic of ontology-driven enterprise platforms through hands-on exploration.
 
 **Approach**:
-- One person, one model (Claude), two weeks of iteration
-- No traditional software engineers involved
-- No Sprint Planning, no Stand-ups
+- One person, one coding agent (Claude), iterative cycles over two weeks
+- No Sprint Planning, no Stand-ups — direct product-to-prototype workflow
 
 **Output**:
-- A working ontology operating system
+- A working ontology prototype demonstrating graph-based entity relationships
 - A complete architectural understanding framework
-- A deep-dive technical blog post
+- A technical write-up capturing domain insights
 
 **Key Insight**:
-> "The hardest part of building an ontology system isn't the code — it's the mental model. Understanding that a graph database is not an ontology, an ontology is not a schema, and a schema is not a data model — these are concentric layers of abstraction, and getting them right is a product problem, not an engineering problem."
+> "The hardest part of building an ontology system is not the code — it is the mental model. Understanding that a graph database is not an ontology, an ontology is not a schema, and a schema is not a data model — these are concentric layers of abstraction, and getting them right is a product problem, not an engineering problem."
+
+### An Industrial Agent Platform Prototype
+
+**Background**: Validating whether a manufacturing digital-worker coordination platform was feasible before committing engineering resources.
+
+**Approach**:
+- PM-defined workflow sketches turned into interactive prototypes using a coding agent
+- Architecture exploration through working code rather than static diagrams
+- Iterative refinement driven by stakeholder feedback on the prototype itself
+
+**Output**:
+- A navigable prototype that served as a concrete communication artifact
+- Sharper requirements that reduced ambiguity in the subsequent engineering sprint
+- Clearer boundary decisions about what the platform should and should not do
 
 ---
 
@@ -52,59 +69,61 @@
 **Core Competencies**:
 - Defining system boundaries
 - Specifying inter-layer contracts
-- Reasoning about data flows
+- Reasoning about data flows and failure modes
 
 **Practices**:
-- Draw the architecture diagram before writing code
-- Define clear API interfaces
-- Clarify data flow directions and dependencies
+- Draw the architecture diagram before prompting the agent
+- Define clear API interfaces and data contracts
+- Identify where the prototype must be faithful to production constraints and where it can simplify
 
-### 2. Prompt Engineering
+### 2. Quality Judgment
 
 **Core Competencies**:
-- Translating requirements into instructions AI can understand
-- Designing clear constraints and acceptance criteria
-- Handling edge cases and errors
+- Evaluating the correctness and completeness of agent output
+- Identifying potential issues, missing edge cases, and architectural risks
+- Deciding when a prototype is "good enough to learn from" versus "good enough to ship"
 
 **Practices**:
-- Describe requirements in a structured way
+- Establish a quality checklist before each iteration
+- Test key interaction paths and boundary conditions
+- Validate that architectural decisions hold up under realistic data
+
+### 3. Prompt Engineering (Supporting Skill)
+
+**Core Competencies**:
+- Translating product intent into structured instructions a coding agent can execute
+- Designing clear constraints, acceptance criteria, and examples
+- Handling edge cases through explicit specification rather than hope
+
+**Practices**:
+- Describe requirements in a structured, layered way (intent, scope, constraints, examples)
 - Provide concrete examples and counter-examples
-- Specify technical constraints and limitations
+- Specify technical constraints and non-functional expectations upfront
 
-### 3. Quality Judgment
-
-**Core Competencies**:
-- Evaluating the quality of AI output
-- Identifying potential issues and risks
-- Deciding when human intervention is needed
-
-**Practices**:
-- Establish a quality checklist
-- Test key features and edge cases
-- Validate the soundness of architectural decisions
+> Prompt engineering is a supporting skill — the primary value comes from product judgment, domain understanding, and architectural clarity. Good prompts are a consequence of clear thinking, not a substitute for it.
 
 ---
 
 ## Vibe Coding Workflow
 
-### Phase 1: Requirements Definition (10 min)
+### Phase 1: Requirements Definition
 
 ```markdown
 ## Product Intent
-[One paragraph describing the product positioning]
+[One paragraph describing the product positioning and the question this prototype should answer]
 
 ## Architectural Boundaries
 - Input: [What data comes in]
-- Processing: [How it's processed]
+- Processing: [How it is processed]
 - Output: [What results come out]
 
 ## Design Constraints
-- Tech Stack: [React + Vite + Tailwind CSS]
-- Performance Requirements: [Response time < 100ms]
-- Security Requirements: [Login authentication required]
+- Tech Stack: [e.g. React + Vite + Tailwind CSS]
+- Performance Requirements: [e.g. Response time < 100ms]
+- Scope Limits: [What this prototype intentionally does NOT cover]
 ```
 
-### Phase 2: Architecture Design (20 min)
+### Phase 2: Architecture Design
 
 ```markdown
 ## System Architecture
@@ -112,7 +131,7 @@
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Frontend  │ →   │   Backend   │ →   │  Database   │
-│   React     │     │   FastAPI   │     │   Neo4j     │
+│   React     │     │   FastAPI   │     │   SQLite    │
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
@@ -124,33 +143,34 @@
 5. Database Query → Return Result
 
 ## API Contract
-- GET /api/data → Returns data list
-- POST /api/data → Creates new data
-- PUT /api/data/:id → Updates data
-- DELETE /api/data/:id → Deletes data
+- GET /api/items → Returns item list
+- POST /api/items → Creates new item
+- PUT /api/items/:id → Updates item
+- DELETE /api/items/:id → Deletes item
 ```
 
-### Phase 3: Code Generation (30 min)
+### Phase 3: Code Generation
 
 ```markdown
 ## Prompt Template
 
-You are a senior frontend engineer skilled at rapidly building prototypes with React + Vite + Tailwind CSS.
+You are a senior frontend engineer skilled at rapidly building prototypes
+with React + Vite + Tailwind CSS.
 
 Based on the architecture design below, generate a runnable project.
 
 Requirements:
-1. Use React 19 + Vite 8 + Tailwind CSS 4
+1. Use React 19 + Vite + Tailwind CSS 4
 2. All components must be functional components with hooks
 3. All styling must use Tailwind CSS
-4. Use Lucide React icons
-5. Use mock data for data
+4. Use mock data for all data sources
+5. Include basic error handling for API calls
 
 Architecture Design:
 [Paste the architecture design from Phase 2]
 ```
 
-### Phase 4: Iterative Refinement (As Needed)
+### Phase 4: Iterative Refinement
 
 ```markdown
 ## Iteration Prompt
@@ -160,27 +180,28 @@ Based on the current code, make the following changes:
 1. [Change 1]: [Specific description]
 2. [Change 2]: [Specific description]
 
-Requirements:
+Constraints:
 - Keep the existing architecture unchanged
 - Only modify the specified parts
 - Ensure other features are not affected
+- Note any assumptions you are making
 ```
 
 ---
 
-## Vibe Coding Best Practices
+## Best Practices
 
 ### 1. Understand Before Building
 
 **Wrong Approach**:
-- Having AI write code directly
+- Having the agent write code directly without a mental model
 - Making changes without understanding the architecture
 - Starting over when encountering problems
 
 **Right Approach**:
-- Understand the business requirements first
-- Design the system architecture first
-- Define the interface contracts first
+- Understand the business requirements and the question the prototype should answer first
+- Design or sketch the system architecture first
+- Define the interface contracts and data models first
 
 ### 2. Define Clear Boundaries
 
@@ -190,119 +211,104 @@ Requirements:
 - No acceptance criteria
 
 **Right Approach**:
-- Structured requirement documents
-- Explicit technical constraints
-- Specific acceptance criteria
+- Structured requirement documents with explicit scope limits
+- Explicit technical constraints and non-functional expectations
+- Specific acceptance criteria that determine when the prototype is "done"
 
 ### 3. Iterate, Don't Rewrite
 
 **Wrong Approach**:
-- Rewriting when encountering problems
-- Not preserving previous code
-- Starting from scratch every time
+- Rewriting from scratch when encountering problems
+- Not preserving useful code from previous iterations
+- Losing architectural decisions by regenerating everything
 
 **Right Approach**:
 - Iterate on the existing foundation
-- Preserve useful code
-- Optimize and improve incrementally
+- Preserve and refactor useful code
+- Optimize and improve incrementally, documenting what changed and why
 
 ### 4. Verify, Don't Trust
 
 **Wrong Approach**:
-- Fully trusting AI output
-- Using without testing
-- Not verifying edge cases
+- Fully trusting agent output without inspection
+- Using generated code without testing
+- Not verifying edge cases or error handling
 
 **Right Approach**:
-- Test key features
-- Verify edge cases
-- Check error handling
+- Test key interaction paths
+- Verify edge cases and boundary conditions
+- Check error handling and failure modes
+- Inspect generated code for obvious security or logic issues
 
 ---
 
-## What Vibe Coding Delivers
+## Where the Leverage Comes From
 
-### Cognitive Level
+The value of PM-led prototyping is not raw speed. It is:
 
-**Most Valuable Insight**:
-> "The hardest part of building an ontology system isn't the code — it's the mental model."
+- **Reducing translation loss** between idea and prototype — the person who understands the problem can direct the implementation directly
+- **Validating interaction and workflow assumptions earlier** — before engineering commits to an architecture
+- **Making requirements executable and inspectable** — a working prototype removes ambiguity that documents cannot
+- **Allowing more low-cost iterations** before engineering commitment — each cycle sharpens the requirements
+- **Improving communication** through working demonstrations rather than abstract specifications
 
-**Practical Takeaways**:
-- Not "learning to code" — "learning to think architecturally"
-- The output is not code — it's a cognitive framework
-- PM + LLM can deliver full-stack prototypes
-
-### Skill Level
-
-**Skills Acquired**:
-- System architecture design
-- Prompt Engineering
-- Quality judgment and validation
-- Rapid iteration and optimization
-
-**Applicable Scenarios**:
-- Technical prototype validation
-- Architecture exploration
-- Rapid MVP development
-
-### Efficiency Level
-
-**Efficiency Gains**:
-- From requirements to prototype: 2–4 weeks → 1–2 hours
-- Iteration cycle: 2–3 days → 10 minutes
-- Communication cost: Multiple meetings → One conversation
+> The actual gain varies by scope, technical complexity, data availability, and production requirements. Some prototypes can be built in hours; others require days of careful iteration. The point is faster learning, not a fixed time guarantee.
 
 ---
 
-## Vibe Coding Caveats
+## Caveats and Boundaries
 
-### Applicable Scenarios
+### Suitable For
 
-✅ **Suitable For**:
-- Prototype validation
-- Internal demos
-- Rapid iteration
-- Technical exploration
+- Interaction prototypes and workflow demonstrations
+- Technical exploration and feasibility checks
+- Internal tools with controlled, bounded risk
+- Product concept validation with stakeholders
+- Executable specifications to hand off to engineering
 
-❌ **Not Suitable For**:
-- Production-grade code
-- Complex business logic
-- High-performance requirements
-- Enterprise-grade security
+### Requires Engineering Review
 
-### Risk Control
+Work in this category can start as a PM-led prototype but must go through engineering review before any real-world deployment:
 
-**Risks**:
-- AI-generated code may contain bugs
-- Architectural decisions may be suboptimal
-- Performance may fall short
+- Anything touching real user data
+- Authentication and authorization logic
+- External API integrations
+- Persistent databases and data migrations
+- Business-critical workflows
+- Deployment beyond controlled internal demos
 
-**Mitigation**:
-- Test key features
-- Validate architectural decisions
-- Assess performance metrics
+### Not Safe as Prototype-Only Work
+
+These domains require engineering ownership from the start. A PM prototype may be useful for communication, but must not be mistaken for a viable system:
+
+- Financial transactions or monetary calculations
+- Regulated decisions (medical, legal, compliance)
+- Safety-critical industrial control systems
+- Sensitive personal data processing
+- Production security architecture
+- Autonomous high-impact actions without human oversight
 
 ---
 
 ## Summary
 
-**Core Philosophy**:
-- A PRD is not a document — it's an instruction set for AI
-- A prototype is not code — it's an interactive requirements specification
-- Iteration is not development — it's conversational refinement
+**Core Position**:
+- An AI-native PRD can also function as an instruction set for coding agents
+- A prototype can serve as an interactive requirements specification
+- Conversational refinement can shorten some prototype iteration loops
 
-**Efficiency Gains**:
-- From requirements to prototype: 2–4 weeks → 1–2 hours
-- Iteration cycle: 2–3 days → 10 minutes
-- Communication cost: Multiple meetings → One conversation
+**What PM-Led Prototyping Changes**:
+- AI PMs can independently build many early prototypes
+- This reduces engineering dependency during discovery, not the need for engineering in production
+- Engineers remain essential for architecture, security, reliability, maintainability, performance, integration, and operations
+- The value of PM-led prototyping is faster learning and more precise communication — not replacing engineering expertise
 
 **Toolchain**:
 - Requirements Input: Markdown
-- PRD Generation: AI (Claude/GPT)
-- Prototype Generation: Claude Code
-- Tech Stack: React + Vite + Tailwind CSS
+- Prototype Generation: Coding agents (Claude, etc.)
+- Typical Stack: React + Vite + Tailwind CSS (or any stack the agent can scaffold)
 
 ---
 
-*Last Updated: 2026-05-26*
-*Based on practice from the Ontology OS and Fab Agent Space projects*
+*Last Updated: 2026-06-25*
+*Based on practice from ontology-driven product experiments and industrial agent platform prototyping*

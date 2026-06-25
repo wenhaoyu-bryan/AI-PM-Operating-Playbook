@@ -1,123 +1,128 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import CanvasBuilder from '../../components/CanvasBuilder';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
-import { Separator } from '../../components/ui/separator';
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 
-const sections = [
-  { href: `${base}en/ai-pm-role/`, title: 'AI PM Role', desc: 'How AI changes PM work — competencies, growth path, new operating system', icon: 'thinking', group: 'Thinking' },
-  { href: `${base}en/vibe-coding/`, title: 'Vibe Coding', desc: 'PM defines intent, LLM generates code — the new delivery paradigm', icon: 'code', group: 'Delivery' },
-  { href: `${base}en/harness-engineering/`, title: 'Harness Engineering', desc: 'Directing AI tools to ship prototypes without writing code', icon: 'tool', group: 'Agents' },
-  { href: `${base}en/prompt-to-ontology/`, title: 'Case: Prompt-to-Ontology', desc: 'LLM-assisted schema extraction from flat business language', icon: 'database', group: 'Cases' },
-  { href: `${base}en/ai_prd_lite_template/`, title: 'PRD Lite Template', desc: 'Lightweight PRD template for AI product requirements', icon: 'file', group: 'Templates' },
-  { href: `${base}en/ai_pm_case_study_template/`, title: 'Case Study Template', desc: '12-section template for documenting AI PM project work', icon: 'file', group: 'Templates' },
+const steps = [
+  { num: '1', title: 'Product Framing', desc: 'Define the user, problem, and business context' },
+  { num: '2', title: 'Design Intelligence', desc: 'Choose the right AI capability and workflow' },
+  { num: '3', title: 'Evaluate', desc: 'Set metrics, risks, and acceptance criteria' },
+  { num: '4', title: 'Export', desc: 'Generate 6 ready-to-use delivery documents' },
 ];
 
-const stats = [
-  { label: 'Dimensions', value: '12', desc: 'Canvas framework' },
-  { label: 'Chapters', value: '06', desc: 'Methodology sections' },
-  { label: 'Templates', value: '2', desc: 'Ready to use' },
-  { label: 'License', value: 'MIT', desc: 'Open source' },
+const outputs = [
+  { title: 'AI Product Brief', desc: 'Structured summary of the product concept', icon: 'brief' },
+  { title: 'Workflow Specification', desc: 'Step-by-step AI/agent workflow with Mermaid diagram', icon: 'workflow' },
+  { title: 'Evaluation Plan', desc: 'Metrics, datasets, and review processes', icon: 'eval' },
+  { title: 'Acceptance Criteria', desc: 'Testable criteria for prototype and production', icon: 'criteria' },
+  { title: 'Coding Agent Handoff', desc: 'Implementation brief optimized for AI coding tools', icon: 'handoff' },
+  { title: 'CLAUDE.md Starter', desc: 'Project context file for Claude Code', icon: 'claude' },
+];
+
+const examples = [
+  { title: 'Prompt-to-Ontology', desc: 'Turn messy business concepts into structured ontology assets', key: 'prompt-to-ontology' },
+  { title: 'Industrial Agent Decision Support', desc: 'Diagnose manufacturing equipment issues with AI-assisted workflows', key: 'industrial-agent' },
+  { title: 'RAG Knowledge Assistant', desc: 'Help employees find answers from internal documentation', key: 'rag-assistant' },
 ];
 
 const iconPaths: Record<string, string> = {
-  thinking: 'M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7zM9 21h6M10 17v4M14 17v4',
-  code: 'm16 18 6-6-6-6M8 6l-6 6 6 6',
-  tool: 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z',
-  database: 'M12 2C6.48 2 2 4.02 2 6.5S6.48 11 12 11s10-2.02 10-4.5S17.52 2 12 2zM2 9.5C2 11.98 6.48 14 12 14s10-2.02 10-4.5M2 14.5c0 2.48 4.48 4.5 10 4.5s10-2.02 10-4.5',
-  layout: 'M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM9 3v18M3 9h18',
-  file: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
+  brief: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
+  workflow: 'M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z M13 2v7h7 M6 13h4 M6 17h4 M13 13h4 M13 17h4',
+  eval: 'M18 20V10 M12 20V4 M6 20v-6',
+  criteria: 'M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',
+  handoff: 'M22 2L11 13 M22 2l-7 20-4-9-9-4 20-7z',
+  claude: 'M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7zM9 21h6M10 17v4M14 17v4',
 };
 ---
 
-<Layout title="Home" lang="en" description="Practical frameworks, workflows, and case notes for AI Product Managers">
-  <!-- Hero -->
-  <section class="mb-10">
-    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-3">Open-source methodology</p>
-    <h1 class="text-4xl font-bold tracking-tight mb-4">AI PM Operating Playbook</h1>
-    <p class="text-lg text-muted-foreground leading-relaxed max-w-xl">
-      Practical frameworks, workflows, and case notes for AI Product Managers building agents, ontology systems, and AI-native prototypes.
+<Layout title="AI PM Workbench" lang="en" description="A static, privacy-friendly workbench that helps AI PMs turn fuzzy product concepts into briefs, evaluation plans, and coding agent handoffs.">
+
+  <!-- Section 1: Hero -->
+  <section class="text-center py-20 max-w-3xl mx-auto">
+    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-4">AI PM Workbench</p>
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-5">From ambiguous AI idea to structured delivery</h1>
+    <p class="text-lg text-muted-foreground leading-relaxed mb-8">
+      A static, privacy-friendly workbench that helps AI PMs turn fuzzy product concepts into briefs, evaluation plans, and coding agent handoffs.
     </p>
-    <!-- Quick stats -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
-      {stats.map((s) => (
-        <div class="p-3 rounded-lg bg-card ring-1 ring-foreground/10">
-          <p class="text-2xl font-bold text-foreground m-0">{s.value}</p>
-          <p class="text-xs text-muted-foreground m-0">{s.label}</p>
+    <div class="flex items-center justify-center gap-3 flex-wrap">
+      <a href={`${base}en/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
+        Open Workbench
+      </a>
+      <a href={`${base}en/examples/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg ring-1 ring-foreground/15 hover:ring-foreground/30 text-sm font-medium transition-colors no-underline">
+        See Examples
+      </a>
+    </div>
+  </section>
+
+  <!-- Section 2: How It Works -->
+  <section class="mb-20">
+    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest text-center mb-10">How It Works</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative">
+      <!-- Connector line (desktop only) -->
+      <div class="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-foreground/10 z-0" />
+      {steps.map((step) => (
+        <div class="relative z-10 flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold mb-3">
+            {step.num}
+          </div>
+          <h3 class="text-sm font-semibold text-foreground mb-1">{step.title}</h3>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0">{step.desc}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <Separator class="my-8" />
-
-  <!-- Canvas Tool - Front and Center -->
-  <section class="mb-16">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest m-0 pb-0 border-0">AI PM Canvas — 12-dimension planning tool</h2>
-      <a href={`${base}en/canvas/`} class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Open full page →</a>
-    </div>
-    <CanvasBuilder defaultLang="en" client:load />
-  </section>
-
-  <Separator class="my-8" />
-
-  <!-- Why this matters -->
-  <section class="mb-16">
-    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-6">Why this matters</h2>
-    <Card>
-      <CardContent className="p-0">
-        <table class="m-0">
-          <thead>
-            <tr>
-              <th class="bg-card text-xs">Traditional PM</th>
-              <th class="bg-card text-xs">AI PM</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Write requirements documents</td><td class="font-medium text-foreground">Structure business ambiguity into product concepts</td></tr>
-            <tr><td>Hand off to engineering</td><td class="font-medium text-foreground">Coordinate AI-assisted prototyping and delivery</td></tr>
-            <tr><td>Manage timelines</td><td class="font-medium text-foreground">Design agent workflows and human review points</td></tr>
-            <tr><td>Track features</td><td class="font-medium text-foreground">Define evaluation metrics for AI behavior</td></tr>
-            <tr><td>Launch and iterate</td><td class="font-medium text-foreground">Prototype, validate, and learn before committing</td></tr>
-          </tbody>
-        </table>
-      </CardContent>
-    </Card>
-  </section>
-
-  <Separator class="my-8" />
-
-  <!-- Explore -->
-  <section class="mb-16">
-    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-6">Explore</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {sections.map((s) => (
-        <a href={s.href} class="group flex items-start gap-3.5 p-4 rounded-xl border border-transparent hover:border-border hover:bg-secondary/50 transition-all duration-200 no-underline">
-          <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-colors">
+  <!-- Section 3: What You Get -->
+  <section class="mb-20">
+    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest text-center mb-10">What You Get</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {outputs.map((item) => (
+        <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
+          <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d={iconPaths[s.icon]} />
+              <path d={iconPaths[item.icon]} />
             </svg>
           </div>
-          <div class="min-w-0">
-            <h3 class="text-sm font-semibold text-foreground mb-0.5">{s.title}</h3>
-            <p class="text-xs text-muted-foreground leading-relaxed m-0">{s.desc}</p>
-          </div>
-        </a>
+          <h3 class="text-sm font-semibold text-foreground mb-1">{item.title}</h3>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0">{item.desc}</p>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- Central framework -->
-  <section>
-    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">Central framework</h2>
-    <p class="text-sm text-muted-foreground">
-      The <a href={`${base}en/canvas/`}>AI PM Canvas</a> above is a 12-dimension planning framework that connects everything in this playbook — covering business scenario, user/operator, decisions to support, data sources, object model, AI capability, workflow boundary, human review, evaluation metrics, prototype scope, production risk, and product narrative.
-    </p>
-    <p class="text-sm text-muted-foreground">
-      Use the <a href={`${base}en/ai_pm_case_study_template/`}>case study template</a> or <a href={`${base}en/ai_prd_lite_template/`}>PRD Lite template</a> to document your work.
-    </p>
+  <!-- Section 4: Example Concepts -->
+  <section class="mb-20">
+    <h2 class="text-xs font-semibold text-muted-foreground uppercase tracking-widest text-center mb-10">Example Concepts</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {examples.map((ex) => (
+        <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5 flex flex-col">
+          <h3 class="text-sm font-semibold text-foreground mb-1">{ex.title}</h3>
+          <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-4 flex-1">{ex.desc}</p>
+          <a
+            href={`${base}en/workbench/`}
+            onclick={`sessionStorage.setItem('ai-pm-load-example', '${ex.key}')`}
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors no-underline"
+          >
+            Open in Workbench
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      ))}
+    </div>
   </section>
+
+  <!-- Section 5: Author -->
+  <section class="mb-8">
+    <div class="p-5 rounded-xl ring-1 ring-foreground/10 bg-card">
+      <h3 class="text-sm font-semibold text-foreground mb-1">Built by Wenhao Yu</h3>
+      <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-3">
+        AI Product Manager focused on industrial agents, ontology-driven systems, and AI-native prototyping.
+      </p>
+      <div class="flex items-center gap-3">
+        <a href="https://wenhaoyu-bryan.github.io/" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-secondary hover:bg-secondary/80 text-xs font-medium transition-colors no-underline" target="_blank" rel="noopener">View Portfolio</a>
+        <a href="https://github.com/wenhaoyu-bryan" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md ring-1 ring-foreground/10 hover:ring-foreground/20 text-xs font-medium transition-colors no-underline" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
 </Layout>

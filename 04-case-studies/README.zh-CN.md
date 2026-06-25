@@ -6,7 +6,7 @@
 
 ## 内容
 
-- [Prompt-to-Ontology](prompt-to-ontology.zh-CN.md) — 将扁平数据转化为结构化知识图谱的企业本体操作系统。通过 Vibe Coding 用 PM + LLM 工作流构建。
+- [Prompt-to-Ontology](prompt-to-ontology.zh-CN.md) — 通过 AI 辅助的 Schema 提取，将杂乱的业务概念转化为结构化的本体资产。
 
 ## 适用场景
 
