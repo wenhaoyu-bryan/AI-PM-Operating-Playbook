@@ -2,7 +2,7 @@ import type { Lang } from '../lib/workbench/schema';
 
 const T = {
   nav: {
-    workbench: { en: 'Operating Playbook', zh: '操作手册' },
+    workbench: { en: 'Quick Tools', zh: '快速工具' },
     examples: { en: 'Examples', zh: '示例' },
     templates: { en: 'Templates', zh: '模板' },
     methodology: { en: 'Methodology', zh: '方法论' },
@@ -223,9 +223,9 @@ const T = {
     title: { en: 'AI PM Operating Playbook', zh: 'AI PM 操作手册' },
     subtitle: {
       en: 'A structured operating playbook for AI product managers to frame problems, design solutions, and deliver better AI products faster.',
-      zh: '一个结构化的操作手册，帮助 AI 产品经理定义问题、设计方案、更快更好地交付 AI 产品。',
+      zh: '一个结构化的快速工具，帮助 AI 产品经理定义问题、设计方案、更快更好地交付 AI 产品。',
     },
-    primaryCta: { en: 'Open Operating Playbook', zh: '打开操作手册' },
+    primaryCta: { en: 'Open Quick Tools', zh: '打开快速工具' },
     secondaryCta: { en: 'View Examples', zh: '查看示例' },
     workflowSteps: [
       { en: 'Frame the problem', zh: '定义问题' },
@@ -250,7 +250,7 @@ const T = {
   },
   examples: {
     title: { en: 'Example Projects', zh: '示例项目' },
-    openInWorkbench: { en: 'Open in Operating Playbook', zh: '在操作手册中打开' },
+    openInWorkbench: { en: 'Open in Quick Tools', zh: '在快速工具中打开' },
     confirmLoad: {
       en: 'This will overwrite your current project. Continue?',
       zh: '这将覆盖当前项目内容，是否继续？',

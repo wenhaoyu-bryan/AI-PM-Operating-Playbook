@@ -1,94 +1,76 @@
 # AI PM Operating Playbook
 
-A static, privacy-friendly operating playbook that helps AI Product Managers turn fuzzy product concepts into structured briefs, evaluation plans, and coding agent handoffs.
+A methodology-driven toolkit for turning ambiguous AI product ideas into structured product briefs, workflow specifications, evaluation plans, and coding-agent handoff materials.
 
-[Open Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/) · [View Examples](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/examples/)
+[Open AI PM Operating Playbook →](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/)
 
----
+## Quick Tools
 
-## Product positioning
+The interactive planning tool guides you through four steps:
 
-The AI PM Operating Playbook is a structured thinking tool for AI product managers. It replaces scattered notes and ad-hoc documents with a four-step workflow that produces reusable delivery artifacts. It is not a course, not a resource list, and not a portfolio.
+1. **Product Framing** — Define the business scenario, target user, decision to support, and expected outcome.
+2. **AI Workflow Design** — Choose the right AI capability (classification, generation, RAG, agent), design workflow steps, and define human review.
+3. **Evaluation & Risk** — Set evaluation metrics, acceptance criteria, and identify production risks.
+4. **Export** — Generate structured artifacts for stakeholders and coding agents.
 
-## Open Operating Playbook
+[Open Quick Tools →](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/)
 
-- [English Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/)
-- [Chinese Operating Playbook (操作手册)](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/zh-CN/workbench/)
-- [Example Concepts](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/examples/)
+## Generated Outputs
 
-## Core workflow
+- Product Brief
+- AI / Agent Workflow Specification
+- Evaluation Plan
+- Acceptance Criteria
+- Coding-Agent Handoff
+- CLAUDE.md Starter
 
-| Step | Purpose |
-|------|---------|
-| 1. Product Framing | Define the user, problem, business context, and knowledge sources |
-| 2. AI Workflow Design | Choose the right AI capability, design the workflow boundary, and set human review points |
-| 3. Evaluation & Risk | Set metrics, acceptance criteria, and production risks |
-| 4. Export | Generate a reusable document pack for your team or coding agent |
+## Examples
 
-## Generated outputs
+Three illustrative example projects demonstrate different AI product patterns:
 
-| Artifact | Purpose |
-|----------|---------|
-| AI Product Brief | Structured concept summary for stakeholder alignment |
-| Workflow Specification | Step-by-step AI/agent workflow with Mermaid diagram |
-| Evaluation Plan | Metrics, datasets, and review processes |
-| Acceptance Criteria | Testable checklist for prototype and production |
-| Coding Agent Handoff | Implementation brief optimized for AI coding tools |
-| CLAUDE.md Starter | Project context file for Claude Code |
+- **Prompt-to-Ontology** — Ontology-driven knowledge product
+- **Industrial Agent Decision Support** — Agent workflow product
+- **RAG Knowledge Assistant** — Retrieval-augmented generation product
 
-## Example projects
+All examples use simulated assumptions. Metrics and targets must be validated for each real project.
 
-Illustrative examples using simulated assumptions. Metrics and targets must be validated for each real project.
+## Methodology and Writing
 
-| Example | Type | Key Challenge |
-|---------|------|---------------|
-| Prompt-to-Ontology | Ontology / Knowledge | Turn ambiguous business terms into structured ontology assets |
-| Industrial Agent Decision Support | Agent | Combine multi-system evidence while keeping high-impact actions under human control |
-| RAG Knowledge Assistant | RAG | Help employees find accurate answers without surfacing sensitive or outdated content |
+Long-form methodology articles are maintained on [Wenhao Yu's personal website](https://wenhaoyu-bryan.github.io/playbook/):
+
+- Harness Engineering
+- Loop Engineering
+- Vibe Coding for Product Discovery
+- Agent Product Design
+- Prompt-to-Ontology
+
+This repository focuses on the interactive tools and their implementation.
 
 ## Privacy
 
-Project content is stored locally in the browser. The tool does not upload user-entered project data to a server.
-
-## Import/export and local recovery
-
-- Export your project as a JSON file at any time from the header menu.
-- Import a previously exported JSON file to restore a project.
-- The operating playbook auto-saves your work to localStorage as you type.
-- No account or sign-in is required.
+- All project data stays in your browser (localStorage).
+- No data is uploaded to any server.
+- No account required.
 
 ## Technology
 
-- **Astro** + **React** for static site with interactive islands
-- **TypeScript** for type safety
-- **Tailwind CSS** for styling
-- **GitHub Pages** for deployment
+- [Astro](https://astro.build/) 7.x (static site)
+- React 19 + Tailwind CSS 4.x
+- TypeScript (strict mode)
+- GitHub Pages deployment
 
-## Local development
+## Local Development
 
 ```bash
 npm install
-npm run dev        # Open the local URL shown in the terminal
-npm run check      # Type-check
-npm run build      # Production build to dist/
+npm run dev        # Start dev server
+npm run check      # Type check
+npm run build      # Production build
 ```
-
-## Supporting methodology
-
-This tool is part of the [AI PM Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/methodology/) — a collection of frameworks for AI product thinking:
-
-- [AI PM Role](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/ai-pm-role/) — What it means to be an AI Product Manager
-- [Vibe Coding](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/vibe-coding/) — Using coding agents for product prototyping
-- [Harness Engineering](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/harness-engineering/) — Directing AI to write code reliably
-- [Agent Product Design](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/agent-product-design/) — Designing goal-directed AI workflows
-- [Prompt-to-Ontology Case Study](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/prompt-to-ontology/) — Real project example
 
 ## Author
 
-**Wenhao Yu (余文豪)**
-- GitHub: [@wenhaoyu-bryan](https://github.com/wenhaoyu-bryan)
-- Homepage: [wenhaoyu-bryan.github.io](https://wenhaoyu-bryan.github.io/)
-- Focus: Industrial AI Agent, ontology-driven products, AI-native prototyping
+Built by [Wenhao Yu](https://wenhaoyu-bryan.github.io/) — AI Product Manager focused on agentic workflows, ontology-driven systems, and AI-native product delivery.
 
 ## License
 

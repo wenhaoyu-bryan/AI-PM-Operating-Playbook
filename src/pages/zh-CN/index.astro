@@ -67,10 +67,15 @@ const iconPaths: Record<string, string> = {
     </p>
     <div class="flex items-center justify-center gap-3 flex-wrap">
       <a href={`${base}zh-CN/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
-        创建新项目
+        打开快速工具
       </a>
       <a href={`${base}zh-CN/examples/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg ring-1 ring-foreground/15 hover:ring-foreground/30 text-sm font-medium transition-colors no-underline">
-        打开示例
+        查看示例
+      </a>
+    </div>
+    <div class="mt-4 flex items-center justify-center gap-4">
+      <a href="https://wenhaoyu-bryan.github.io/zh/playbook/" class="text-xs text-muted-foreground hover:text-foreground transition-colors no-underline" target="_blank" rel="noopener noreferrer">
+        阅读方法论 ↗
       </a>
     </div>
   </section>
@@ -174,7 +179,7 @@ const iconPaths: Record<string, string> = {
             onclick={`sessionStorage.setItem('ai-pm-load-example', '${ex.key}')`}
             class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors no-underline"
           >
-            在操作手册中打开
+            在快速工具中打开
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
@@ -187,7 +192,7 @@ const iconPaths: Record<string, string> = {
     <div class="p-5 rounded-xl ring-1 ring-foreground/10 bg-card">
       <h3 class="text-sm font-semibold text-foreground mb-1">余文豪</h3>
       <p class="text-xs text-muted-foreground leading-relaxed m-0 mb-3">
-        AI 产品经理，专注于工业智能体、本体驱动系统和 AI 原型开发。
+        AI 产品经理，专注于智能体工作流、本体驱动系统与 AI 原生产品交付。
       </p>
       <div class="flex items-center gap-3">
         <a href="https://wenhaoyu-bryan.github.io/" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-secondary hover:bg-secondary/80 text-xs font-medium transition-colors no-underline" target="_blank" rel="noopener">个人主页</a>

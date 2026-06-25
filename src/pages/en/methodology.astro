@@ -7,74 +7,25 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 <Layout title="Methodology — AI PM Operating Playbook" lang="en" description="The thinking framework behind the AI PM Operating Playbook">
   <div class="space-y-8">
     <h1 class="text-3xl font-bold mb-3">Methodology</h1>
-    <p class="text-muted-foreground mb-10 max-w-2xl">How the Operating Playbook structures AI product thinking — from problem framing to delivery artifacts.</p>
+    <p class="text-muted-foreground mb-10 max-w-2xl">The methodology content has moved to Wenhao Yu's personal website.</p>
 
-    <div class="space-y-8">
-      <section>
-        <h2 class="text-xl font-semibold mb-3">Core Principle</h2>
-        <p class="text-muted-foreground">Most AI product failures come from starting with the technology rather than the problem. The Operating Playbook enforces a structured progression: define the problem and user first, then choose the AI capability, then set evaluation criteria, and only then generate delivery artifacts.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold mb-3">The 4-Step Workflow</h2>
-        <div class="space-y-4">
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">1. Product Framing</h3>
-            <p class="text-sm text-muted-foreground">Define the business scenario, target users, current workflow, and knowledge context. This step prevents building AI for problems that don't exist.</p>
-          </div>
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">2. Design Intelligence</h3>
-            <p class="text-sm text-muted-foreground">Choose the right AI capability (classification, generation, RAG, agent) and design the workflow boundary. This step answers: does this need an agent, or is a simpler approach sufficient?</p>
-          </div>
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">3. Evaluate and Risk</h3>
-            <p class="text-sm text-muted-foreground">Set evaluation metrics, acceptance criteria, and identify production risks. Suggestion chips help you cover metrics you might miss.</p>
-          </div>
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">4. Export</h3>
-            <p class="text-sm text-muted-foreground">Generate 6 structured documents: product brief, workflow spec, evaluation plan, acceptance criteria, coding agent handoff, and CLAUDE.md starter. Copy, download, or continue with AI.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold mb-3">Key Concepts</h2>
-        <div class="grid gap-4 md:grid-cols-2">
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">Vibe Coding</h3>
-            <p class="text-sm text-muted-foreground">Using coding agents to turn product intent into prototypes. PM focuses on architecture and evaluation, not implementation details.</p>
-          </div>
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">Harness Engineering</h3>
-            <p class="text-sm text-muted-foreground">Designing context, tools, constraints, checks, and feedback systems for coding agents — not writing code yourself.</p>
-          </div>
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">Agent vs. Non-Agent</h3>
-            <p class="text-sm text-muted-foreground">Not every AI product needs an agent. The Operating Playbook helps you decide: multi-step reasoning and tool use justify agents; deterministic rules and simple retrieval do not.</p>
-          </div>
-          <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-5">
-            <h3 class="font-medium mb-1">Privacy-First</h3>
-            <p class="text-sm text-muted-foreground">All data stays in your browser. No servers, no API calls, no accounts. Your product ideas never leave your machine.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold mb-3">Resources</h2>
-        <ul class="space-y-2 text-muted-foreground">
-          <li><a href={`${base}en/ai-pm-role/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">AI PM Role &rarr;</a> — What it means to be an AI PM</li>
-          <li><a href={`${base}en/vibe-coding/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">Vibe Coding &rarr;</a> — PM + coding agent collaboration</li>
-          <li><a href={`${base}en/harness-engineering/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">Harness Engineering &rarr;</a> — Directing AI to write code</li>
-          <li><a href={`${base}en/prompt-to-ontology/`} class="text-emerald-400 hover:text-emerald-300 transition-colors">Prompt-to-Ontology Case Study &rarr;</a> — Real project example</li>
-        </ul>
-      </section>
+    <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-6 space-y-4">
+      <p class="text-muted-foreground">
+        The Vibe Coding, Harness Engineering, and Agent Product Design articles are now published as part of the AI PM Operating Playbook on the personal site.
+      </p>
+      <p class="text-muted-foreground">
+        The AI PM Operating Playbook is still available here as an interactive tool.
+      </p>
     </div>
 
     <!-- CTA -->
     <div class="mt-10 p-5 rounded-xl ring-1 ring-emerald-500/20 bg-emerald-500/5 text-center">
-      <p class="text-sm text-muted-foreground mb-3">Apply these concepts in the AI PM Operating Playbook</p>
-      <a href={`${base}en/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
-        Open Operating Playbook
+      <p class="text-sm text-muted-foreground mb-3">Read the methodology articles on the personal website</p>
+      <a href="https://wenhaoyu-bryan.github.io/playbook/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors no-underline">
+        Visit Playbook
+      </a>
+      <a href={`${base}en/workbench/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg ring-1 ring-emerald-500/30 hover:bg-emerald-500/10 text-emerald-400 text-sm font-medium transition-colors no-underline ml-3">
+        Open Quick Tools
       </a>
     </div>
   </div>

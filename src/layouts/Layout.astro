@@ -41,9 +41,9 @@ const isEn = lang === 'en';
         </a>
         <!-- Desktop nav -->
         <div class="hidden md:flex items-center gap-1 text-[13px]">
-          <a href={`${base}${lang}/workbench/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Operating Playbook' : '操作手册'}</a>
+          <a href={`${base}${lang}/workbench/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Quick Tools' : '快速工具'}</a>
           <a href={`${base}${lang}/examples/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
-          <a href={`${base}${lang}/methodology/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
+          <a href={isEn ? 'https://wenhaoyu-bryan.github.io/playbook/' : 'https://wenhaoyu-bryan.github.io/zh/playbook/'} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all" target="_blank" rel="noopener noreferrer">{isEn ? 'Learn ↗' : '方法论 ↗'}</a>
           <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="w-px h-4 bg-border mx-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
@@ -59,9 +59,9 @@ const isEn = lang === 'en';
       <!-- Mobile nav -->
       <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
         <div class="px-6 py-3 flex flex-col gap-1 text-sm">
-          <a href={`${base}${lang}/workbench/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Operating Playbook' : '操作手册'}</a>
+          <a href={`${base}${lang}/workbench/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Quick Tools' : '快速工具'}</a>
           <a href={`${base}${lang}/examples/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
-          <a href={`${base}${lang}/methodology/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
+          <a href={isEn ? 'https://wenhaoyu-bryan.github.io/playbook/' : 'https://wenhaoyu-bryan.github.io/zh/playbook/'} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all" target="_blank" rel="noopener noreferrer">{isEn ? 'Learn ↗' : '方法论 ↗'}</a>
           <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="h-px bg-border my-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
@@ -87,7 +87,12 @@ const isEn = lang === 'en';
         'mx-auto px-6 py-8 text-center text-xs text-muted-foreground',
         pageWidth === 'wide' ? 'max-w-[1440px]' : 'max-w-5xl'
       ]}>
-        <span>{isEn ? 'AI PM Operating Playbook · Open-source AI product thinking toolkit' : 'AI PM Operating Playbook · AI 产品思维工具箱'}</span>
+        <span>{isEn ? 'AI PM Operating Playbook · Interactive tools and practical methodology by Wenhao Yu.' : 'AI PM Operating Playbook · Wenhao Yu 的 AI 产品方法论与交互工具集。'}</span>
+        <div class="mt-3 flex items-center justify-center gap-4">
+          <a href={isEn ? 'https://wenhaoyu-bryan.github.io/' : 'https://wenhaoyu-bryan.github.io/zh/'} class="text-muted-foreground hover:text-foreground transition-colors no-underline" target="_blank" rel="noopener noreferrer">{isEn ? 'Personal Website' : '个人主页'}</a>
+          <span class="text-border">·</span>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="text-muted-foreground hover:text-foreground transition-colors no-underline" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
       </div>
     </footer>
 
