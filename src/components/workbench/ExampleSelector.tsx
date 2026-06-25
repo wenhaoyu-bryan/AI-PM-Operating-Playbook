@@ -66,7 +66,7 @@ export default function ExampleSelector({ onSelect, lang, hasData }: ExampleSele
       <Button
         variant="outline"
         size="sm"
-        className="h-7 text-[11px] px-2.5 gap-1.5"
+        className="text-[11px] px-2.5 gap-1.5"
         onClick={() => setOpen(true)}
       >
         <Sparkles className="size-3.5" />
@@ -96,7 +96,7 @@ export default function ExampleSelector({ onSelect, lang, hasData }: ExampleSele
               </h2>
               <button
                 onClick={() => setOpen(false)}
-                className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 aria-label="Close"
               >
                 <X className="size-4" />
@@ -141,7 +141,7 @@ export default function ExampleSelector({ onSelect, lang, hasData }: ExampleSele
                     <button
                       key={example.key}
                       onClick={() => handleSelect(example.project)}
-                      className="w-full text-left p-3.5 rounded-lg ring-1 ring-foreground/8 hover:ring-emerald-500/30 hover:bg-emerald-500/5 transition-all group"
+                      className="w-full text-left p-3.5 rounded-lg ring-1 ring-foreground/8 hover:ring-emerald-500/30 hover:bg-emerald-500/5 transition-all group outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
@@ -180,7 +180,7 @@ export default function ExampleSelector({ onSelect, lang, hasData }: ExampleSele
               <div className="flex items-center justify-between">
                 <button
                   onClick={() => handleSelect(createEmptyProject())}
-                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
                   <RotateCcw className="size-3" />
                   {t('workbench.buttons.startBlank', lang)}

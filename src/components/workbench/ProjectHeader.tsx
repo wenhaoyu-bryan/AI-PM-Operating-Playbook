@@ -83,7 +83,7 @@ export function ProjectHeader({
             {getLocalizedProductType(productType, lang)}
           </Badge>
         )}
-        <span className="text-xs text-muted-foreground hidden sm:inline-flex items-center gap-1.5">
+        <span className="text-xs text-muted-foreground hidden sm:inline-flex items-center gap-1.5" aria-live="polite">
           <span className="tabular-nums">{completion.filled} of {completion.total}</span>
           <span>{lang === 'zh' ? '个规划字段已完成' : 'planning fields completed'}</span>
           {saveState === 'saving' && (
