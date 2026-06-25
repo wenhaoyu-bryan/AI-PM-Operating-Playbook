@@ -65,8 +65,8 @@ function AgentSuitabilityCallout({
   selectedValue,
 }: {
   lang: Lang;
-  onSelect: (value: 'yes' | 'no' | '') => void;
-  selectedValue: 'yes' | 'no' | '';
+  onSelect: (value: 'yes' | 'no' | 'unsure' | '') => void;
+  selectedValue: 'yes' | 'no' | 'unsure' | '';
 }) {
   const [showFull, setShowFull] = useState(selectedValue === '');
 
@@ -74,7 +74,9 @@ function AgentSuitabilityCallout({
     const summary =
       selectedValue === 'yes'
         ? t('workbench.stepTitles.design.agentMayBeAppropriate', lang)
-        : t('workbench.stepTitles.design.agentMayNotBeNeeded', lang);
+        : selectedValue === 'no'
+          ? t('workbench.stepTitles.design.agentMayNotBeNeeded', lang)
+          : t('workbench.stepTitles.design.agentDecisionUnsure', lang);
 
     return (
       <div className="bg-secondary/50 rounded-lg p-3 flex items-center justify-between">
@@ -128,6 +130,9 @@ function AgentSuitabilityCallout({
         </Button>
         <Button variant="ghost" size="sm" onClick={() => { onSelect('no'); setShowFull(false); }}>
           {t('workbench.stepTitles.design.agentNoButton', lang)}
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => { onSelect('unsure'); setShowFull(false); }}>
+          {t('workbench.stepTitles.design.agentUnsureButton', lang)}
         </Button>
       </div>
     </div>
@@ -208,9 +213,10 @@ export function WorkflowDesignStep({
   lang,
 }: WorkflowDesignStepProps) {
   const intelligence = project.intelligence;
-  const productType = project.metadata.productType as ProductType | '';
+  const productType = project.metadata.productType;
 
   const [showPreview, setShowPreview] = useState(true);
+  const [insertMode, setInsertMode] = useState<'idle' | 'choose'>('idle');
 
   const handleChange = useCallback(
     (key: keyof IntelligenceFields, value: string) => {
@@ -220,17 +226,38 @@ export function WorkflowDesignStep({
   );
 
   const handleAgentSelect = useCallback(
-    (value: 'yes' | 'no' | '') => {
+    (value: 'yes' | 'no' | 'unsure' | '') => {
       updateSection('intelligence', { agentRequired: value } as Record<string, string>);
     },
     [updateSection],
   );
 
   const handleInsertExample = useCallback(() => {
-    if (!productType || productType === '') return;
+    if (!productType) return;
+    const sample = SAMPLE_WORKFLOWS[productType]?.[lang] || SAMPLE_WORKFLOWS.other[lang];
+    if (intelligence.workflowSteps.trim()) {
+      // Field has content -- show choice
+      setInsertMode('choose');
+    } else {
+      // Field is empty -- insert directly
+      handleChange('workflowSteps', sample);
+    }
+  }, [productType, lang, handleChange, intelligence.workflowSteps]);
+
+  const handleInsertReplace = useCallback(() => {
+    if (!productType) return;
     const sample = SAMPLE_WORKFLOWS[productType]?.[lang] || SAMPLE_WORKFLOWS.other[lang];
     handleChange('workflowSteps', sample);
+    setInsertMode('idle');
   }, [productType, lang, handleChange]);
+
+  const handleInsertAppend = useCallback(() => {
+    if (!productType) return;
+    const sample = SAMPLE_WORKFLOWS[productType]?.[lang] || SAMPLE_WORKFLOWS.other[lang];
+    const current = intelligence.workflowSteps.trimEnd();
+    handleChange('workflowSteps', current ? `${current}\n${sample}` : sample);
+    setInsertMode('idle');
+  }, [productType, lang, handleChange, intelligence.workflowSteps]);
 
   const handleClearWorkflow = useCallback(() => {
     handleChange('workflowSteps', '');
@@ -246,14 +273,41 @@ export function WorkflowDesignStep({
   // Determine which fields to show based on agentRequired
   const isAgent = intelligence.agentRequired === 'yes';
   const isNoAgent = intelligence.agentRequired === 'no';
-  const boundaryLabel = isNoAgent
-    ? t('workbench.stepTitles.design.autonomyBoundary', lang) // "Execution Boundary" conceptually, reuse key
-    : t('workbench.stepTitles.design.autonomyBoundary', lang);
+  const isUnsure = intelligence.agentRequired === 'unsure';
+
+  // Boundary label based on agent decision
+  const boundaryLabel = isAgent
+    ? t('workbench.stepTitles.design.autonomyBoundary', lang)
+    : isNoAgent
+      ? t('workbench.stepTitles.design.executionBoundary', lang)
+      : t('workbench.stepTitles.design.workflowBoundary', lang);
+
+  const boundaryHint = isAgent
+    ? t('workbench.stepTitles.design.autonomyBoundaryHint', lang)
+    : isNoAgent
+      ? t('workbench.stepTitles.design.executionBoundaryHint', lang)
+      : t('workbench.stepTitles.design.workflowBoundaryHint', lang);
+
+  // Human review hint based on agent decision
+  const humanReviewHint = isAgent
+    ? t('workbench.stepTitles.design.humanReviewHintAgent', lang)
+    : isNoAgent
+      ? t('workbench.stepTitles.design.humanReviewHintDeterministic', lang)
+      : t('workbench.stepTitles.design.humanReviewHintUnsure', lang);
+
+  // Agent reasoning label -- "Approach Rationale" for deterministic, "Agent Reasoning" for agent
+  const agentReasoningLabel = isNoAgent
+    ? t('workbench.stepTitles.design.approachRationale', lang)
+    : t('workbench.stepTitles.design.agentReasoning', lang);
+
+  const agentReasoningHint = isNoAgent
+    ? t('workbench.stepTitles.design.approachRationaleHint', lang)
+    : t('workbench.stepTitles.design.agentReasoningHint', lang);
 
   return (
     <Card>
       <CardContent className="space-y-6">
-        {/* ── AI Capability ── */}
+        {/* -- AI Capability -- */}
         <div className="space-y-1.5">
           <FieldLabel
             label={t('workbench.stepTitles.design.aiCapability', lang)}
@@ -268,7 +322,7 @@ export function WorkflowDesignStep({
           />
         </div>
 
-        {/* ── Agent Required ── */}
+        {/* -- Agent Required -- */}
         <div className="space-y-2">
           <FieldLabel
             label={t('workbench.stepTitles.design.agentRequired', lang)}
@@ -280,27 +334,26 @@ export function WorkflowDesignStep({
               size="sm"
               onClick={() => handleAgentSelect(intelligence.agentRequired === 'yes' ? '' : 'yes')}
             >
-              {lang === 'zh' ? '是，多步自适应' : 'Yes, multi-step adaptive'}
+              {lang === 'zh' ? '是，多步自适应工作流' : 'Yes, adaptive multi-step workflow'}
             </Button>
             <Button
               variant={intelligence.agentRequired === 'no' ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleAgentSelect(intelligence.agentRequired === 'no' ? '' : 'no')}
             >
-              {lang === 'zh' ? '否，确定性流程' : 'No, deterministic'}
+              {lang === 'zh' ? '否，确定性工作流' : 'No, deterministic workflow'}
             </Button>
             <Button
-              variant={intelligence.agentRequired === '' && (isAgent || isNoAgent) ? 'outline' : 'ghost'}
+              variant={intelligence.agentRequired === 'unsure' ? 'default' : 'outline'}
               size="sm"
-              onClick={() => handleAgentSelect('')}
-              className={intelligence.agentRequired === '' ? 'text-muted-foreground' : ''}
+              onClick={() => handleAgentSelect(intelligence.agentRequired === 'unsure' ? '' : 'unsure')}
             >
-              {lang === 'zh' ? '不确定' : 'Not sure'}
+              {lang === 'zh' ? '暂不确定' : 'Not sure'}
             </Button>
           </div>
         </div>
 
-        {/* Agent suitability callout — only when agentRequired is empty */}
+        {/* Agent suitability callout -- only when agentRequired is empty */}
         {intelligence.agentRequired === '' && (
           <AgentSuitabilityCallout
             lang={lang}
@@ -318,42 +371,40 @@ export function WorkflowDesignStep({
           />
         )}
 
-        {/* ── Conditional fields ── */}
-        {/* Agent reasoning — only when yes or empty */}
-        {(isAgent || intelligence.agentRequired === '') && (
+        {/* -- Conditional fields -- */}
+        {/* Agent reasoning / Approach Rationale -- show for yes, unsure, and empty; renamed for no */}
+        {(isAgent || isNoAgent || isUnsure || intelligence.agentRequired === '') && (
           <div className="space-y-1.5">
             <FieldLabel
-              label={t('workbench.stepTitles.design.agentReasoning', lang)}
-              hint={t('workbench.stepTitles.design.agentReasoningHint', lang)}
+              label={agentReasoningLabel}
+              hint={agentReasoningHint}
             />
             <Textarea
               value={intelligence.agentReasoning}
               onChange={(e) => handleChange('agentReasoning', e.target.value)}
-              placeholder={t('workbench.stepTitles.design.agentReasoningHint', lang)}
+              placeholder={agentReasoningHint}
               rows={3}
               className="resize-y"
             />
           </div>
         )}
 
-        {/* Tools — only when yes or empty */}
-        {(isAgent || intelligence.agentRequired === '') && (
-          <div className="space-y-1.5">
-            <FieldLabel
-              label={t('workbench.stepTitles.design.tools', lang)}
-              hint={t('workbench.stepTitles.design.toolsHint', lang)}
-            />
-            <Textarea
-              value={intelligence.tools}
-              onChange={(e) => handleChange('tools', e.target.value)}
-              placeholder={t('workbench.stepTitles.design.toolsHint', lang)}
-              rows={3}
-              className="resize-y"
-            />
-          </div>
-        )}
+        {/* Tools -- always show (deterministic workflows may still call APIs) */}
+        <div className="space-y-1.5">
+          <FieldLabel
+            label={t('workbench.stepTitles.design.tools', lang)}
+            hint={t('workbench.stepTitles.design.toolsHint', lang)}
+          />
+          <Textarea
+            value={intelligence.tools}
+            onChange={(e) => handleChange('tools', e.target.value)}
+            placeholder={t('workbench.stepTitles.design.toolsHint', lang)}
+            rows={3}
+            className="resize-y"
+          />
+        </div>
 
-        {/* ── Workflow Steps ── */}
+        {/* -- Workflow Steps -- */}
         <div className="space-y-1.5">
           <FieldLabel
             label={t('workbench.stepTitles.design.workflowSteps', lang)}
@@ -394,41 +445,56 @@ export function WorkflowDesignStep({
               )}
             </div>
           </div>
+          {/* Insert mode choice when field has content */}
+          {insertMode === 'choose' && (
+            <div className="flex items-center gap-2 p-2 bg-secondary rounded-md text-xs">
+              <span className="text-muted-foreground">
+                {lang === 'zh' ? '字段已有内容：' : 'Field has content:'}
+              </span>
+              <Button size="sm" variant="outline" onClick={handleInsertReplace}>
+                {lang === 'zh' ? '替换' : 'Replace'}
+              </Button>
+              <Button size="sm" variant="outline" onClick={handleInsertAppend}>
+                {lang === 'zh' ? '追加' : 'Append'}
+              </Button>
+              <Button size="sm" variant="ghost" onClick={() => setInsertMode('idle')}>
+                {lang === 'zh' ? '取消' : 'Cancel'}
+              </Button>
+            </div>
+          )}
         </div>
 
-        {/* ── Autonomy Boundary ── */}
+        {/* -- Boundary -- */}
         <div className="space-y-1.5">
           <FieldLabel
             label={boundaryLabel}
-            hint={t('workbench.stepTitles.design.autonomyBoundaryHint', lang)}
+            hint={boundaryHint}
           />
           <Textarea
             value={intelligence.autonomyBoundary}
             onChange={(e) => handleChange('autonomyBoundary', e.target.value)}
-            placeholder={t('workbench.stepTitles.design.autonomyBoundaryHint', lang)}
+            placeholder={boundaryHint}
             rows={3}
             className="resize-y"
           />
         </div>
 
-        {/* ── Human Review — only when yes or empty ── */}
-        {(isAgent || intelligence.agentRequired === '') && (
-          <div className="space-y-1.5">
-            <FieldLabel
-              label={t('workbench.stepTitles.design.humanReview', lang)}
-              hint={t('workbench.stepTitles.design.humanReviewHint', lang)}
-            />
-            <Textarea
-              value={intelligence.humanReview}
-              onChange={(e) => handleChange('humanReview', e.target.value)}
-              placeholder={t('workbench.stepTitles.design.humanReviewHint', lang)}
-              rows={3}
-              className="resize-y"
-            />
-          </div>
-        )}
+        {/* -- Human Review -- always show with conditional hint */}
+        <div className="space-y-1.5">
+          <FieldLabel
+            label={t('workbench.stepTitles.design.humanReview', lang)}
+            hint={humanReviewHint}
+          />
+          <Textarea
+            value={intelligence.humanReview}
+            onChange={(e) => handleChange('humanReview', e.target.value)}
+            placeholder={humanReviewHint}
+            rows={3}
+            className="resize-y"
+          />
+        </div>
 
-        {/* ── Failure Handling ── */}
+        {/* -- Failure Handling -- */}
         <div className="space-y-1.5">
           <FieldLabel
             label={t('workbench.stepTitles.design.failureHandling', lang)}
@@ -443,7 +509,7 @@ export function WorkflowDesignStep({
           />
         </div>
 
-        {/* ── Workflow Preview ── */}
+        {/* -- Workflow Preview -- */}
         {showPreview && <WorkflowPreview steps={workflowSteps} lang={lang} />}
       </CardContent>
     </Card>

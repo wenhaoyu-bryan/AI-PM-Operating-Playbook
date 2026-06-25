@@ -1,4 +1,6 @@
 import type { WorkbenchProject, Lang, ProductType } from '@/lib/workbench/schema';
+import { getLocalizedProductType } from '@/lib/workbench/schema';
+import { getFieldValue } from '@/lib/workbench/fields';
 import { t } from '@/data/translations';
 
 interface LivePreviewPanelProps {
@@ -51,7 +53,7 @@ function parseLines(text: string): string[] {
   return text.split('\n').map(l => l.replace(/^\s*[-*]\s*/, '').replace(/^\s*\d+[.)]\s*/, '').trim()).filter(Boolean);
 }
 
-function hasAnyContent(fields: Record<string, string>): boolean {
+function hasAnyContent(fields: Record<string, unknown>): boolean {
   return Object.values(fields).some(v => typeof v === 'string' && v.trim().length > 0);
 }
 
@@ -81,7 +83,7 @@ function FramingPreview({ project, lang }: { project: WorkbenchProject; lang: La
           )}
           {metadata.productType && (
             <span className="inline-block mt-2 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-medium">
-              {PRODUCT_TYPE_LABELS[metadata.productType as ProductType]?.[lang] || metadata.productType}
+              {getLocalizedProductType(metadata.productType as ProductType, lang)}
             </span>
           )}
         </div>
@@ -107,7 +109,7 @@ function FramingPreview({ project, lang }: { project: WorkbenchProject; lang: La
 
 function WorkflowPreview({ project, lang }: { project: WorkbenchProject; lang: Lang }) {
   const { intelligence } = project;
-  const hasContent = hasAnyContent(intelligence);
+  const hasContent = hasAnyContent(intelligence as unknown as Record<string, unknown>);
   if (!hasContent) {
     return <EmptyState lang={lang} />;
   }
@@ -122,7 +124,11 @@ function WorkflowPreview({ project, lang }: { project: WorkbenchProject; lang: L
         <div className="mb-3">
           <p className="text-xs text-muted-foreground mb-0.5">{t('workbench.stepTitles.design.agentRequired', lang)}</p>
           <span className="inline-block px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-medium">
-            {intelligence.agentRequired === 'yes' ? t('workbench.stepTitles.design.agentYesLabel', lang) : t('workbench.stepTitles.design.agentNoLabel', lang)}
+            {intelligence.agentRequired === 'yes'
+              ? t('workbench.stepTitles.design.agentYesLabel', lang)
+              : intelligence.agentRequired === 'no'
+                ? t('workbench.stepTitles.design.agentNoLabel', lang)
+                : lang === 'zh' ? '不确定' : 'Unsure'}
           </span>
         </div>
       )}
@@ -144,7 +150,7 @@ function WorkflowPreview({ project, lang }: { project: WorkbenchProject; lang: L
 
 function EvaluationPreviewPanel({ project, lang }: { project: WorkbenchProject; lang: Lang }) {
   const { delivery } = project;
-  const hasContent = hasAnyContent(delivery);
+  const hasContent = hasAnyContent(delivery as unknown as Record<string, unknown>);
   if (!hasContent) {
     return <EmptyState lang={lang} />;
   }

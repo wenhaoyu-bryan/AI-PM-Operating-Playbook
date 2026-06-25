@@ -1,7 +1,10 @@
 import { cn } from '@/lib/utils';
 import type { Lang } from '@/lib/workbench/schema';
 import type { StepCompletion } from '@/lib/workbench/completion';
+import { getExportReady } from '@/lib/workbench/fields';
 import { t } from '@/data/translations';
+import type { WorkbenchProject } from '@/lib/workbench/schema';
+import { Check } from 'lucide-react';
 
 const STEP_KEYS = ['framing', 'design', 'evaluate', 'export'] as const;
 
@@ -11,6 +14,7 @@ interface StepNavProps {
   completion: StepCompletion[];
   lang: Lang;
   vertical?: boolean;
+  project?: WorkbenchProject;
 }
 
 const STATUS_COLORS: Record<StepCompletion['status'], string> = {
@@ -31,6 +35,7 @@ export function StepNav({
   completion,
   lang,
   vertical = false,
+  project,
 }: StepNavProps) {
   return (
     <nav aria-label="Workbench steps">
@@ -43,6 +48,8 @@ export function StepNav({
         {STEP_KEYS.map((key, index) => {
           const comp = completion[index];
           const isCurrent = index === currentStep;
+          const isExportStep = index === 3;
+          const exportReady = isExportStep && project ? getExportReady(project) : false;
 
           return (
             <li key={key} className="flex items-center flex-shrink-0">
@@ -75,10 +82,23 @@ export function StepNav({
                   {t(`workbench.stepLabels.${key}`, lang)}
                 </span>
 
-                {/* Field count */}
-                <span className="text-[11px] tabular-nums text-muted-foreground">
-                  {comp.filled}/{comp.total}
-                </span>
+                {/* Field count or export status */}
+                {isExportStep ? (
+                  project && exportReady ? (
+                    <span className="text-[11px] text-emerald-500 inline-flex items-center gap-0.5">
+                      <Check className="size-3" />
+                      {lang === 'zh' ? '可导出' : 'Ready'}
+                    </span>
+                  ) : (
+                    <span className="text-[11px] text-muted-foreground">
+                      {lang === 'zh' ? '尚未就绪' : 'Not ready'}
+                    </span>
+                  )
+                ) : (
+                  <span className="text-[11px] tabular-nums text-muted-foreground">
+                    {comp.filled}/{comp.total}
+                  </span>
+                )}
               </button>
 
               {/* Connecting line between steps (horizontal mode) */}

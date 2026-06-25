@@ -1,6 +1,8 @@
-import type { WorkbenchProject } from './schema';
+import type { WorkbenchProject, WorkbenchProjectFile } from './schema';
 
 export const STORAGE_KEY = 'ai-pm-workbench-project-v1';
+
+const CURRENT_SCHEMA_VERSION = 1;
 
 function isValidProjectShape(data: unknown): data is WorkbenchProject {
   if (!data || typeof data !== 'object') return false;
@@ -26,7 +28,7 @@ export function loadProject(): WorkbenchProject | null {
   }
 }
 
-export function saveProject(project: WorkbenchProject): void {
+export function saveProject(project: WorkbenchProject): boolean {
   try {
     const toSave: WorkbenchProject = {
       ...project,
@@ -36,8 +38,9 @@ export function saveProject(project: WorkbenchProject): void {
       },
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+    return true;
   } catch {
-    // localStorage may be unavailable; silently fail
+    return false;
   }
 }
 
@@ -94,4 +97,56 @@ export function createEmptyProject(): WorkbenchProject {
       openQuestions: '',
     },
   };
+}
+
+export function exportProjectFile(project: WorkbenchProject): WorkbenchProjectFile {
+  return { schemaVersion: CURRENT_SCHEMA_VERSION, project };
+}
+
+function isValidProject(data: unknown): data is WorkbenchProject {
+  if (!data || typeof data !== 'object') return false;
+  const obj = data as Record<string, unknown>;
+  return (
+    typeof obj.metadata === 'object' &&
+    typeof obj.framing === 'object' &&
+    typeof obj.knowledge === 'object' &&
+    typeof obj.intelligence === 'object' &&
+    typeof obj.delivery === 'object'
+  );
+}
+
+export type ImportResult =
+  | { success: true; project: WorkbenchProject; source: 'current' | 'legacy' }
+  | { success: false; error: string };
+
+export function parseImportedJSON(jsonString: string): ImportResult {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(jsonString);
+  } catch {
+    return { success: false, error: 'Invalid JSON format.' };
+  }
+
+  if (!parsed || typeof parsed !== 'object') {
+    return { success: false, error: 'File does not contain a valid project.' };
+  }
+
+  // Try current format: { schemaVersion, project }
+  const obj = parsed as Record<string, unknown>;
+  if ('schemaVersion' in obj && 'project' in obj) {
+    if (obj.schemaVersion !== CURRENT_SCHEMA_VERSION) {
+      return { success: false, error: `Unsupported schema version: ${String(obj.schemaVersion)}. Expected version ${CURRENT_SCHEMA_VERSION}.` };
+    }
+    if (isValidProject(obj.project)) {
+      return { success: true, project: obj.project as WorkbenchProject, source: 'current' };
+    }
+    return { success: false, error: 'Project structure is invalid or missing required sections.' };
+  }
+
+  // Try legacy format: raw WorkbenchProject
+  if (isValidProject(parsed)) {
+    return { success: true, project: parsed as WorkbenchProject, source: 'legacy' };
+  }
+
+  return { success: false, error: 'File does not contain a recognized project format.' };
 }

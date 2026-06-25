@@ -1,29 +1,41 @@
-import { Check } from 'lucide-react';
+import { Check, AlertTriangle, Loader2 } from 'lucide-react';
 import type { Lang } from '@/lib/workbench/schema';
-import { t } from '@/data/translations';
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
 interface SaveIndicatorProps {
-  saved: boolean;
+  saveState: SaveState;
   lang: Lang;
 }
 
-export function SaveIndicator({ saved, lang }: SaveIndicatorProps) {
+export function SaveIndicator({ saveState, lang }: SaveIndicatorProps) {
+  if (saveState === 'idle') {
+    return <span className="inline-flex items-center gap-1 text-xs opacity-0" aria-hidden="true">&nbsp;</span>;
+  }
+
+  if (saveState === 'saving') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground" aria-live="polite">
+        <Loader2 className="size-3 animate-spin" />
+        <span>{lang === 'zh' ? '正在保存...' : 'Saving...'}</span>
+      </span>
+    );
+  }
+
+  if (saveState === 'saved') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs text-emerald-400" aria-live="polite">
+        <Check className="size-3" />
+        <span>{lang === 'zh' ? '已保存到本地' : 'Saved locally'}</span>
+      </span>
+    );
+  }
+
+  // error
   return (
-    <span
-      className="inline-flex items-center gap-1 text-xs transition-opacity duration-300"
-      style={{ opacity: saved ? 1 : 0 }}
-      aria-live="polite"
-    >
-      {saved ? (
-        <>
-          <Check className="size-3 text-emerald-400" />
-          <span className="text-emerald-400">
-            {t('workbench.labels.savedLocally', lang)}
-          </span>
-        </>
-      ) : (
-        <span className="invisible">&nbsp;</span>
-      )}
+    <span className="inline-flex items-center gap-1 text-xs text-red-400" aria-live="polite">
+      <AlertTriangle className="size-3" />
+      <span>{lang === 'zh' ? '无法保存到本地' : 'Could not save locally'}</span>
     </span>
   );
 }

@@ -2,6 +2,13 @@ export type ProductType = 'agent' | 'rag' | 'content-generation' | 'classificati
 
 export type Lang = 'en' | 'zh';
 
+export type AgentDecision = 'yes' | 'no' | 'unsure' | '';
+
+export interface WorkbenchProjectFile {
+  schemaVersion: 1;
+  project: WorkbenchProject;
+}
+
 export interface MetadataFields {
   projectName: string;
   oneLineIdea: string;
@@ -29,7 +36,7 @@ export interface KnowledgeFields {
 
 export interface IntelligenceFields {
   aiCapability: string;
-  agentRequired: 'yes' | 'no' | '';
+  agentRequired: 'yes' | 'no' | 'unsure' | '';
   agentReasoning: string;
   tools: string;
   workflowSteps: string;
@@ -66,4 +73,39 @@ export interface FieldDescriptor {
   type: 'text' | 'textarea' | 'select';
   rows?: number;
   options?: { value: string; label: Record<Lang, string> }[];
+}
+
+const PRODUCT_TYPE_LABELS: Record<ProductType, Record<Lang, string>> = {
+  'agent': { en: 'Agent', zh: '智能体' },
+  'rag': { en: 'RAG', zh: 'RAG（检索增强生成）' },
+  'content-generation': { en: 'Content Generation', zh: '内容生成' },
+  'classification': { en: 'Classification', zh: '分类模型' },
+  'ontology-knowledge': { en: 'Ontology / Knowledge', zh: '本体/知识图谱' },
+  'workflow-automation': { en: 'Workflow Automation', zh: '工作流自动化' },
+  'other': { en: 'Other', zh: '其他' },
+};
+
+export function getLocalizedProductType(type: ProductType | '', lang: Lang): string {
+  if (!type) return lang === 'zh' ? '未选择' : 'Not selected';
+  return PRODUCT_TYPE_LABELS[type]?.[lang] ?? type;
+}
+
+export function formatProjectDate(isoDate: string, lang: Lang): string {
+  if (!isoDate) return '';
+  const d = new Date(isoDate);
+  if (isNaN(d.getTime())) return isoDate;
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  if (lang === 'zh') return `${year}年${month}月${day}日`;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[d.getUTCMonth()]} ${day}, ${year}`;
+}
+
+export function parseLineItems(text: string): string[] {
+  if (!text.trim()) return [];
+  return text
+    .split('\n')
+    .map(line => line.replace(/^[\d]+[.)]\s*/, '').replace(/^[-•*]\s*/, '').trim())
+    .filter(Boolean);
 }

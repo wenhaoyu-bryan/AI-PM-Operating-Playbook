@@ -155,7 +155,7 @@ export default function ExampleSelector({ onSelect, lang, hasData }: ExampleSele
                               <span className="inline-flex px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-medium">
                                 {meta.tag[lang]}
                               </span>
-                              <span className="text-[10px] text-muted-foreground">·</span>
+                              <span className="text-[10px] text-muted-foreground">&middot;</span>
                               <span className="text-[10px] text-muted-foreground">
                                 {meta.scenario[lang]}
                               </span>
@@ -176,17 +176,24 @@ export default function ExampleSelector({ onSelect, lang, hasData }: ExampleSele
             </div>
 
             {/* Footer */}
-            <div className="px-5 py-3 border-t border-border flex items-center justify-between">
-              <button
-                onClick={() => handleSelect(createEmptyProject())}
-                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <RotateCcw className="size-3" />
-                {t('workbench.buttons.startBlank', lang)}
-              </button>
-              <span className="text-[10px] text-muted-foreground">
-                {lang === 'zh' ? '加载示例将覆盖当前数据' : 'Loading an example replaces current data'}
-              </span>
+            <div className="px-5 py-3 border-t border-border">
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => handleSelect(createEmptyProject())}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <RotateCcw className="size-3" />
+                  {t('workbench.buttons.startBlank', lang)}
+                </button>
+                <span className="text-[10px] text-muted-foreground">
+                  {lang === 'zh' ? '加载示例将覆盖当前数据' : 'Loading an example replaces current data'}
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground/70 mt-2 pt-2 border-t border-border">
+                {lang === 'zh'
+                  ? '以下为使用模拟假设构建的示例。真实项目中的指标与目标需要另行验证。'
+                  : 'Illustrative examples using simulated assumptions. Metrics and targets must be validated for each real project.'}
+              </p>
             </div>
           </div>
         </div>

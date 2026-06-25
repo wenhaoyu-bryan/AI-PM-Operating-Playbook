@@ -1,12 +1,40 @@
-import type { DocumentGenerator, Lang } from '../schema';
+import type { DocumentGenerator, Lang, WorkbenchProject } from '../schema';
+import { getLocalizedProductType, formatProjectDate } from '../schema';
 
-const notFilled = (lang: Lang) => (lang === 'zh' ? '_未填写_' : '_Not filled_');
+const notFilled = (lang: Lang) => (lang === 'zh' ? '尚未定义' : 'Not defined');
+const notFilledItalic = (lang: Lang) => (lang === 'zh' ? '_尚未定义_' : '_Not defined_');
+
+function buildDraftWarning(project: WorkbenchProject, lang: Lang): string {
+  const fields: { check: () => boolean; label: string; labelZh: string }[] = [
+    { check: () => !!project.metadata.projectName.trim(), label: 'Project Name', labelZh: '项目名称' },
+    { check: () => !!project.delivery.evaluationMetrics.trim(), label: 'Evaluation Metrics', labelZh: '评估指标' },
+    { check: () => !!project.delivery.acceptanceCriteria.trim(), label: 'Acceptance Criteria', labelZh: '验收标准' },
+  ];
+  const missing = fields.filter(f => !f.check()).map(f => lang === 'zh' ? f.labelZh : f.label);
+  if (missing.length === 0) return '';
+  const prefix = lang === 'zh'
+    ? '> 草稿状态：尚未完成。以下必填内容尚未定义：'
+    : '> Draft status: incomplete. The following required areas have not been defined:';
+  return `${prefix} ${missing.join(', ')}`;
+}
 
 export const generateEvaluationPlan: DocumentGenerator = (project, lang) => {
   const { metadata, framing, delivery } = project;
+  const localizedType = getLocalizedProductType(metadata.productType, lang);
+  const formattedDate = formatProjectDate(metadata.updatedAt || metadata.createdAt, lang);
   const title = lang === 'zh' ? `# AI 评估计划` : `# AI Evaluation Plan`;
 
   const lines: string[] = [title, ''];
+
+  // Draft warning
+  const warning = buildDraftWarning(project, lang);
+  if (warning) lines.push(warning, '');
+
+  // Metadata
+  const metaBlock = lang === 'zh'
+    ? `**项目名称：** ${metadata.projectName || '未命名项目'}\n**产品类型：** ${localizedType}\n**更新日期：** ${formattedDate || notFilled(lang)}`
+    : `**Project Name:** ${metadata.projectName || 'Untitled Project'}\n**Product Type:** ${localizedType}\n**Updated:** ${formattedDate || notFilled(lang)}`;
+  lines.push(metaBlock, '');
 
   // Evaluation Objective
   const eoTitle = lang === 'zh' ? '评估目标' : 'Evaluation Objective';
@@ -15,16 +43,18 @@ export const generateEvaluationPlan: DocumentGenerator = (project, lang) => {
     : `Validate the effectiveness, reliability, and user satisfaction of **${metadata.projectName || 'Untitled Project'}** in real-world business scenarios. Confirm the product meets acceptance criteria before advancing to the next phase.`;
   lines.push(`## ${eoTitle}\n\n${eoContent}\n`);
 
-  // Product Type
-  const ptTitle = lang === 'zh' ? '产品类型' : 'Product Type';
-  lines.push(`## ${ptTitle}\n\n${metadata.productType || notFilled(lang)}\n`);
-
   // Task Success Metrics
   const tsmTitle = lang === 'zh' ? '任务成功指标' : 'Task Success Metrics';
   const tsmContent = lang === 'zh'
-    ? `| 指标 | 目标值 | 测量方法 |\n|------|--------|----------|\n| 核心任务完成率 | _待定_ | 端到端测试 |\n| 首次成功率 | _待定_ | 用户测试 |\n| 平均完成时间 | _待定_ | 自动化计时 |\n\n**自定义指标：**\n\n${delivery.evaluationMetrics || notFilled(lang)}`
-    : `| Metric | Target | Measurement Method |\n|--------|--------|--------------------|\n| Core task completion rate | _TBD_ | End-to-end testing |\n| First-attempt success rate | _TBD_ | User testing |\n| Average completion time | _TBD_ | Automated timing |\n\n**Custom Metrics:**\n\n${delivery.evaluationMetrics || notFilled(lang)}`;
+    ? `| 指标 | 目标值 | 测量方法 |\n|------|--------|----------|\n| 核心任务完成率 | _待定_ | 端到端测试 |\n| 首次成功率 | _待定_ | 用户测试 |\n| 平均完成时间 | _待定_ | 自动化计时 |`
+    : `| Metric | Target | Measurement Method |\n|--------|--------|--------------------|\n| Core task completion rate | _TBD_ | End-to-end testing |\n| First-attempt success rate | _TBD_ | User testing |\n| Average completion time | _TBD_ | Automated timing |`;
   lines.push(`## ${tsmTitle}\n\n${tsmContent}\n`);
+
+  // Custom Metrics
+  if (delivery.evaluationMetrics.trim()) {
+    const cmTitle = lang === 'zh' ? '自定义指标' : 'Custom Metrics';
+    lines.push(`### ${cmTitle}\n\n${delivery.evaluationMetrics.trim()}\n`);
+  }
 
   // Quality Metrics
   const qmTitle = lang === 'zh' ? '质量指标' : 'Quality Metrics';
@@ -56,7 +86,7 @@ export const generateEvaluationPlan: DocumentGenerator = (project, lang) => {
 
   // Acceptance Criteria
   const acTitle = lang === 'zh' ? '验收标准' : 'Acceptance Criteria';
-  lines.push(`## ${acTitle}\n\n${delivery.acceptanceCriteria || notFilled(lang)}\n`);
+  lines.push(`## ${acTitle}\n\n${delivery.acceptanceCriteria || notFilledItalic(lang)}\n`);
 
   // Evaluation Dataset
   const edTitle = lang === 'zh' ? '评估数据集' : 'Evaluation Dataset';

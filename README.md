@@ -1,18 +1,29 @@
 # AI PM Workbench
 
-Turn an ambiguous AI product idea into structured product briefs, workflow specifications, evaluation plans, and coding-agent handoff artifacts.
+A static, privacy-friendly workbench that helps AI Product Managers turn fuzzy product concepts into structured briefs, evaluation plans, and coding agent handoffs.
 
 [Open Workbench](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/workbench/) · [View Examples](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/examples/)
 
 ---
 
-## What it does
+## Product positioning
 
-- Frame the product problem with structured questions
-- Design the AI or agent workflow
-- Define human review points and execution boundaries
-- Build an evaluation plan with metrics and acceptance criteria
-- Export reusable delivery artifacts for your team or coding agent
+The AI PM Workbench is a structured thinking tool for AI product managers. It replaces scattered notes and ad-hoc documents with a four-step workflow that produces reusable delivery artifacts. It is not a course, not a resource list, and not a portfolio.
+
+## Open Workbench
+
+- [English Workbench](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/workbench/)
+- [Chinese Workbench (工作台)](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/zh-CN/workbench/)
+- [Example Concepts](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/examples/)
+
+## Core workflow
+
+| Step | Purpose |
+|------|---------|
+| 1. Product Framing | Define the user, problem, business context, and knowledge sources |
+| 2. AI Workflow Design | Choose the right AI capability, design the workflow boundary, and set human review points |
+| 3. Evaluation & Risk | Set metrics, acceptance criteria, and production risks |
+| 4. Export | Generate a reusable document pack for your team or coding agent |
 
 ## Generated outputs
 
@@ -27,6 +38,8 @@ Turn an ambiguous AI product idea into structured product briefs, workflow speci
 
 ## Example projects
 
+Illustrative examples using simulated assumptions. Metrics and targets must be validated for each real project.
+
 | Example | Type | Key Challenge |
 |---------|------|---------------|
 | Prompt-to-Ontology | Ontology / Knowledge | Turn ambiguous business terms into structured ontology assets |
@@ -35,7 +48,14 @@ Turn an ambiguous AI product idea into structured product briefs, workflow speci
 
 ## Privacy
 
-All project data is stored locally in your browser. Nothing is uploaded to any server.
+Project content is stored locally in the browser. The tool does not upload user-entered project data to a server.
+
+## Import/export and local recovery
+
+- Export your project as a JSON file at any time from the header menu.
+- Import a previously exported JSON file to restore a project.
+- The workbench auto-saves your work to localStorage as you type.
+- No account or sign-in is required.
 
 ## Technology
 
@@ -43,6 +63,15 @@ All project data is stored locally in your browser. Nothing is uploaded to any s
 - **TypeScript** for type safety
 - **Tailwind CSS** for styling
 - **GitHub Pages** for deployment
+
+## Local development
+
+```bash
+npm install
+npm run dev        # Open the local URL shown in the terminal
+npm run check      # Type-check
+npm run build      # Production build to dist/
+```
 
 ## Supporting methodology
 
@@ -53,14 +82,6 @@ This tool is part of the [AI PM Operating Playbook](https://wenhaoyu-bryan.githu
 - [Harness Engineering](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/harness-engineering/) — Directing AI to write code reliably
 - [Agent Product Design](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/agent-product-design/) — Designing goal-directed AI workflows
 - [Prompt-to-Ontology Case Study](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/prompt-to-ontology/) — Real project example
-
-## Local development
-
-```bash
-npm install
-npm run dev        # http://localhost:4322
-npm run build      # production build to dist/
-```
 
 ## Author
 

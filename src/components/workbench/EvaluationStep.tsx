@@ -13,18 +13,54 @@ interface EvaluationStepProps {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Chip toggle helpers (line-based matching)                          */
+/* ------------------------------------------------------------------ */
+function isChipSelected(textareaValue: string, chipText: string): boolean {
+  const lines = textareaValue.split('\n').map((l) => l.trim());
+  const normalizedChip = chipText.trim();
+  return lines.some((line) => line === normalizedChip);
+}
+
+function toggleChip(currentValue: string, chipText: string): string {
+  const lines = currentValue.split('\n');
+  const normalizedChip = chipText.trim();
+  const existingIndex = lines.findIndex((line) => line.trim() === normalizedChip);
+
+  if (existingIndex >= 0) {
+    // Remove the line
+    lines.splice(existingIndex, 1);
+    return lines.join('\n').replace(/^\n+/, '').replace(/\n+$/, '');
+  } else {
+    // Append
+    const trimmed = currentValue.trimEnd();
+    return trimmed ? `${trimmed}\n${normalizedChip}` : normalizedChip;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Acceptance criteria insert helper                                  */
+/* ------------------------------------------------------------------ */
+function insertMissingCriteria(current: string, examples: string[]): string {
+  const existingLines = current.split('\n').map((l) => l.trim());
+  const missing = examples.filter((ex) => !existingLines.includes(ex.trim()));
+  if (missing.length === 0) return current;
+  const trimmed = current.trimEnd();
+  return trimmed ? `${trimmed}\n${missing.join('\n')}` : missing.join('\n');
+}
+
+/* ------------------------------------------------------------------ */
 /*  Suggestion chip row                                                */
 /* ------------------------------------------------------------------ */
 function SuggestionChips({
   items,
   currentValue,
-  onAppend,
+  onToggle,
   lang,
   showAll: controlledShowAll,
 }: {
   items: string[];
   currentValue: string;
-  onAppend: (text: string) => void;
+  onToggle: (text: string) => void;
   lang: Lang;
   showAll?: boolean;
 }) {
@@ -36,20 +72,19 @@ function SuggestionChips({
     <div className="mt-2">
       <div className="flex flex-wrap gap-1.5">
         {visibleItems.map((item) => {
-          const isSelected = currentValue.includes(item);
+          const selected = isChipSelected(currentValue, item);
           return (
             <button
               key={item}
               type="button"
-              disabled={isSelected}
-              onClick={() => onAppend(item)}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs transition-colors ${
-                isSelected
-                  ? 'bg-emerald-500/20 text-emerald-400 cursor-default'
-                  : 'bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground cursor-pointer'
+              onClick={() => onToggle(item)}
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs transition-colors cursor-pointer ${
+                selected
+                  ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
+                  : 'bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground'
               }`}
             >
-              {isSelected && '✓ '}{item}
+              {selected && '✓ '}{item}
             </button>
           );
         })}
@@ -166,7 +201,7 @@ export function EvaluationStep({
   lang,
 }: EvaluationStepProps) {
   const delivery = project.delivery;
-  const productType = project.metadata.productType as ProductType | '';
+  const productType = project.metadata.productType;
 
   const handleChange = useCallback(
     (key: keyof DeliveryFields, value: string) => {
@@ -175,12 +210,10 @@ export function EvaluationStep({
     [updateSection],
   );
 
-  const handleAppend = useCallback(
+  const handleToggle = useCallback(
     (key: keyof DeliveryFields, text: string) => {
       const current = delivery[key];
-      // Prevent duplicate
-      if (current.includes(text)) return;
-      const next = current ? `${current}\n${text}` : text;
+      const next = toggleChip(current, text);
       updateSection('delivery', { [key]: next } as Record<string, string>);
     },
     [delivery, updateSection],
@@ -188,29 +221,28 @@ export function EvaluationStep({
 
   const handleInsertExamples = useCallback(() => {
     const examples = ACCEPTANCE_EXAMPLES[lang];
-    const text = examples.map(e => `- ${e}`).join('\n');
     const current = delivery.acceptanceCriteria;
-    const next = current ? `${current}\n${text}` : text;
+    const next = insertMissingCriteria(current, examples);
     updateSection('delivery', { acceptanceCriteria: next });
   }, [delivery.acceptanceCriteria, lang, updateSection]);
 
   const { filled, total } = useMemo(() => countCompleted(project), [project]);
 
   const metricChips =
-    productType && productType !== '' && EVALUATION_GUIDANCE[productType]
-      ? EVALUATION_GUIDANCE[productType].suggestedMetrics[lang]
+    productType && productType in EVALUATION_GUIDANCE
+      ? EVALUATION_GUIDANCE[productType as keyof typeof EVALUATION_GUIDANCE].suggestedMetrics[lang]
       : null;
 
   const riskChips =
-    productType && productType !== '' && EVALUATION_GUIDANCE[productType]
-      ? EVALUATION_GUIDANCE[productType].commonRisks[lang]
+    productType && productType in EVALUATION_GUIDANCE
+      ? EVALUATION_GUIDANCE[productType as keyof typeof EVALUATION_GUIDANCE].commonRisks[lang]
       : null;
 
   return (
     <div className="space-y-4">
       <Card>
         <CardContent className="space-y-0">
-          {/* ── Group 1: Prototype Boundary ── */}
+          {/* -- Group 1: Prototype Boundary -- */}
           <SectionLabel>{lang === 'zh' ? '原型边界' : 'Prototype Boundary'}</SectionLabel>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -245,7 +277,7 @@ export function EvaluationStep({
             </div>
           </div>
 
-          {/* Dependencies — full width */}
+          {/* Dependencies -- full width */}
           <div className="mt-4 space-y-1.5">
             <FieldLabel
               label={t('workbench.stepTitles.evaluate.dependencies', lang) || FIELD_LABELS.dependencies[lang]}
@@ -262,7 +294,7 @@ export function EvaluationStep({
 
           <SectionDivider />
 
-          {/* ── Group 2: Evaluation ── */}
+          {/* -- Group 2: Evaluation -- */}
           <SectionLabel>{lang === 'zh' ? '评估' : 'Evaluation'}</SectionLabel>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -283,7 +315,7 @@ export function EvaluationStep({
                 <SuggestionChips
                   items={metricChips}
                   currentValue={delivery.evaluationMetrics}
-                  onAppend={(text) => handleAppend('evaluationMetrics', text)}
+                  onToggle={(text) => handleToggle('evaluationMetrics', text)}
                   lang={lang}
                 />
               )}
@@ -317,7 +349,7 @@ export function EvaluationStep({
 
           <SectionDivider />
 
-          {/* ── Group 3: Risk and Readiness ── */}
+          {/* -- Group 3: Risk and Readiness -- */}
           <SectionLabel>{lang === 'zh' ? '风险与就绪度' : 'Risk and Readiness'}</SectionLabel>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -338,7 +370,7 @@ export function EvaluationStep({
                 <SuggestionChips
                   items={riskChips}
                   currentValue={delivery.productionRisks}
-                  onAppend={(text) => handleAppend('productionRisks', text)}
+                  onToggle={(text) => handleToggle('productionRisks', text)}
                   lang={lang}
                 />
               )}
@@ -362,7 +394,7 @@ export function EvaluationStep({
         </CardContent>
       </Card>
 
-      {/* ── Completion Summary (field count, not percentage) ── */}
+      {/* -- Completion Summary (field count, not percentage) -- */}
       <div className="bg-card rounded-xl ring-1 ring-foreground/10 p-4">
         <span className="text-sm text-muted-foreground">
           {lang === 'zh'

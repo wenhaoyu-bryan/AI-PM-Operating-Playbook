@@ -1,15 +1,38 @@
-import type { DocumentGenerator, Lang } from '../schema';
+import type { DocumentGenerator, Lang, WorkbenchProject } from '../schema';
+import { getLocalizedProductType, formatProjectDate } from '../schema';
+
+const notFilled = (lang: Lang) => (lang === 'zh' ? '尚未定义' : 'Not defined');
+const notFilledItalic = (lang: Lang) => (lang === 'zh' ? '_尚未定义_' : '_Not defined_');
+
+function buildDraftWarning(project: WorkbenchProject, lang: Lang): string {
+  const fields: { check: () => boolean; label: string; labelZh: string }[] = [
+    { check: () => !!project.metadata.projectName.trim(), label: 'Project Name', labelZh: '项目名称' },
+    { check: () => !!project.delivery.acceptanceCriteria.trim(), label: 'Acceptance Criteria', labelZh: '验收标准' },
+  ];
+  const missing = fields.filter(f => !f.check()).map(f => lang === 'zh' ? f.labelZh : f.label);
+  if (missing.length === 0) return '';
+  const prefix = lang === 'zh'
+    ? '> 草稿状态：尚未完成。以下必填内容尚未定义：'
+    : '> Draft status: incomplete. The following required areas have not been defined:';
+  return `${prefix} ${missing.join(', ')}`;
+}
 
 export const generateAcceptanceCriteria: DocumentGenerator = (project, lang) => {
   const { metadata, delivery } = project;
+  const localizedType = getLocalizedProductType(metadata.productType, lang);
+  const formattedDate = formatProjectDate(metadata.updatedAt || metadata.createdAt, lang);
   const title = lang === 'zh' ? `# 验收标准` : `# Acceptance Criteria`;
 
   const lines: string[] = [title, ''];
 
+  // Draft warning
+  const warning = buildDraftWarning(project, lang);
+  if (warning) lines.push(warning, '');
+
   // Project info
   const projInfo = lang === 'zh'
-    ? `**项目：** ${metadata.projectName || '未命名项目'}\n**产品类型：** ${metadata.productType || '未指定'}`
-    : `**Project:** ${metadata.projectName || 'Untitled Project'}\n**Product Type:** ${metadata.productType || 'Not specified'}`;
+    ? `**项目：** ${metadata.projectName || '未命名项目'}\n**产品类型：** ${localizedType}\n**更新日期：** ${formattedDate || notFilled(lang)}`
+    : `**Project:** ${metadata.projectName || 'Untitled Project'}\n**Product Type:** ${localizedType}\n**Updated:** ${formattedDate || notFilled(lang)}`;
   lines.push(projInfo, '');
 
   // Parse acceptance criteria
@@ -20,21 +43,17 @@ export const generateAcceptanceCriteria: DocumentGenerator = (project, lang) => 
 
   if (raw) {
     const items: string[] = [];
-    // Check if already has bullets or numbered items
     const hasBullets = /^[-*]\s|^\d+[.)]\s/m.test(raw);
 
     if (hasBullets) {
-      // Preserve existing list structure, normalize to checkboxes
       const lines_raw = raw.split('\n');
       for (const line of lines_raw) {
         const trimmed = line.trim();
         if (!trimmed) continue;
-        // Strip existing list markers
         const content = trimmed.replace(/^[-*]\s+/, '').replace(/^\d+[.)]\s+/, '');
         items.push(content);
       }
     } else {
-      // Split by sentences
       const sentences = raw
         .split(/(?<=[.。!！?？])\s*/)
         .map((s) => s.trim())
@@ -42,7 +61,6 @@ export const generateAcceptanceCriteria: DocumentGenerator = (project, lang) => 
       if (sentences.length > 1) {
         items.push(...sentences);
       } else {
-        // Single block — split by semicolons or newlines
         const parts = raw
           .split(/[;；\n]/)
           .map((s) => s.trim())
@@ -56,32 +74,7 @@ export const generateAcceptanceCriteria: DocumentGenerator = (project, lang) => 
     });
     lines.push('');
   } else {
-    // Default criteria
-    const defaults = lang === 'zh'
-      ? [
-          '给定一个符合使用场景的输入，系统在可接受的时间内返回正确的输出',
-          '系统能够优雅地处理无效输入，给出清晰的错误提示而非崩溃',
-          '所有人工审核点都经过测试，确认人工可以有效地介入和修正',
-          '系统在目标并发量下保持稳定，P95 延迟在可接受范围内',
-          '输出结果的质量在评估数据集上达到预设的目标指标',
-        ]
-      : [
-          'Given a valid input matching the use case, the system returns correct output within acceptable time',
-          'The system gracefully handles invalid inputs with clear error messages instead of crashing',
-          'All human review points are tested and confirmed that humans can effectively intervene and correct',
-          'The system remains stable under target concurrency with P95 latency within acceptable range',
-          'Output quality meets preset target metrics on the evaluation dataset',
-        ];
-
-    const note = lang === 'zh'
-      ? '> 以下为默认验收标准，请根据项目实际情况修改：'
-      : '> The following are default acceptance criteria. Please modify according to your project needs:';
-
-    lines.push(note, '');
-    defaults.forEach((item) => {
-      lines.push(`- [ ] ${item}`);
-    });
-    lines.push('');
+    lines.push(notFilledItalic(lang), '');
   }
 
   // Additional criteria section
@@ -90,6 +83,18 @@ export const generateAcceptanceCriteria: DocumentGenerator = (project, lang) => 
     ? '- [ ] 评估数据集已构建并通过质量审查\n- [ ] 文档（产品简报、工作流规范）已生成并经过评审\n- [ ] 所有待定问题已记录并有明确的负责人'
     : '- [ ] Evaluation dataset has been built and passed quality review\n- [ ] Documentation (product brief, workflow spec) has been generated and reviewed\n- [ ] All open questions have been recorded with assigned owners';
   lines.push(`## ${addTitle}\n\n${addContent}\n`);
+
+  // Evaluation Metrics (optional)
+  if (delivery.evaluationMetrics.trim()) {
+    const emTitle = lang === 'zh' ? '评估指标' : 'Evaluation Metrics';
+    lines.push(`## ${emTitle}\n\n${delivery.evaluationMetrics.trim()}\n`);
+  }
+
+  // Failure Handling (optional)
+  if (project.intelligence.failureHandling.trim()) {
+    const fhTitle = lang === 'zh' ? '失败处理' : 'Failure Handling';
+    lines.push(`## ${fhTitle}\n\n${project.intelligence.failureHandling.trim()}\n`);
+  }
 
   // Sign-off
   const signTitle = lang === 'zh' ? '签收' : 'Sign-off';

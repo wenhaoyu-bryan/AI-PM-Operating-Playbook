@@ -1,6 +1,8 @@
-import type { DocumentGenerator, Lang } from '../schema';
+import type { DocumentGenerator, Lang, WorkbenchProject } from '../schema';
+import { getLocalizedProductType, formatProjectDate } from '../schema';
 
-const notFilled = (lang: Lang) => (lang === 'zh' ? '_未填写_' : '_Not filled_');
+const notFilled = (lang: Lang) => (lang === 'zh' ? '尚未定义' : 'Not defined');
+const notFilledItalic = (lang: Lang) => (lang === 'zh' ? '_尚未定义_' : '_Not defined_');
 
 function parseSteps(raw: string): string[] {
   return raw
@@ -28,50 +30,84 @@ function buildMermaid(steps: string[]): string {
   return lines.join('\n');
 }
 
+function buildDraftWarning(project: WorkbenchProject, lang: Lang): string {
+  const fields: { check: () => boolean; label: string; labelZh: string }[] = [
+    { check: () => !!project.metadata.oneLineIdea.trim(), label: 'One-Line Idea', labelZh: '一句话描述' },
+    { check: () => !!project.framing.businessScenario.trim(), label: 'Business Scenario', labelZh: '业务场景' },
+    { check: () => !!project.framing.targetUser.trim(), label: 'Target User', labelZh: '目标用户' },
+    { check: () => !!project.intelligence.workflowSteps.trim(), label: 'Workflow Steps', labelZh: '工作流步骤' },
+    { check: () => !!project.intelligence.aiCapability.trim(), label: 'AI Capability', labelZh: 'AI 能力' },
+  ];
+  const missing = fields.filter(f => !f.check()).map(f => lang === 'zh' ? f.labelZh : f.label);
+  if (missing.length === 0) return '';
+  const prefix = lang === 'zh'
+    ? '> 草稿状态：尚未完成。以下必填内容尚未定义：'
+    : '> Draft status: incomplete. The following required areas have not been defined:';
+  return `${prefix} ${missing.join(', ')}`;
+}
+
 export const generateWorkflowSpec: DocumentGenerator = (project, lang) => {
   const { metadata, framing, knowledge, intelligence, delivery } = project;
   const isAgent = intelligence.agentRequired === 'yes';
+  const localizedType = getLocalizedProductType(metadata.productType, lang);
+  const formattedDate = formatProjectDate(metadata.updatedAt || metadata.createdAt, lang);
+
   const title = lang === 'zh'
-    ? `# AI${isAgent ? '/Agent' : ''} 工作流规范`
+    ? `# AI / 智能体工作流规范`
     : `# AI${isAgent ? '/Agent' : ''} Workflow Specification`;
 
   const lines: string[] = [title, ''];
 
+  // Draft warning
+  const warning = buildDraftWarning(project, lang);
+  if (warning) lines.push(warning, '');
+
+  // Metadata block
+  const metaBlock = lang === 'zh'
+    ? `**项目名称：** ${metadata.projectName || notFilled(lang)}\n**产品类型：** ${localizedType}\n**更新日期：** ${formattedDate || notFilled(lang)}`
+    : `**Project Name:** ${metadata.projectName || notFilled(lang)}\n**Product Type:** ${localizedType}\n**Updated:** ${formattedDate || notFilled(lang)}`;
+  lines.push(metaBlock, '');
+
   // Goal
   const goalTitle = lang === 'zh' ? '目标' : 'Goal';
-  const goal = metadata.oneLineIdea || notFilled(lang);
-  lines.push(`## ${goalTitle}\n\n${goal}\n`);
+  lines.push(`## ${goalTitle}\n\n${metadata.oneLineIdea || notFilledItalic(lang)}\n`);
 
   // Trigger
   const trigTitle = lang === 'zh' ? '触发条件' : 'Trigger';
   const trigDesc = lang === 'zh'
-    ? `当用户或系统触发以下场景时启动工作流：\n\n${framing.businessScenario || notFilled(lang)}`
-    : `The workflow is triggered when the following scenario occurs:\n\n${framing.businessScenario || notFilled(lang)}`;
+    ? `当用户或系统触发以下场景时启动工作流：\n\n${framing.businessScenario || notFilledItalic(lang)}`
+    : `The workflow is triggered when the following scenario occurs:\n\n${framing.businessScenario || notFilledItalic(lang)}`;
   lines.push(`## ${trigTitle}\n\n${trigDesc}\n`);
 
   // User / Operator
   const uoTitle = lang === 'zh' ? '用户/操作者' : 'User / Operator';
-  lines.push(`## ${uoTitle}\n\n${framing.targetUser || notFilled(lang)}\n`);
+  lines.push(`## ${uoTitle}\n\n${framing.targetUser || notFilledItalic(lang)}\n`);
+
+  // Decision to Support (optional — show if filled)
+  if (framing.decisionToSupport.trim()) {
+    const dtTitle = lang === 'zh' ? '需要支持的决策' : 'Decision to Support';
+    lines.push(`## ${dtTitle}\n\n${framing.decisionToSupport.trim()}\n`);
+  }
 
   // Context and Knowledge
   const ckTitle = lang === 'zh' ? '上下文与知识' : 'Context and Knowledge';
   lines.push(`## ${ckTitle}\n`);
 
   const dsLabel = lang === 'zh' ? '数据来源' : 'Data Sources';
-  lines.push(`### ${dsLabel}\n\n${knowledge.dataSources || notFilled(lang)}\n`);
+  lines.push(`### ${dsLabel}\n\n${knowledge.dataSources || notFilledItalic(lang)}\n`);
 
   const ksLabel = lang === 'zh' ? '知识来源' : 'Knowledge Sources';
-  lines.push(`### ${ksLabel}\n\n${knowledge.knowledgeSources || notFilled(lang)}\n`);
+  lines.push(`### ${ksLabel}\n\n${knowledge.knowledgeSources || notFilledItalic(lang)}\n`);
 
   const coLabel = lang === 'zh' ? '核心对象' : 'Core Objects';
-  lines.push(`### ${coLabel}\n\n${knowledge.coreObjects || notFilled(lang)}\n`);
+  lines.push(`### ${coLabel}\n\n${knowledge.coreObjects || notFilledItalic(lang)}\n`);
 
   const krLabel = lang === 'zh' ? '关键关系' : 'Key Relationships';
-  lines.push(`### ${krLabel}\n\n${knowledge.keyRelationships || notFilled(lang)}\n`);
+  lines.push(`### ${krLabel}\n\n${knowledge.keyRelationships || notFilledItalic(lang)}\n`);
 
   // Available Tools
   const atTitle = lang === 'zh' ? '可用工具' : 'Available Tools';
-  lines.push(`## ${atTitle}\n\n${intelligence.tools || notFilled(lang)}\n`);
+  lines.push(`## ${atTitle}\n\n${intelligence.tools || notFilledItalic(lang)}\n`);
 
   // Workflow Steps
   const wsTitle = lang === 'zh' ? '工作流步骤' : 'Workflow Steps';
@@ -90,7 +126,7 @@ export const generateWorkflowSpec: DocumentGenerator = (project, lang) => {
     lines.push(buildMermaid(steps));
     lines.push('');
   } else {
-    lines.push(notFilled(lang) + '\n');
+    lines.push(notFilledItalic(lang) + '\n');
   }
 
   // State
@@ -102,15 +138,15 @@ export const generateWorkflowSpec: DocumentGenerator = (project, lang) => {
 
   // Autonomy Boundary
   const abTitle = lang === 'zh' ? '自主性边界' : 'Autonomy Boundary';
-  lines.push(`## ${abTitle}\n\n${intelligence.autonomyBoundary || notFilled(lang)}\n`);
+  lines.push(`## ${abTitle}\n\n${intelligence.autonomyBoundary || notFilledItalic(lang)}\n`);
 
   // Human Review
   const hrTitle = lang === 'zh' ? '人工审核' : 'Human Review';
-  lines.push(`## ${hrTitle}\n\n${intelligence.humanReview || notFilled(lang)}\n`);
+  lines.push(`## ${hrTitle}\n\n${intelligence.humanReview || notFilledItalic(lang)}\n`);
 
   // Failure Handling
   const fhTitle = lang === 'zh' ? '失败处理' : 'Failure Handling';
-  lines.push(`## ${fhTitle}\n\n${intelligence.failureHandling || notFilled(lang)}\n`);
+  lines.push(`## ${fhTitle}\n\n${intelligence.failureHandling || notFilledItalic(lang)}\n`);
 
   // Audit Requirements
   const auditTitle = lang === 'zh' ? '审计要求' : 'Audit Requirements';
@@ -121,7 +157,7 @@ export const generateWorkflowSpec: DocumentGenerator = (project, lang) => {
 
   // Evaluation
   const evalTitle = lang === 'zh' ? '评估' : 'Evaluation';
-  lines.push(`## ${evalTitle}\n\n${delivery.evaluationMetrics || notFilled(lang)}\n`);
+  lines.push(`## ${evalTitle}\n\n${delivery.evaluationMetrics || notFilledItalic(lang)}\n`);
 
   return lines.join('\n');
 };
