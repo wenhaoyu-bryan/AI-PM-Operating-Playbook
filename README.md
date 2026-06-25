@@ -1,85 +1,88 @@
 # AI PM Operating Playbook
 
-AI 产品经理的实用方法论工具箱 — 结构化的框架、工作流和案例笔记。
+Practical frameworks, workflows, and case notes for AI Product Managers building agents, ontology systems, and AI-native prototypes.
 
 **English** | [中文](README.zh-CN.md)
 
 ---
 
-## 这是什么
+## What is this
 
-一个把模糊的业务问题转化为结构化 AI 产品概念、原型和评估方案的实战手册。
+A playbook that turns vague business problems into structured AI product concepts, prototypes, and evaluation plans.
 
-核心内容：
+This is not a course, not a generic AI resource list, and not a portfolio. This is the operating system behind how I think about product decisions, design agent workflows, plan human review points, and coordinate AI-assisted delivery.
 
-- **AI PM Canvas** — 12 维度规划框架（交互式工具）
-- **Vibe Coding** — PM + LLM = 全栈开发者
-- **Harness Engineering** — 设计 AI Agent 的运行框架
-- **Ontology 系统** — 企业知识图谱驱动的 AI 产品
-- **案例研究** — 从 Prompt 到 Ontology 的实战
+Core content:
 
-## 在线访问
+- **AI PM Canvas** — 12-dimension planning framework (interactive tool)
+- **Vibe Coding** — PM + LLM = Full-Stack Developer
+- **Harness Engineering** — Designing the operating framework for AI Agents
+- **Ontology Systems** — Enterprise knowledge graph-driven AI products
+- **Case Studies** — From Prompt to Ontology, industrial agent prototypes
+
+## Online
 
 **https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/**
 
-## AI PM Canvas — 12 维度规划工具
+## AI PM Canvas — 12-Dimension Planning Tool
 
-项目的核心交互工具，用于在写 PRD、做原型、评估 AI 想法之前进行结构化思考：
+The core interactive tool of this project. Use it before writing PRDs, building prototypes, or evaluating AI ideas:
 
-| 分组 | 维度 |
-|------|------|
+| Group | Dimensions |
+|-------|-----------|
 | **Context** | Business Scenario · User / Operator · Decision to Support |
 | **Knowledge** | Data / Knowledge Sources · Object Model |
 | **AI Layer** | AI / Agent Capability · Workflow Boundary · Human Review Point |
 | **Delivery** | Evaluation Metric · Prototype Scope · Production Risk · Product Narrative |
 
-在线使用：[英文版](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/canvas/) · [中文版](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/zh-CN/canvas/)
+Use online: [English](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/canvas/) · [中文](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/zh-CN/canvas/)
 
-## 目录结构
+## Chapters
 
-| 章节 | 内容 |
-|------|------|
-| [01-product-thinking/](src/content/docs/en/ai-pm-role.md) | AI PM 角色、能力模型、成长路径 |
-| [02-ai-native-delivery/](src/content/docs/en/vibe-coding.md) | Vibe Coding、Harness Engineering、原型开发 |
-| [03-agent-and-ontology-systems/](src/content/docs/en/prompt-to-ontology.md) | Agent 工作流、Ontology 产品设计 |
-| [04-case-studies/](src/content/docs/en/prompt-to-ontology.md) | 项目案例笔记 |
-| [05-templates/](src/content/docs/en/ai_prd_lite_template.md) | Canvas、PRD Lite、案例研究模板 |
-| [06-resources/](src/content/docs/en/books.md) | 推荐书籍和课程 |
+| Section | Content |
+|---------|---------|
+| [01-product-thinking/](src/content/docs/en/ai-pm-role.md) | AI PM role, competency model, growth path |
+| [02-ai-native-delivery/](src/content/docs/en/vibe-coding.md) | Vibe Coding, Harness Engineering, prototype development |
+| [03-agent-and-ontology-systems/](src/content/docs/en/prompt-to-ontology.md) | Agent workflows, ontology product design |
+| [04-case-studies/](src/content/docs/en/prompt-to-ontology.md) | Project case notes |
+| [05-templates/](src/content/docs/en/ai_prd_lite_template.md) | Canvas, PRD Lite, case study templates |
+| [06-resources/](src/content/docs/en/books.md) | Recommended books and courses |
 
-## 技术栈
+## Tech Stack
 
-- **框架：** Astro 7.x + React 19
-- **UI：** shadcn/ui + Tailwind CSS 4.x
-- **主题：** 深色科技风
-- **部署：** GitHub Pages（CI/CD 自动部署）
-- **多语言：** 中英文双语
+- **Framework:** Astro 7.x + React 19
+- **UI:** shadcn/ui + Tailwind CSS 4.x
+- **Theme:** Dark (tech / sci-fi aesthetic)
+- **Deploy:** GitHub Pages (CI/CD via GitHub Actions)
+- **i18n:** English + Chinese bilingual
 
-## 本地开发
+## Local Development
 
 ```bash
-# 安装依赖
+# Install dependencies
 npm install
 
-# 启动开发服务器
+# Start dev server
 npm run dev
 
-# 构建生产版本
+# Build for production
 npm run build
 ```
 
-## 与其他项目的关系
+## Related Projects
 
-| 项目 | 定位 |
-|------|------|
-| **AI-PM-Operating-Playbook** | 专业方法论（工具 + 框架） |
-| [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology) | 案例项目（Ontology 驱动的 AI 产品） |
-| [Agent-Space](https://github.com/wenhaoyu-bryan/Agent-Space) | 案例项目（制造业数字员工协同平台） |
+| Project | Purpose |
+|---------|---------|
+| **AI-PM-Operating-Playbook** | Professional methodology (tools + frameworks) |
+| [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology) | Case project — ontology-driven AI product |
+| [Agent-Space](https://github.com/wenhaoyu-bryan/Agent-Space) | Case project — manufacturing digital worker platform |
 
-## 作者
+## Author
 
-**余文豪（Wenhao Yu）**
+**Wenhao Yu (余文豪)**
 - GitHub: [@wenhaoyu-bryan](https://github.com/wenhaoyu-bryan)
-- 专注：工业 AI Agent、Ontology 驱动的产品、PM 主导的 Vibe Coding
+- Homepage: [wenhaoyu-bryan.github.io](https://wenhaoyu-bryan.github.io/)
+- Focus: Industrial AI Agent, ontology-driven products, PM-led Vibe Coding
 
 ## License
 
