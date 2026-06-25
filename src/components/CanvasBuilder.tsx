@@ -195,7 +195,7 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
       md += `> ${ideaLine}\n\n`;
     }
     md += `**Generated**: ${dateStr}\n`;
-    md += `**Tool**: [AI PM Workbench](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/workbench/)\n\n---\n\n`;
+    md += `**Tool**: [AI PM Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/)\n\n---\n\n`;
 
     const groupEntries = Object.entries(GROUPS);
     for (const [groupKey, group] of groupEntries) {
@@ -208,7 +208,7 @@ export default function CanvasBuilder({ defaultLang = 'en' }: Props) {
       }
     }
 
-    md += `---\n*Created with AI PM Workbench*\n`;
+    md += `---\n*Created with AI PM Operating Playbook*\n`;
     return md;
   }, [data, meta, lang]);
 

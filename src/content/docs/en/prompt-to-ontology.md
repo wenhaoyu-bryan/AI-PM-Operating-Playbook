@@ -190,8 +190,8 @@ The architecture deliberately separates storage, computation, and reasoning into
 ## 14. Links
 
 - **Source repository:** [Prompt-to-Ontology on GitHub](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
-- **AI PM Canvas:** [Open AI PM Canvas](/AI-PM-Workbench/en/canvas/) — the 12-dimension framework used to structure this case study
-- **Methodology pages:** [Return to all pages](/AI-PM-Workbench/en/)
+- **AI PM Canvas:** [Open AI PM Canvas](/AI-PM-Operating-Playbook/en/canvas/) — the 12-dimension framework used to structure this case study
+- **Methodology pages:** [Return to all pages](/AI-PM-Operating-Playbook/en/)
 
 ---
 
@@ -214,4 +214,4 @@ The architecture deliberately separates storage, computation, and reasoning into
 
 ---
 
-View source repository · [Open AI PM Canvas](/AI-PM-Workbench/en/canvas/) · [Return to all pages](/AI-PM-Workbench/en/)
+View source repository · [Open AI PM Canvas](/AI-PM-Operating-Playbook/en/canvas/) · [Return to all pages](/AI-PM-Operating-Playbook/en/)

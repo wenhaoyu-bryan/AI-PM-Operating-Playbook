@@ -41,7 +41,7 @@ export const generateCombinedPack: DocumentGenerator = (project, lang) => {
   const lines: string[] = [];
 
   // Header block
-  const headerTitle = lang === 'zh' ? `# AI PM 工作文档包` : `# AI PM Workbench Document Pack`;
+  const headerTitle = lang === 'zh' ? `# AI PM 工作文档包` : `# AI PM Operating Playbook Document Pack`;
   lines.push(headerTitle, '');
 
   if (lang === 'zh') {
@@ -49,9 +49,9 @@ export const generateCombinedPack: DocumentGenerator = (project, lang) => {
       `**项目：** ${metadata.projectName || '未命名项目'}`,
       `**产品类型：** ${localizedType}`,
       `**生成日期：** ${formattedDate || '未知'}`,
-      `**工作台版本：** 1.0`,
+      `**操作手册版本：** 1.0`,
       `**状态：** ${isComplete ? '就绪' : '草稿'}`,
-      `**生成工具：** AI PM Workbench`,
+      `**生成工具：** AI PM Operating Playbook`,
       '',
     );
   } else {
@@ -59,9 +59,9 @@ export const generateCombinedPack: DocumentGenerator = (project, lang) => {
       `**Project:** ${metadata.projectName || 'Untitled Project'}`,
       `**Product Type:** ${localizedType}`,
       `**Generated:** ${formattedDate || 'Unknown'}`,
-      `**Workbench Version:** 1.0`,
+      `**Operating Playbook Version:** 1.0`,
       `**Status:** ${isComplete ? 'Ready' : 'Draft'}`,
-      `**Generated with:** AI PM Workbench`,
+      `**Generated with:** AI PM Operating Playbook`,
       '',
     );
   }

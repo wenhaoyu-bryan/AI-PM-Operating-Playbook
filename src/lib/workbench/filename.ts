@@ -8,7 +8,7 @@ export function sanitizeFilename(name: string, suffix: string): string {
     .replace(/-{2,}/g, '-')
     .replace(/^-+|-+$/g, '');
 
-  const base = sanitized.length > 0 ? sanitized : 'workbench';
+  const base = sanitized.length > 0 ? sanitized : 'operating-playbook';
   const truncated = base.length > 60 ? base.slice(0, 60).replace(/-+$/, '') : base;
 
   return truncated + suffix;

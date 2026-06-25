@@ -3,7 +3,7 @@
 ## 1.0.0
 
 ### Added
-- Four-step AI PM Workbench with structured form-based workflow
+- Four-step AI PM Operating Playbook with structured form-based workflow
 - AI Product Brief, Workflow Spec, Evaluation Plan, Acceptance Criteria generators
 - Coding Agent Handoff and CLAUDE.md Starter generators
 - English and Chinese interfaces

@@ -190,8 +190,8 @@ AI 提取是起点，而非输出。每个阶段都需要人工审查：
 ## 14. 链接
 
 - **源代码仓库：** [Prompt-to-Ontology on GitHub](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
-- **AI PM Canvas：** [打开 AI PM Canvas](/AI-PM-Workbench/zh-CN/canvas/) —— 用于结构化本案例研究的 12 维度框架
-- **方法论页面：** [返回所有页面](/AI-PM-Workbench/zh-CN/)
+- **AI PM Canvas：** [打开 AI PM Canvas](/AI-PM-Operating-Playbook/zh-CN/canvas/) —— 用于结构化本案例研究的 12 维度框架
+- **方法论页面：** [返回所有页面](/AI-PM-Operating-Playbook/zh-CN/)
 
 ---
 
@@ -214,4 +214,4 @@ AI 提取是起点，而非输出。每个阶段都需要人工审查：
 
 ---
 
-查看源代码 · [打开 AI PM Canvas](/AI-PM-Workbench/zh-CN/canvas/) · [返回所有页面](/AI-PM-Workbench/zh-CN/)
+查看源代码 · [打开 AI PM Canvas](/AI-PM-Operating-Playbook/zh-CN/canvas/) · [返回所有页面](/AI-PM-Operating-Playbook/zh-CN/)

@@ -1,6 +1,6 @@
 import type { WorkbenchProject, WorkbenchProjectFile, ProductType, AgentDecision } from './schema';
 
-export const STORAGE_KEY = 'ai-pm-workbench-project-v1';
+export const STORAGE_KEY = 'ai-pm-operating-playbook-project-v1';
 
 const CURRENT_SCHEMA_VERSION = 1;
 

@@ -1,20 +1,20 @@
-# AI PM Workbench
+# AI PM Operating Playbook
 
-A static, privacy-friendly workbench that helps AI Product Managers turn fuzzy product concepts into structured briefs, evaluation plans, and coding agent handoffs.
+A static, privacy-friendly operating playbook that helps AI Product Managers turn fuzzy product concepts into structured briefs, evaluation plans, and coding agent handoffs.
 
-[Open Workbench](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/workbench/) · [View Examples](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/examples/)
+[Open Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/) · [View Examples](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/examples/)
 
 ---
 
 ## Product positioning
 
-The AI PM Workbench is a structured thinking tool for AI product managers. It replaces scattered notes and ad-hoc documents with a four-step workflow that produces reusable delivery artifacts. It is not a course, not a resource list, and not a portfolio.
+The AI PM Operating Playbook is a structured thinking tool for AI product managers. It replaces scattered notes and ad-hoc documents with a four-step workflow that produces reusable delivery artifacts. It is not a course, not a resource list, and not a portfolio.
 
-## Open Workbench
+## Open Operating Playbook
 
-- [English Workbench](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/workbench/)
-- [Chinese Workbench (工作台)](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/zh-CN/workbench/)
-- [Example Concepts](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/examples/)
+- [English Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/workbench/)
+- [Chinese Operating Playbook (操作手册)](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/zh-CN/workbench/)
+- [Example Concepts](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/examples/)
 
 ## Core workflow
 
@@ -54,7 +54,7 @@ Project content is stored locally in the browser. The tool does not upload user-
 
 - Export your project as a JSON file at any time from the header menu.
 - Import a previously exported JSON file to restore a project.
-- The workbench auto-saves your work to localStorage as you type.
+- The operating playbook auto-saves your work to localStorage as you type.
 - No account or sign-in is required.
 
 ## Technology
@@ -75,13 +75,13 @@ npm run build      # Production build to dist/
 
 ## Supporting methodology
 
-This tool is part of the [AI PM Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/methodology/) — a collection of frameworks for AI product thinking:
+This tool is part of the [AI PM Operating Playbook](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/methodology/) — a collection of frameworks for AI product thinking:
 
-- [AI PM Role](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/ai-pm-role/) — What it means to be an AI Product Manager
-- [Vibe Coding](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/vibe-coding/) — Using coding agents for product prototyping
-- [Harness Engineering](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/harness-engineering/) — Directing AI to write code reliably
-- [Agent Product Design](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/agent-product-design/) — Designing goal-directed AI workflows
-- [Prompt-to-Ontology Case Study](https://wenhaoyu-bryan.github.io/AI-PM-Workbench/en/prompt-to-ontology/) — Real project example
+- [AI PM Role](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/ai-pm-role/) — What it means to be an AI Product Manager
+- [Vibe Coding](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/vibe-coding/) — Using coding agents for product prototyping
+- [Harness Engineering](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/harness-engineering/) — Directing AI to write code reliably
+- [Agent Product Design](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/agent-product-design/) — Designing goal-directed AI workflows
+- [Prompt-to-Ontology Case Study](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/prompt-to-ontology/) — Real project example
 
 ## Author
 

@@ -19,14 +19,14 @@ const isEn = lang === 'en';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta property="og:title" content={`${title} | AI PM Workbench`} />
+    <meta property="og:title" content={`${title} | AI PM Operating Playbook`} />
     <meta property="og:description" content={description || 'Practical frameworks, workflows, and case notes for AI Product Managers'} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>{title} | AI PM Workbench</title>
+    <title>{title} | AI PM Operating Playbook</title>
   </head>
   <body class="min-h-screen bg-background text-foreground">
     <!-- Nav -->
@@ -37,14 +37,14 @@ const isEn = lang === 'en';
       ]}>
         <a href={`${base}${lang}/`} class="font-semibold text-sm text-foreground no-underline tracking-tight flex items-center gap-2 hover:text-primary transition-colors">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-          AI PM Workbench
+          AI PM Operating Playbook
         </a>
         <!-- Desktop nav -->
         <div class="hidden md:flex items-center gap-1 text-[13px]">
-          <a href={`${base}${lang}/workbench/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Workbench' : '工作台'}</a>
+          <a href={`${base}${lang}/workbench/`} class="px-2.5 py-1.5 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Operating Playbook' : '操作手册'}</a>
           <a href={`${base}${lang}/examples/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
           <a href={`${base}${lang}/methodology/`} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
-          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Workbench" class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="w-px h-4 bg-border mx-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
             {isEn ? '中文' : 'EN'}
@@ -59,10 +59,10 @@ const isEn = lang === 'en';
       <!-- Mobile nav -->
       <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
         <div class="px-6 py-3 flex flex-col gap-1 text-sm">
-          <a href={`${base}${lang}/workbench/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Workbench' : '工作台'}</a>
+          <a href={`${base}${lang}/workbench/`} class="px-3 py-2 rounded-md text-emerald-400 font-medium hover:bg-emerald-500/10 transition-all">{isEn ? 'Operating Playbook' : '操作手册'}</a>
           <a href={`${base}${lang}/examples/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Examples' : '示例'}</a>
           <a href={`${base}${lang}/methodology/`} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">{isEn ? 'Methodology' : '方法论'}</a>
-          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Workbench" class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
+          <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">GitHub</a>
           <span class="h-px bg-border my-1"></span>
           <a href={isEn ? Astro.url.pathname.replace('/en/', '/zh-CN/') : Astro.url.pathname.replace('/zh-CN/', '/en/')} class="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-all text-xs font-medium">
             {isEn ? '中文' : 'EN'}
@@ -87,7 +87,7 @@ const isEn = lang === 'en';
         'mx-auto px-6 py-8 text-center text-xs text-muted-foreground',
         pageWidth === 'wide' ? 'max-w-[1440px]' : 'max-w-5xl'
       ]}>
-        <span>{isEn ? 'AI PM Workbench · Open-source AI product thinking toolkit' : 'AI PM 工作台 · AI 产品思维工具箱'}</span>
+        <span>{isEn ? 'AI PM Operating Playbook · Open-source AI product thinking toolkit' : 'AI PM Operating Playbook · AI 产品思维工具箱'}</span>
       </div>
     </footer>
 
