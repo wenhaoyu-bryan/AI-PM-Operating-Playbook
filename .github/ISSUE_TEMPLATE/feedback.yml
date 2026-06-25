@@ -1,0 +1,31 @@
+name: Feedback
+description: Suggest improvements, report issues, or request new content
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Feedback type
+      options:
+        - Content improvement
+        - New framework suggestion
+        - Bug or broken link
+        - Translation issue
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What would you like to see changed or added?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context (optional)
+      description: Any additional context, links, or screenshots
+    validations:
+      required: false

@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CanvasBuilder from '../../components/CanvasBuilder';
+---
+
+<Layout title="AI PM Canvas 工具" lang="zh-CN" description="12 维度 AI PM 规划框架——填写你自己的项目">
+  <div class="mb-8">
+    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-3">交互工具</p>
+    <h1 class="text-3xl font-bold tracking-tight mb-3">AI PM Canvas 工具</h1>
+    <p class="text-muted-foreground max-w-2xl">
+      12 维度的 AI 产品规划框架。填写每个维度，实时预览 Markdown，导出后即可使用。
+    </p>
+  </div>
+  <CanvasBuilder client:load defaultLang="zh" />
+</Layout>

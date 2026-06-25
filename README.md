@@ -1,118 +1,86 @@
 # AI PM Operating Playbook
 
-Practical frameworks, workflows, and case notes for AI Product Managers building agents, ontology systems, and AI-native prototypes.
+AI 产品经理的实用方法论工具箱 — 结构化的框架、工作流和案例笔记。
 
-**English** | **[中文](README.zh-CN.md)**
-
----
-
-## What this is
-
-A working playbook for turning ambiguous business problems into structured AI product concepts, prototypes, and evaluation plans.
-
-This is the methodology behind my AI PM practice. It captures how I think through product decisions, structure agent workflows, design human review points, and coordinate AI-assisted delivery — not as theory, but as reusable frameworks drawn from real project work.
-
-The playbook is built from practice across:
-
-- Ontology-driven product systems
-- Industrial agent prototypes
-- RAG and data preparation workflows
-- PM-led vibe coding and harness engineering
-- Human-in-the-loop AI product design
-
-## What this is not
-
-- **Not a course.** There is no structured curriculum. Read in any order.
-- **Not a resource list.** Learning materials are included, but they support the methodology — they are not the point.
-- **Not a personal portfolio.** This repo shows *how* I build AI products. For *what* I have built, see my [portfolio](https://github.com/wenhaoyu-bryan).
-- **Not a theoretical research notebook.** Everything here is grounded in product practice, not academic analysis.
-
-## How to read this repo
-
-Start with the [AI PM Canvas](AI_PM_CANVAS.md) — it is the central framework connecting everything else.
-
-Then explore by section:
-
-| Section | What it covers | Start here if you want to... |
-|---|---|---|
-| [01-product-thinking/](01-product-thinking/) | AI PM role, competencies, growth path | Understand how AI changes PM work |
-| [02-ai-native-delivery/](02-ai-native-delivery/) | Vibe coding, harness engineering, prototyping, requirements breakdown | Learn how PMs use AI to ship prototypes |
-| [03-agent-and-ontology-systems/](03-agent-and-ontology-systems/) | Ontology product design, agent workflow patterns | Understand knowledge-driven AI products |
-| [04-case-studies/](04-case-studies/) | Project case notes | See methodology applied in practice |
-| [05-templates/](05-templates/) | Canvas, case study template, PRD-lite template | Use a framework for your own work |
-| [06-resources/](06-resources/) | Books and courses | Build background knowledge |
-| [archive/](archive/) | Earlier versions and changelog | Review repo history |
+**English** | [中文](README.zh-CN.md)
 
 ---
 
-## Featured case connections
+## 这是什么
 
-These are examples of how the methodology in this playbook connects to real project work. Case-specific details are generalized to avoid exposing confidential information.
+一个把模糊的业务问题转化为结构化 AI 产品概念、原型和评估方案的实战手册。
 
-**Prompt-to-Ontology**
-Turning flat business language into structured ontology concepts using LLM-assisted schema extraction. Demonstrates ontology-driven product thinking.
-→ [Case notes](04-case-studies/prompt-to-ontology.md) | [GitHub](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology)
+核心内容：
 
-**Industrial Agent Prototype**
-Simulating how an industrial agent supports diagnosis and decision workflows with structured knowledge and human review loops. Demonstrates industrial AI product design.
+- **AI PM Canvas** — 12 维度规划框架（交互式工具）
+- **Vibe Coding** — PM + LLM = 全栈开发者
+- **Harness Engineering** — 设计 AI Agent 的运行框架
+- **Ontology 系统** — 企业知识图谱驱动的 AI 产品
+- **案例研究** — 从 Prompt 到 Ontology 的实战
 
-**Email Workflow Automation Toolkit**
-Automating repetitive email classification and routing. Demonstrates practical business workflow automation with AI.
+## 在线访问
 
-**RAG Data Preparation Toolkit**
-Preparing messy documents for downstream retrieval — cleaning, chunking, metadata extraction, ingestion pipelines. Demonstrates understanding of AI system foundations.
+**https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/**
 
-> Detailed case notes for these projects will be added as they can be generalized into reusable methodology without exposing confidential business context.
+## AI PM Canvas — 12 维度规划工具
 
----
+项目的核心交互工具，用于在写 PRD、做原型、评估 AI 想法之前进行结构化思考：
 
-## Why this matters for AI PM work
+| 分组 | 维度 |
+|------|------|
+| **Context** | Business Scenario · User / Operator · Decision to Support |
+| **Knowledge** | Data / Knowledge Sources · Object Model |
+| **AI Layer** | AI / Agent Capability · Workflow Boundary · Human Review Point |
+| **Delivery** | Evaluation Metric · Prototype Scope · Production Risk · Product Narrative |
 
-Modern AI product management is not just writing PRDs and managing backlogs. It requires a different operating system:
+在线使用：[英文版](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/en/canvas/) · [中文版](https://wenhaoyu-bryan.github.io/AI-PM-Operating-Playbook/zh-CN/canvas/)
 
-| Traditional PM | AI PM |
-|---|---|
-| Write requirements documents | Structure business ambiguity into product concepts |
-| Hand off to engineering | Coordinate AI-assisted prototyping and delivery |
-| Manage timelines | Design agent workflows and human review points |
-| Track features | Define evaluation metrics for AI behavior |
-| Launch and iterate | Prototype, validate, and learn before committing |
+## 目录结构
 
-An AI PM needs to understand knowledge architectures, design human-AI collaboration patterns, evaluate model outputs, and ship working prototypes — not by writing code, but by thinking architecturally and directing AI tools effectively.
+| 章节 | 内容 |
+|------|------|
+| [01-product-thinking/](src/content/docs/en/ai-pm-role.md) | AI PM 角色、能力模型、成长路径 |
+| [02-ai-native-delivery/](src/content/docs/en/vibe-coding.md) | Vibe Coding、Harness Engineering、原型开发 |
+| [03-agent-and-ontology-systems/](src/content/docs/en/prompt-to-ontology.md) | Agent 工作流、Ontology 产品设计 |
+| [04-case-studies/](src/content/docs/en/prompt-to-ontology.md) | 项目案例笔记 |
+| [05-templates/](src/content/docs/en/ai_prd_lite_template.md) | Canvas、PRD Lite、案例研究模板 |
+| [06-resources/](src/content/docs/en/books.md) | 推荐书籍和课程 |
 
-This playbook is how I do that work.
+## 技术栈
 
----
+- **框架：** Astro 7.x + React 19
+- **UI：** shadcn/ui + Tailwind CSS 4.x
+- **主题：** 深色科技风
+- **部署：** GitHub Pages（CI/CD 自动部署）
+- **多语言：** 中英文双语
 
-## Repository map
+## 本地开发
 
-```
-.
-├── README.md                          # This file
-├── AI_PM_CANVAS.md                   # Central framework: 12-dimension AI PM planning canvas
-├── 01-product-thinking/              # AI PM role, competencies, growth path
-├── 02-ai-native-delivery/            # Vibe coding, harness engineering, prototyping
-├── 03-agent-and-ontology-systems/    # Ontology and agent product methodology
-├── 04-case-studies/                  # Project case notes
-├── 05-templates/                     # Reusable templates and frameworks
-├── 06-resources/                     # Books and courses
-└── archive/                          # Earlier versions and changelog
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建生产版本
+npm run build
 ```
 
----
+## 与其他项目的关系
 
-## GitHub About
+| 项目 | 定位 |
+|------|------|
+| **AI-PM-Operating-Playbook** | 专业方法论（工具 + 框架） |
+| [Prompt-to-Ontology](https://github.com/wenhaoyu-bryan/Prompt-to-Ontology) | 案例项目（Ontology 驱动的 AI 产品） |
+| [Agent-Space](https://github.com/wenhaoyu-bryan/Agent-Space) | 案例项目（制造业数字员工协同平台） |
 
-**Suggested description:**
+## 作者
 
-> Practical AI PM operating playbook for agents, ontology systems, RAG workflows, and PM-led AI-native prototyping.
-
-**Suggested topics:**
-
-`ai-product-management` `ai-agents` `ontology` `rag` `product-strategy` `vibe-coding` `harness-engineering` `ai-prototyping`
-
----
+**余文豪（Wenhao Yu）**
+- GitHub: [@wenhaoyu-bryan](https://github.com/wenhaoyu-bryan)
+- 专注：工业 AI Agent、Ontology 驱动的产品、PM 主导的 Vibe Coding
 
 ## License
 
-MIT License — use freely, adapt to your own practice.
+MIT

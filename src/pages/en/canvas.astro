@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CanvasBuilder from '../../components/CanvasBuilder';
+---
+
+<Layout title="AI PM Canvas Builder" lang="en" description="12-dimension AI PM planning canvas — fill in your own project">
+  <div class="mb-8">
+    <p class="text-xs font-medium text-emerald-400 uppercase tracking-widest mb-3">Interactive tool</p>
+    <h1 class="text-3xl font-bold tracking-tight mb-3">AI PM Canvas Builder</h1>
+    <p class="text-muted-foreground max-w-2xl">
+      A 12-dimension planning framework for AI products. Fill in each dimension, preview the Markdown, and export for your own use.
+    </p>
+  </div>
+  <CanvasBuilder client:load />
+</Layout>

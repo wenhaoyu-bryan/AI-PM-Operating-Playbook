@@ -1,0 +1,58 @@
+name: Submit a Case Study
+description: Share how you used the AI PM Playbook frameworks in your own project
+title: "[Case Study] "
+labels: ["case-study"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Case Title
+      description: A short, descriptive title for your case study
+      placeholder: "e.g. RAG Pipeline for Customer Support"
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: One-line Summary
+      description: Describe your project in one sentence
+      placeholder: "e.g. Built a RAG-based support assistant that reduced ticket resolution time by 40%"
+    validations:
+      required: true
+  - type: dropdown
+    id: frameworks
+    attributes:
+      label: Which frameworks did you use?
+      multiple: true
+      options:
+        - AI PM Canvas
+        - Case Study Template
+        - PRD-lite Template
+        - Vibe Coding workflow
+        - Harness Engineering
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Key Outcome
+      description: What was the measurable result?
+      placeholder: "e.g. Reduced diagnosis time from 30 min to 5 min, 85% accuracy vs expert labels"
+    validations:
+      required: true
+  - type: textarea
+    id: learnings
+    attributes:
+      label: Key Learnings
+      description: What did you learn about AI product management through this project?
+      placeholder: "e.g. The hardest part was defining evaluation metrics, not building the model"
+    validations:
+      required: false
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Sharing consent
+      options:
+        - label: I'm okay with this case study being featured in the playbook (with attribution)
+          required: true

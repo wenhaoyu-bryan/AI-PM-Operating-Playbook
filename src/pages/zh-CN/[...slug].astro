@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs', ({ id }) => id.startsWith('zh-cn/'));
+  return docs.map((doc) => ({
+    params: { slug: doc.id.replace('zh-cn/', '') },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+---
+
+<Layout title={doc.data.title || doc.id.replace('zh-cn/', '').replace(/-/g, ' ')} lang="zh-CN" description={doc.data.description}>
+  <nav class="mb-8">
+    <a href={`${base}zh-CN/`} class="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      返回首页
+    </a>
+  </nav>
+  <article class="prose prose-invert max-w-none">
+    <Content />
+  </article>
+</Layout>

@@ -2,3 +2,6 @@
 Thumbs.db
 *.swp
 *~
+node_modules/
+dist/
+.astro/
