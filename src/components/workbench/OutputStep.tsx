@@ -190,7 +190,7 @@ export function OutputStep({ project, lang, exportLang, onExportLangChange, onNa
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="text-xs h-6 text-amber-400"
+                      className="text-xs text-amber-400"
                       onClick={() => onNavigateToStep?.(group.step)}
                     >
                       {lang === 'zh' ? '前往填写' : 'Go to step'}
@@ -244,7 +244,7 @@ export function OutputStep({ project, lang, exportLang, onExportLangChange, onNa
               <button
                 key={doc.key}
                 onClick={() => setSelectedIndex(i)}
-                className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer border-0 ${
+                className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${
                   selectedIndex === i
                     ? 'bg-secondary text-foreground font-medium'
                     : 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
@@ -265,6 +265,7 @@ export function OutputStep({ project, lang, exportLang, onExportLangChange, onNa
               <Button
                 variant={exportLang === 'en' ? 'secondary' : 'ghost'}
                 size="xs"
+                aria-pressed={exportLang === 'en'}
                 onClick={() => onExportLangChange?.('en')}
               >
                 EN
@@ -272,6 +273,7 @@ export function OutputStep({ project, lang, exportLang, onExportLangChange, onNa
               <Button
                 variant={exportLang === 'zh' ? 'secondary' : 'ghost'}
                 size="xs"
+                aria-pressed={exportLang === 'zh'}
                 onClick={() => onExportLangChange?.('zh')}
               >
                 中

@@ -1,7 +1,6 @@
 import { Check, AlertTriangle, Loader2 } from 'lucide-react';
-import type { Lang } from '@/lib/workbench/schema';
-
-type SaveState = 'idle' | 'saving' | 'saved' | 'error';
+import type { Lang, SaveState } from '@/lib/workbench/schema';
+import { t } from '@/data/translations';
 
 interface SaveIndicatorProps {
   saveState: SaveState;
@@ -17,7 +16,7 @@ export function SaveIndicator({ saveState, lang }: SaveIndicatorProps) {
     return (
       <span className="inline-flex items-center gap-1 text-xs text-muted-foreground" aria-live="polite">
         <Loader2 className="size-3 animate-spin" />
-        <span>{lang === 'zh' ? '正在保存...' : 'Saving...'}</span>
+        <span>{t('workbench.saveState.saving', lang)}</span>
       </span>
     );
   }
@@ -26,7 +25,7 @@ export function SaveIndicator({ saveState, lang }: SaveIndicatorProps) {
     return (
       <span className="inline-flex items-center gap-1 text-xs text-emerald-400" aria-live="polite">
         <Check className="size-3" />
-        <span>{lang === 'zh' ? '已保存到本地' : 'Saved locally'}</span>
+        <span>{t('workbench.saveState.saved', lang)}</span>
       </span>
     );
   }
@@ -35,7 +34,7 @@ export function SaveIndicator({ saveState, lang }: SaveIndicatorProps) {
   return (
     <span className="inline-flex items-center gap-1 text-xs text-red-400" aria-live="polite">
       <AlertTriangle className="size-3" />
-      <span>{lang === 'zh' ? '无法保存到本地' : 'Could not save locally'}</span>
+      <span>{t('workbench.saveState.error', lang)}</span>
     </span>
   );
 }

@@ -7,6 +7,7 @@ import type {
   IntelligenceFields,
   DeliveryFields,
   Lang,
+  SaveState,
 } from '@/lib/workbench/schema';
 import {
   loadProject,
@@ -29,8 +30,6 @@ import { EvaluationStep } from './EvaluationStep';
 import { OutputStep } from './OutputStep';
 
 import { LivePreviewPanel } from './LivePreviewPanel';
-
-type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
 interface WorkbenchShellProps {
   defaultLang?: Lang;
@@ -262,7 +261,7 @@ export function WorkbenchShell({ defaultLang = 'en' }: WorkbenchShellProps) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Project header — pass saved as boolean for backward compat with ProjectHeader */}
+      {/* Project header */}
       <ProjectHeader
         project={project}
         lang={lang}

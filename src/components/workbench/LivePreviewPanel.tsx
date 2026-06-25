@@ -53,8 +53,8 @@ function parseLines(text: string): string[] {
   return text.split('\n').map(l => l.replace(/^\s*[-*]\s*/, '').replace(/^\s*\d+[.)]\s*/, '').trim()).filter(Boolean);
 }
 
-function hasAnyContent(fields: Record<string, unknown>): boolean {
-  return Object.values(fields).some(v => typeof v === 'string' && v.trim().length > 0);
+function hasAnyContent(obj: object): boolean {
+  return Object.values(obj).some(v => typeof v === 'string' && v.trim().length > 0);
 }
 
 const PRODUCT_TYPE_LABELS: Record<ProductType, Record<Lang, string>> = {
@@ -109,7 +109,7 @@ function FramingPreview({ project, lang }: { project: WorkbenchProject; lang: La
 
 function WorkflowPreview({ project, lang }: { project: WorkbenchProject; lang: Lang }) {
   const { intelligence } = project;
-  const hasContent = hasAnyContent(intelligence as unknown as Record<string, unknown>);
+  const hasContent = hasAnyContent(intelligence);
   if (!hasContent) {
     return <EmptyState lang={lang} />;
   }
@@ -150,7 +150,7 @@ function WorkflowPreview({ project, lang }: { project: WorkbenchProject; lang: L
 
 function EvaluationPreviewPanel({ project, lang }: { project: WorkbenchProject; lang: Lang }) {
   const { delivery } = project;
-  const hasContent = hasAnyContent(delivery as unknown as Record<string, unknown>);
+  const hasContent = hasAnyContent(delivery);
   if (!hasContent) {
     return <EmptyState lang={lang} />;
   }

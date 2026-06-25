@@ -77,8 +77,9 @@ function SuggestionChips({
             <button
               key={item}
               type="button"
+              aria-pressed={selected}
               onClick={() => onToggle(item)}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1 ${
                 selected
                   ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
                   : 'bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground'
@@ -93,7 +94,7 @@ function SuggestionChips({
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="mt-1.5 text-xs text-emerald-400 hover:underline"
+          className="mt-1.5 text-xs text-emerald-400 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
         >
           {lang === 'zh' ? '显示更多' : 'Show more'}
         </button>
@@ -332,7 +333,7 @@ export function EvaluationStep({
                   variant="ghost"
                   size="sm"
                   onClick={handleInsertExamples}
-                  className="text-xs h-7 shrink-0"
+                  className="text-xs shrink-0"
                 >
                   {lang === 'zh' ? '插入示例' : 'Insert examples'}
                 </Button>

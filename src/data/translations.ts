@@ -49,6 +49,11 @@ const T = {
       oneLineIdea: { en: 'One-line idea', zh: '一句话描述' },
       productType: { en: 'Product type', zh: '产品类型' },
     },
+    saveState: {
+      saving: { en: 'Saving…', zh: '正在保存…' },
+      saved: { en: 'Saved locally', zh: '已保存到本地' },
+      error: { en: 'Could not save locally', zh: '无法保存到本地' },
+    },
     framing: {
       metadata: { en: 'Project Metadata', zh: '项目基本信息' },
       problemContext: { en: 'Problem Context', zh: '问题上下文' },

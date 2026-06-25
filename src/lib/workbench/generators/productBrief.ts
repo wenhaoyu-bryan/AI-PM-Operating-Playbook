@@ -136,12 +136,12 @@ export const generateProductBrief: DocumentGenerator = (project, lang) => {
   lines.push(`### ${krTitle}\n\n${knowledge.keyRelationships || notFilledItalic(lang)}\n`);
 
   // Assumptions (optional)
-  const assumptionsContent = optSection(
+  const assumptionsSection = optSection(
     lang === 'zh' ? '假设前提' : 'Assumptions',
     knowledge.assumptions,
     lang,
   );
-  if (assumptionsContent) lines.push(`### ${lang === 'zh' ? '假设前提' : 'Assumptions'}\n\n${knowledge.assumptions.trim()}\n`);
+  if (assumptionsSection) lines.push(assumptionsSection);
 
   // Intelligence
   const iTitle = lang === 'zh' ? 'AI 能力方案' : 'Proposed AI Capability';

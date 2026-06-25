@@ -48,12 +48,12 @@ function buildDraftWarning(project: WorkbenchProject, lang: Lang): string {
 
 export const generateWorkflowSpec: DocumentGenerator = (project, lang) => {
   const { metadata, framing, knowledge, intelligence, delivery } = project;
-  const isAgent = intelligence.agentRequired === 'yes';
+  const isAgent = intelligence.agentRequired === 'yes' || intelligence.agentRequired === 'unsure';
   const localizedType = getLocalizedProductType(metadata.productType, lang);
   const formattedDate = formatProjectDate(metadata.updatedAt || metadata.createdAt, lang);
 
   const title = lang === 'zh'
-    ? `# AI / 智能体工作流规范`
+    ? `# AI${isAgent ? ' / 智能体' : ''}工作流规范`
     : `# AI${isAgent ? '/Agent' : ''} Workflow Specification`;
 
   const lines: string[] = [title, ''];

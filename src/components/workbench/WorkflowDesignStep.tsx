@@ -332,6 +332,7 @@ export function WorkflowDesignStep({
             <Button
               variant={intelligence.agentRequired === 'yes' ? 'default' : 'outline'}
               size="sm"
+              aria-pressed={intelligence.agentRequired === 'yes'}
               onClick={() => handleAgentSelect(intelligence.agentRequired === 'yes' ? '' : 'yes')}
             >
               {lang === 'zh' ? '是，多步自适应工作流' : 'Yes, adaptive multi-step workflow'}
@@ -339,6 +340,7 @@ export function WorkflowDesignStep({
             <Button
               variant={intelligence.agentRequired === 'no' ? 'default' : 'outline'}
               size="sm"
+              aria-pressed={intelligence.agentRequired === 'no'}
               onClick={() => handleAgentSelect(intelligence.agentRequired === 'no' ? '' : 'no')}
             >
               {lang === 'zh' ? '否，确定性工作流' : 'No, deterministic workflow'}
@@ -346,6 +348,7 @@ export function WorkflowDesignStep({
             <Button
               variant={intelligence.agentRequired === 'unsure' ? 'default' : 'outline'}
               size="sm"
+              aria-pressed={intelligence.agentRequired === 'unsure'}
               onClick={() => handleAgentSelect(intelligence.agentRequired === 'unsure' ? '' : 'unsure')}
             >
               {lang === 'zh' ? '暂不确定' : 'Not sure'}
