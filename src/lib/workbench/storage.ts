@@ -1,8 +1,14 @@
-import type { WorkbenchProject, WorkbenchProjectFile } from './schema';
+import type { WorkbenchProject, WorkbenchProjectFile, ProductType, AgentDecision } from './schema';
 
 export const STORAGE_KEY = 'ai-pm-workbench-project-v1';
 
 const CURRENT_SCHEMA_VERSION = 1;
+
+const VALID_PRODUCT_TYPES: ReadonlySet<string> = new Set<ProductType>([
+  'agent', 'rag', 'content-generation', 'classification', 'ontology-knowledge', 'workflow-automation', 'other',
+]);
+
+const VALID_AGENT_DECISIONS: ReadonlySet<string> = new Set<AgentDecision>(['yes', 'no', 'unsure', '']);
 
 function isValidProjectShape(data: unknown): data is WorkbenchProject {
   if (!data || typeof data !== 'object') return false;
@@ -115,6 +121,34 @@ function isValidProject(data: unknown): data is WorkbenchProject {
   );
 }
 
+function sanitizeStringFields(section: Record<string, unknown>): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, val] of Object.entries(section)) {
+    result[key] = typeof val === 'string' ? val : '';
+  }
+  return result;
+}
+
+function sanitizeProject(data: WorkbenchProject): WorkbenchProject {
+  const metadata = sanitizeStringFields(data.metadata as unknown as Record<string, unknown>) as unknown as WorkbenchProject['metadata'];
+  const framing = sanitizeStringFields(data.framing as unknown as Record<string, unknown>) as unknown as WorkbenchProject['framing'];
+  const knowledge = sanitizeStringFields(data.knowledge as unknown as Record<string, unknown>) as unknown as WorkbenchProject['knowledge'];
+  const intelligence = sanitizeStringFields(data.intelligence as unknown as Record<string, unknown>) as unknown as WorkbenchProject['intelligence'];
+  const delivery = sanitizeStringFields(data.delivery as unknown as Record<string, unknown>) as unknown as WorkbenchProject['delivery'];
+
+  // Validate productType
+  if (!VALID_PRODUCT_TYPES.has(metadata.productType)) {
+    metadata.productType = '';
+  }
+
+  // Validate agentRequired
+  if (!VALID_AGENT_DECISIONS.has(intelligence.agentRequired)) {
+    intelligence.agentRequired = '';
+  }
+
+  return { metadata, framing, knowledge, intelligence, delivery };
+}
+
 export type ImportResult =
   | { success: true; project: WorkbenchProject; source: 'current' | 'legacy' }
   | { success: false; error: string };
@@ -138,14 +172,14 @@ export function parseImportedJSON(jsonString: string): ImportResult {
       return { success: false, error: `Unsupported schema version: ${String(obj.schemaVersion)}. Expected version ${CURRENT_SCHEMA_VERSION}.` };
     }
     if (isValidProject(obj.project)) {
-      return { success: true, project: obj.project as WorkbenchProject, source: 'current' };
+      return { success: true, project: sanitizeProject(obj.project), source: 'current' };
     }
     return { success: false, error: 'Project structure is invalid or missing required sections.' };
   }
 
   // Try legacy format: raw WorkbenchProject
   if (isValidProject(parsed)) {
-    return { success: true, project: parsed as WorkbenchProject, source: 'legacy' };
+    return { success: true, project: sanitizeProject(parsed), source: 'legacy' };
   }
 
   return { success: false, error: 'File does not contain a recognized project format.' };

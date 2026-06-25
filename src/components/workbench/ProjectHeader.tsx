@@ -5,13 +5,13 @@ import { MoreHorizontal, Download, Upload, FilePlus, Check } from 'lucide-react'
 import { t } from '@/data/translations';
 import ExampleSelector from './ExampleSelector';
 import { getLocalizedProductType } from '@/lib/workbench/schema';
-import type { WorkbenchProject, Lang } from '@/lib/workbench/schema';
+import type { WorkbenchProject, Lang, SaveState } from '@/lib/workbench/schema';
 
 interface ProjectHeaderProps {
   project: WorkbenchProject;
   lang: Lang;
   completion: { filled: number; total: number };
-  saveState: 'idle' | 'saving' | 'saved' | 'error';
+  saveState: SaveState;
   onLoadExample: (project: WorkbenchProject) => void;
   onNewProject: () => void;
   onDownloadJson: () => void;
@@ -88,18 +88,18 @@ export function ProjectHeader({
           <span>{lang === 'zh' ? '个规划字段已完成' : 'planning fields completed'}</span>
           {saveState === 'saving' && (
             <span className="text-muted-foreground ml-1">
-              {lang === 'zh' ? '正在保存…' : 'Saving…'}
+              {t('workbench.saveState.saving', lang)}
             </span>
           )}
           {saveState === 'saved' && (
             <span className="text-emerald-500 ml-1 inline-flex items-center gap-0.5">
               <Check className="size-3" />
-              {lang === 'zh' ? '已保存到本地' : 'Saved locally'}
+              {t('workbench.saveState.saved', lang)}
             </span>
           )}
           {saveState === 'error' && (
             <span className="text-destructive ml-1">
-              {lang === 'zh' ? '无法保存' : 'Could not save'}
+              {t('workbench.saveState.error', lang)}
             </span>
           )}
         </span>

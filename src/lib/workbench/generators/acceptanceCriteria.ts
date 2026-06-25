@@ -74,7 +74,25 @@ export const generateAcceptanceCriteria: DocumentGenerator = (project, lang) => 
     });
     lines.push('');
   } else {
-    lines.push(notFilledItalic(lang), '');
+    const defaults = lang === 'zh'
+      ? [
+          '原型支持已定义的 happy path。',
+          '建议包含支撑证据。',
+          '高影响操作需要明确的人工批准。',
+          '失败的工具调用可见且可恢复。',
+          '系统不会在定义的工作流边界之外操作。',
+        ]
+      : [
+          'The prototype supports the defined happy path.',
+          'Recommendations include supporting evidence.',
+          'High-impact actions require explicit human approval.',
+          'Failed tool calls are visible and recoverable.',
+          'The system does not act outside the defined workflow boundary.',
+        ];
+    defaults.forEach((item) => {
+      lines.push(`- [ ] ${item}`);
+    });
+    lines.push('');
   }
 
   // Additional criteria section

@@ -2,6 +2,8 @@ export type ProductType = 'agent' | 'rag' | 'content-generation' | 'classificati
 
 export type Lang = 'en' | 'zh';
 
+export type SaveState = 'idle' | 'saving' | 'saved' | 'error';
+
 export type AgentDecision = 'yes' | 'no' | 'unsure' | '';
 
 export interface WorkbenchProjectFile {
