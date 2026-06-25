@@ -80,8 +80,12 @@ const isEn = lang === 'en';
       <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <span>AI PM Operating Playbook &middot; MIT License</span>
         <div class="flex items-center gap-4">
+          <a href="https://wenhaoyu-bryan.github.io/" class="inline-flex items-center gap-1.5 hover:text-foreground transition-colors group">
+            <span class="w-5 h-5 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[9px] font-bold text-white shrink-0">WY</span>
+            <span>{isEn ? 'Wenhao Yu (Bryan)' : '余文豪'}</span>
+          </a>
+          <span class="w-px h-3 bg-border" />
           <a href="https://github.com/wenhaoyu-bryan/AI-PM-Operating-Playbook" class="hover:text-foreground transition-colors">GitHub</a>
-          <a href="https://wenhaoyu-bryan.github.io/" class="hover:text-foreground transition-colors">余文豪（Wenhao Yu）</a>
           <a href={`${base}${lang}/ai_pm_case_study_template/`} class="hover:text-foreground transition-colors">Templates</a>
           <a href={`${base}${lang}/books/`} class="hover:text-foreground transition-colors">Resources</a>
         </div>
