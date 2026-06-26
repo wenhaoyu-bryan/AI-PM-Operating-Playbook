@@ -74,6 +74,13 @@ export const generateClaudeStarter: DocumentGenerator = (project, lang) => {
   lines.push(acTitle, '');
   lines.push(delivery.acceptanceCriteria || notFilledItalic(lang), '');
 
+  // Validation Scenarios
+  if (delivery.evaluationScenarios?.trim()) {
+    const vsTitle = lang === 'zh' ? '## 验证场景' : '## Validation Scenarios';
+    lines.push(vsTitle, '');
+    lines.push(delivery.evaluationScenarios.trim(), '');
+  }
+
   // Validation Expectations
   const veTitle = lang === 'zh' ? '## 验证期望' : '## Validation Expectations';
   lines.push(veTitle, '');

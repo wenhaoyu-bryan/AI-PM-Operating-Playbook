@@ -22,6 +22,16 @@ const EXAMPLE_META: Record<string, { tag: Record<Lang, string>; scenario: Record
     scenario: { en: 'Enterprise Knowledge', zh: '企业知识' },
     challenge: { en: 'Help employees find accurate answers without surfacing sensitive or outdated content.', zh: '帮助员工找到准确答案，同时避免暴露敏感或过时内容。' },
   },
+  'rag-knowledge-assistant': {
+    tag: { en: 'RAG', zh: 'RAG' },
+    scenario: { en: 'Enterprise Knowledge', zh: '企业知识' },
+    challenge: { en: 'Help employees find accurate answers from scattered internal docs using retrieval-augmented generation.', zh: '通过检索增强生成技术，帮助员工从分散的内部文档中找到准确答案。' },
+  },
+  'customer-feedback-classification': {
+    tag: { en: 'Non-Agent', zh: '非智能体' },
+    scenario: { en: 'Customer Operations', zh: '客户运营' },
+    challenge: { en: 'Classify incoming feedback into a controlled taxonomy for routing and trend analysis. No agent needed.', zh: '将客户反馈分类到受控分类体系中，用于路由和趋势分析。无需智能体。' },
+  },
 };
 
 interface ExampleSelectorProps {

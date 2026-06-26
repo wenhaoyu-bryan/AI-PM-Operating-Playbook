@@ -20,6 +20,7 @@ import { getStepCompletion } from '@/lib/workbench/completion';
 import { isProjectBlank, getTotalCompletion } from '@/lib/workbench/fields';
 import { getExampleByKey } from '@/lib/workbench/examples';
 import { Button } from '@/components/ui/button';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { StepNav } from './StepNav';
 import { ProjectHeader } from './ProjectHeader';
 
@@ -43,6 +44,15 @@ export function WorkbenchShell({ defaultLang = 'en' }: WorkbenchShellProps) {
   const [saveState, setSaveState] = useState<SaveState>('idle');
   const [loaded, setLoaded] = useState(false);
   const [pendingExample, setPendingExample] = useState<WorkbenchProject | null>(null);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    variant: 'danger' | 'warning';
+    confirmLabel: string;
+    cancelLabel: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   // --- Mount: load from localStorage ---
   useEffect(() => {
@@ -154,38 +164,66 @@ export function WorkbenchShell({ defaultLang = 'en' }: WorkbenchShellProps) {
   }, []);
 
   // --- New Project (combined reset + clear) ---
-  const handleNewProject = useCallback(() => {
-    if (hasData) {
-      const confirmed = window.confirm(
-        lang === 'zh'
-          ? '当前项目将被替换。建议先下载 JSON 备份。是否继续？'
-          : 'Current project will be replaced. Consider downloading a JSON backup first. Continue?',
-      );
-      if (!confirmed) return;
-    }
+  const executeNewProject = useCallback(() => {
     clearProject();
     setProject(createEmptyProject());
     setCurrentStep(0);
-  }, [hasData, lang]);
+  }, []);
+
+  const handleNewProject = useCallback(() => {
+    if (hasData) {
+      setConfirmDialog({
+        open: true,
+        title: lang === 'zh' ? '新建项目' : 'New Project',
+        description: lang === 'zh'
+          ? '当前项目将被替换。建议先下载 JSON 备份。是否继续？'
+          : 'Current project will be replaced. Consider downloading a JSON backup first. Continue?',
+        variant: 'warning',
+        confirmLabel: lang === 'zh' ? '继续' : 'Continue',
+        cancelLabel: lang === 'zh' ? '取消' : 'Cancel',
+        onConfirm: executeNewProject,
+      });
+      return;
+    }
+    executeNewProject();
+  }, [hasData, lang, executeNewProject]);
 
   // --- Import JSON ---
+  const executeImport = useCallback((project: WorkbenchProject) => {
+    setProject(project);
+    setCurrentStep(0);
+  }, []);
+
   const handleImportJSON = useCallback((jsonString: string) => {
     const result = parseImportedJSON(jsonString);
     if (!result.success) {
-      window.alert(lang === 'zh' ? `导入失败：${result.error}` : `Import failed: ${result.error}`);
+      setConfirmDialog({
+        open: true,
+        title: lang === 'zh' ? '导入失败' : 'Import Failed',
+        description: result.error,
+        variant: 'danger',
+        confirmLabel: lang === 'zh' ? '知道了' : 'OK',
+        cancelLabel: lang === 'zh' ? '关闭' : 'Close',
+        onConfirm: () => {},
+      });
       return;
     }
     if (hasData) {
-      const confirmed = window.confirm(
-        lang === 'zh'
+      setConfirmDialog({
+        open: true,
+        title: lang === 'zh' ? '导入 JSON' : 'Import JSON',
+        description: lang === 'zh'
           ? '当前项目将被替换。是否继续导入？'
           : 'Current project will be replaced. Continue with import?',
-      );
-      if (!confirmed) return;
+        variant: 'warning',
+        confirmLabel: lang === 'zh' ? '继续导入' : 'Import',
+        cancelLabel: lang === 'zh' ? '取消' : 'Cancel',
+        onConfirm: () => executeImport(result.project),
+      });
+      return;
     }
-    setProject(result.project);
-    setCurrentStep(0);
-  }, [hasData, lang]);
+    executeImport(result.project);
+  }, [hasData, lang, executeImport]);
 
   // --- Export JSON (wrapped format with schema version) ---
   const handleExportJson = useCallback(() => {
@@ -229,6 +267,11 @@ export function WorkbenchShell({ defaultLang = 'en' }: WorkbenchShellProps) {
             project={project}
             updateSection={updateSection}
             lang={lang}
+            goToStep={(step) => {
+              setCurrentStep(step);
+              const formArea = document.querySelector('.flex-1.overflow-y-auto');
+              formArea?.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           />
         );
       case 3:
@@ -338,6 +381,20 @@ export function WorkbenchShell({ defaultLang = 'en' }: WorkbenchShellProps) {
           )}
         </div>
       </div>
+
+      {/* Confirm dialog */}
+      {confirmDialog && (
+        <ConfirmDialog
+          open={confirmDialog.open}
+          onClose={() => setConfirmDialog(null)}
+          onConfirm={confirmDialog.onConfirm}
+          title={confirmDialog.title}
+          description={confirmDialog.description}
+          variant={confirmDialog.variant}
+          confirmLabel={confirmDialog.confirmLabel}
+          cancelLabel={confirmDialog.cancelLabel}
+        />
+      )}
     </div>
   );
 }
