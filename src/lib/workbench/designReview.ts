@@ -181,9 +181,9 @@ function rule1(p: WorkbenchProject): DesignReviewFinding | null {
         en: 'This is a RAG product but no knowledge sources or data sources are specified. RAG requires at least one retrievable knowledge source.',
         zh: '这是一个 RAG 产品，但未指定任何知识来源或数据源。RAG 至少需要一个可检索的知识来源。',
       },
-      step: 1,
+      step: 0,
       fieldPath: 'knowledge.knowledgeSources',
-      category: 'workflow',
+      category: 'framing',
     };
   }
   return null;
@@ -488,7 +488,7 @@ function rule13(p: WorkbenchProject): DesignReviewFinding | null {
         en: 'This is an ontology/knowledge product but no core objects are defined. Ontologies are built on a well-defined set of entity types.',
         zh: '这是一个本体/知识图谱产品，但未定义核心对象。本体建立在明确的实体类型之上。',
       },
-      step: 1,
+      step: 0,
       fieldPath: 'knowledge.coreObjects',
       category: 'framing',
     };
@@ -512,7 +512,7 @@ function rule14(p: WorkbenchProject): DesignReviewFinding | null {
         en: 'Core objects are present but no key relationships are defined. Relationships between objects are what make ontologies valuable.',
         zh: '有核心对象但未定义关键关系。对象之间的关系是本体的价值所在。',
       },
-      step: 1,
+      step: 0,
       fieldPath: 'knowledge.keyRelationships',
       category: 'framing',
     };
@@ -549,7 +549,7 @@ function rule15(p: WorkbenchProject): DesignReviewFinding | null {
         en: 'This classification product has no labels, taxonomy, or core objects defined. Classification models need a clear set of target classes.',
         zh: '该分类产品未定义标签、分类法或核心对象。分类模型需要清晰的目标类别。',
       },
-      step: 1,
+      step: 0,
       fieldPath: 'knowledge.coreObjects',
       category: 'framing',
     };

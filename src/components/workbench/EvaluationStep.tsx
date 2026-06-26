@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { t } from '@/data/translations';
 import { PRODUCT_PATTERNS } from '@/data/productPatterns';
 import { EVALUATION_GUIDANCE } from '@/data/evaluationGuidance';
+import { getTotalCompletion } from '@/lib/workbench/fields';
 import { runDesignReview, getReviewSummary } from '@/lib/workbench/designReview';
 import type { DesignReviewFinding } from '@/lib/workbench/designReview';
 import type { WorkbenchProject, DeliveryFields, Lang, ProductType } from '@/lib/workbench/schema';
@@ -423,23 +424,6 @@ function DesignReviewCard({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Count non-empty fields across all sections                         */
-/* ------------------------------------------------------------------ */
-function countCompleted(project: WorkbenchProject): { filled: number; total: number } {
-  const sections = [
-    Object.values(project.framing),
-    Object.values(project.knowledge),
-    Object.values(project.intelligence),
-    Object.values(project.delivery),
-  ];
-  const all = sections.flat();
-  return {
-    filled: all.filter((v) => typeof v === 'string' && v.trim().length > 0).length,
-    total: all.length,
-  };
-}
-
-/* ------------------------------------------------------------------ */
 /*  Main Component                                                     */
 /* ------------------------------------------------------------------ */
 export function EvaluationStep({
@@ -480,7 +464,7 @@ export function EvaluationStep({
     updateSection('delivery', { evaluationScenarios: next });
   }, [delivery.evaluationScenarios, lang, updateSection]);
 
-  const { filled, total } = useMemo(() => countCompleted(project), [project]);
+  const { filled, total } = useMemo(() => getTotalCompletion(project), [project]);
 
   const metricChips =
     productType && productType in EVALUATION_GUIDANCE
@@ -494,7 +478,7 @@ export function EvaluationStep({
 
   const scenarioChips =
     productType && productType in EVALUATION_GUIDANCE
-      ? EVALUATION_GUIDANCE[productType as keyof typeof EVALUATION_GUIDANCE].suggestedMetrics[lang]
+      ? EVALUATION_GUIDANCE[productType as keyof typeof EVALUATION_GUIDANCE].suggestedScenarios[lang]
       : null;
 
   return (
@@ -604,6 +588,14 @@ export function EvaluationStep({
               rows={5}
               className="resize-y"
             />
+            {scenarioChips && (
+              <SuggestionChips
+                items={scenarioChips}
+                currentValue={delivery.evaluationScenarios ?? ''}
+                onToggle={(text) => handleToggle('evaluationScenarios', text)}
+                lang={lang}
+              />
+            )}
           </div>
 
           {/* Acceptance Criteria - full width with insert examples button */}
