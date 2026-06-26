@@ -10,7 +10,7 @@ import Layout from '../../layouts/Layout.astro';
       <p class="text-xs text-muted-foreground/70 mt-2">以下为使用模拟假设构建的示例。真实项目中的指标与目标需要另行验证。</p>
     </div>
 
-    <div class="grid gap-6 md:grid-cols-3">
+    <div class="grid gap-6 md:grid-cols-2">
       <!-- Card 1: Prompt-to-Ontology -->
       <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-6 flex flex-col">
         <div class="flex items-center gap-2 mb-3">
@@ -56,7 +56,24 @@ import Layout from '../../layouts/Layout.astro';
           <span class="px-2 py-0.5 rounded-full bg-secondary text-xs text-muted-foreground">RAG</span>
           <span class="px-2 py-0.5 rounded-full bg-secondary text-xs text-muted-foreground">知识获取</span>
         </div>
-        <a href="/AI-PM-Operating-Playbook/zh-CN/workbench/" onclick="sessionStorage.setItem('ai-pm-load-example','rag-assistant')" class="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+        <a href="/AI-PM-Operating-Playbook/zh-CN/workbench/" onclick="sessionStorage.setItem('ai-pm-load-example','rag-knowledge-assistant')" class="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+          在快速工具中打开
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 4: 客户反馈分类 -->
+      <div class="bg-card rounded-xl ring-1 ring-foreground/10 p-6 flex flex-col">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold" style="background: oklch(0.65 0.12 320 / 0.2); color: oklch(0.75 0.12 320);">4</div>
+          <h2 class="text-lg font-semibold">客户反馈分类</h2>
+        </div>
+        <p class="text-sm text-muted-foreground mb-4 flex-1">将客户反馈分类到受控分类体系中，帮助团队路由问题和识别趋势。确定性分类工作流——无需智能体。</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="px-2 py-0.5 rounded-full bg-secondary text-xs text-muted-foreground">classification</span>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium">非智能体模式</span>
+        </div>
+        <a href="/AI-PM-Operating-Playbook/zh-CN/workbench/" onclick="sessionStorage.setItem('ai-pm-load-example','customer-feedback-classification')" class="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
           在快速工具中打开
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"/></svg>
         </a>

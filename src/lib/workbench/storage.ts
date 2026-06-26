@@ -2,7 +2,7 @@ import type { WorkbenchProject, WorkbenchProjectFile, ProductType, AgentDecision
 
 export const STORAGE_KEY = 'ai-pm-operating-playbook-project-v1';
 
-const CURRENT_SCHEMA_VERSION = 1;
+const CURRENT_SCHEMA_VERSION = 2;
 
 const VALID_PRODUCT_TYPES: ReadonlySet<string> = new Set<ProductType>([
   'agent', 'rag', 'content-generation', 'classification', 'ontology-knowledge', 'workflow-automation', 'other',
@@ -97,6 +97,7 @@ export function createEmptyProject(): WorkbenchProject {
       prototypeScope: '',
       nonGoals: '',
       evaluationMetrics: '',
+      evaluationScenarios: '',
       acceptanceCriteria: '',
       productionRisks: '',
       dependencies: '',
@@ -146,6 +147,11 @@ function sanitizeProject(data: WorkbenchProject): WorkbenchProject {
     intelligence.agentRequired = '';
   }
 
+  // Backward compat: v1 JSON without evaluationScenarios gets the field added
+  if (!('evaluationScenarios' in delivery)) {
+    (delivery as Record<string, unknown>).evaluationScenarios = '';
+  }
+
   return { metadata, framing, knowledge, intelligence, delivery };
 }
 
@@ -168,8 +174,8 @@ export function parseImportedJSON(jsonString: string): ImportResult {
   // Try current format: { schemaVersion, project }
   const obj = parsed as Record<string, unknown>;
   if ('schemaVersion' in obj && 'project' in obj) {
-    if (obj.schemaVersion !== CURRENT_SCHEMA_VERSION) {
-      return { success: false, error: `Unsupported schema version: ${String(obj.schemaVersion)}. Expected version ${CURRENT_SCHEMA_VERSION}.` };
+    if (obj.schemaVersion !== 1 && obj.schemaVersion !== 2) {
+      return { success: false, error: `Unsupported schema version: ${String(obj.schemaVersion)}. Expected version 1 or 2.` };
     }
     if (isValidProject(obj.project)) {
       return { success: true, project: sanitizeProject(obj.project), source: 'current' };

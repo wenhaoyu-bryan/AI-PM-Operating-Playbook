@@ -7,7 +7,7 @@ export type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 export type AgentDecision = 'yes' | 'no' | 'unsure' | '';
 
 export interface WorkbenchProjectFile {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   project: WorkbenchProject;
 }
 
@@ -51,6 +51,7 @@ export interface DeliveryFields {
   prototypeScope: string;
   nonGoals: string;
   evaluationMetrics: string;
+  evaluationScenarios: string;
   acceptanceCriteria: string;
   productionRisks: string;
   dependencies: string;

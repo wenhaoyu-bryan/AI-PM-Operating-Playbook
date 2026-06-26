@@ -39,6 +39,7 @@ export const WORKBENCH_FIELD_DEFINITIONS: WorkbenchFieldDefinition[] = [
   { path: 'delivery.prototypeScope', step: 2, required: true, label: { en: 'Prototype Scope', zh: '原型范围' } },
   { path: 'delivery.nonGoals', step: 2, required: true, label: { en: 'Non-Goals', zh: '非目标' } },
   { path: 'delivery.evaluationMetrics', step: 2, required: true, label: { en: 'Evaluation Metrics', zh: '评估指标' } },
+  { path: 'delivery.evaluationScenarios', step: 2, required: false, label: { en: 'Evaluation Scenarios', zh: '评估场景' } },
   { path: 'delivery.acceptanceCriteria', step: 2, required: true, label: { en: 'Acceptance Criteria', zh: '验收标准' } },
   { path: 'delivery.productionRisks', step: 2, required: true, label: { en: 'Production Risks', zh: '生产风险' } },
   { path: 'delivery.dependencies', step: 2, required: false, label: { en: 'Dependencies', zh: '依赖项' } },

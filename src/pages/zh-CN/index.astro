@@ -39,7 +39,7 @@ const examples = [
   {
     title: 'RAG 知识助手',
     desc: '帮助员工从内部文档中快速找到答案',
-    key: 'rag-assistant',
+    key: 'rag-knowledge-assistant',
     tag: 'RAG',
     scenario: '企业知识',
     challenge: '帮助员工找到准确答案，同时避免暴露敏感或过时内容。',
@@ -56,7 +56,7 @@ const iconPaths: Record<string, string> = {
 };
 ---
 
-<Layout title="AI PM 操作手册" lang="zh-CN" description="一个静态、隐私友好的操作手册，帮助 AI 产品经理将模糊的产品概念转化为产品简报、评估方案和编码智能体交付物。">
+<Layout title="AI PM 操作手册" lang="zh-CN" description="一个隐私友好的工具集，帮助 AI 产品经理将产品概念转化为结构化的产品简报、工作流规范、评估计划和编码智能体交付材料。">
 
   <!-- Section 1: Hero -->
   <section class="text-center py-20 max-w-3xl mx-auto">
@@ -80,7 +80,7 @@ const iconPaths: Record<string, string> = {
     </div>
   </section>
 
-  <!-- Workbench Preview Mockup -->
+  <!-- 工作台预览交互 Mockup -->
   <section class="mb-20 max-w-4xl mx-auto hidden md:block">
     <div class="rounded-xl ring-1 ring-foreground/10 bg-card overflow-hidden">
       <!-- Mock toolbar -->
@@ -88,42 +88,188 @@ const iconPaths: Record<string, string> = {
         <span class="font-medium text-foreground">Industrial Agent Decision Support</span>
         <span class="text-foreground/30">|</span>
         <span>Agent</span>
-        <span class="ml-auto">8 of 26 fields &middot; Saved locally</span>
+        <span class="ml-auto">草稿进行中 &middot; 已保存到本地</span>
       </div>
-      <div class="flex">
+      <div class="flex min-h-[280px]">
         <!-- Mock sidebar -->
-        <div class="w-44 shrink-0 border-r border-border p-3 space-y-2 text-xs">
-          <div class="flex items-center gap-2 text-emerald-400"><span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px]">1</span> Product Framing</div>
-          <div class="flex items-center gap-2 text-muted-foreground"><span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px]">2</span> AI Workflow</div>
-          <div class="flex items-center gap-2 text-muted-foreground"><span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px]">3</span> Evaluation</div>
-          <div class="flex items-center gap-2 text-muted-foreground"><span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px]">4</span> Export</div>
+        <div id="mock-sidebar-zh" class="w-44 shrink-0 border-r border-border p-3 space-y-2 text-xs">
+          <button type="button" data-step="1" class="mock-step w-full flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors text-left cursor-pointer text-emerald-400 bg-emerald-500/5">
+            <span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-medium">1</span> 定义产品
+          </button>
+          <button type="button" data-step="2" class="mock-step w-full flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors text-left cursor-pointer text-muted-foreground hover:text-foreground hover:bg-secondary/50">
+            <span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px] font-medium">2</span> 设计 AI 工作流
+          </button>
+          <button type="button" data-step="3" class="mock-step w-full flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors text-left cursor-pointer text-muted-foreground hover:text-foreground hover:bg-secondary/50">
+            <span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px] font-medium">3</span> 评估与风险
+          </button>
+          <button type="button" data-step="4" class="mock-step w-full flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors text-left cursor-pointer text-muted-foreground hover:text-foreground hover:bg-secondary/50">
+            <span class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px] font-medium">4</span> 导出交付材料
+          </button>
         </div>
-        <!-- Mock form -->
-        <div class="flex-1 p-4 space-y-3 border-r border-border">
-          <div class="text-xs font-semibold uppercase tracking-wider text-foreground/50">Problem Context</div>
-          <div class="space-y-2">
-            <div class="space-y-1"><div class="text-xs text-muted-foreground">Business Scenario</div><div class="h-16 rounded bg-secondary/50"></div></div>
-            <div class="space-y-1"><div class="text-xs text-muted-foreground">Target User</div><div class="h-10 rounded bg-secondary/50"></div></div>
-            <div class="space-y-1"><div class="text-xs text-muted-foreground">Decision to Support</div><div class="h-10 rounded bg-secondary/50"></div></div>
+
+        <!-- Mock form panels -->
+        <div class="flex-1 border-r border-border relative">
+          <!-- Step 1: 定义产品 -->
+          <div data-panel="1" class="mock-panel absolute inset-0 p-4 space-y-3 overflow-hidden">
+            <div class="text-xs font-semibold uppercase tracking-wider text-foreground/50">问题背景</div>
+            <div class="space-y-2">
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">业务场景</div><div class="h-14 rounded bg-secondary/50"></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">目标用户</div><div class="h-9 rounded bg-secondary/50"></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">需要支持的决策</div><div class="h-9 rounded bg-secondary/50"></div></div>
+            </div>
+          </div>
+          <!-- Step 2: 设计 AI 工作流 -->
+          <div data-panel="2" class="mock-panel absolute inset-0 p-4 space-y-3 overflow-hidden opacity-0 pointer-events-none">
+            <div class="text-xs font-semibold uppercase tracking-wider text-foreground/50">AI / 智能体工作流</div>
+            <div class="space-y-2">
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">AI 能力</div><div class="h-9 rounded bg-secondary/50"></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">智能体决策</div><div class="flex gap-2"><div class="h-8 flex-1 rounded bg-emerald-500/10 ring-1 ring-emerald-500/20"></div><div class="h-8 flex-1 rounded bg-secondary/50"></div></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">工作流步骤</div><div class="h-16 rounded bg-secondary/50"></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">人工审核</div><div class="h-9 rounded bg-secondary/50"></div></div>
+            </div>
+          </div>
+          <!-- Step 3: 评估与风险 -->
+          <div data-panel="3" class="mock-panel absolute inset-0 p-4 space-y-3 overflow-hidden opacity-0 pointer-events-none">
+            <div class="text-xs font-semibold uppercase tracking-wider text-foreground/50">评估与风险</div>
+            <div class="space-y-2">
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">评估指标</div><div class="h-12 rounded bg-secondary/50"></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">评估场景</div><div class="h-12 rounded bg-secondary/50"></div></div>
+              <div class="space-y-1"><div class="text-xs text-muted-foreground">验收标准</div><div class="h-9 rounded bg-secondary/50"></div></div>
+            </div>
+          </div>
+          <!-- Step 4: 导出 -->
+          <div data-panel="4" class="mock-panel absolute inset-0 p-4 space-y-3 overflow-hidden opacity-0 pointer-events-none">
+            <div class="text-xs font-semibold uppercase tracking-wider text-foreground/50">导出文档</div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="rounded-lg ring-1 ring-foreground/8 p-2.5"><div class="text-[11px] font-medium text-foreground mb-0.5">AI 产品简报</div><div class="h-1.5 w-3/4 rounded bg-secondary"></div></div>
+              <div class="rounded-lg ring-1 ring-foreground/8 p-2.5"><div class="text-[11px] font-medium text-foreground mb-0.5">工作流规格说明</div><div class="h-1.5 w-2/3 rounded bg-secondary"></div></div>
+              <div class="rounded-lg ring-1 ring-foreground/8 p-2.5"><div class="text-[11px] font-medium text-foreground mb-0.5">评估方案</div><div class="h-1.5 w-3/4 rounded bg-secondary"></div></div>
+              <div class="rounded-lg ring-1 ring-foreground/8 p-2.5"><div class="text-[11px] font-medium text-foreground mb-0.5">验收标准</div><div class="h-1.5 w-1/2 rounded bg-secondary"></div></div>
+              <div class="rounded-lg ring-1 ring-foreground/8 p-2.5"><div class="text-[11px] font-medium text-foreground mb-0.5">编码智能体交付物</div><div class="h-1.5 w-2/3 rounded bg-secondary"></div></div>
+              <div class="rounded-lg ring-1 ring-foreground/8 p-2.5"><div class="text-[11px] font-medium text-foreground mb-0.5">CLAUDE.md 起始模板</div><div class="h-1.5 w-3/5 rounded bg-secondary"></div></div>
+            </div>
           </div>
         </div>
-        <!-- Mock preview -->
-        <div class="w-72 shrink-0 p-4">
-          <div class="text-xs font-semibold text-foreground/50 mb-2">Live Preview</div>
-          <div class="space-y-2 text-xs text-muted-foreground">
-            <div class="font-semibold text-foreground text-sm">AI Product Brief</div>
-            <div class="h-2 w-3/4 rounded bg-secondary"></div>
-            <div class="h-2 w-full rounded bg-secondary"></div>
-            <div class="h-2 w-5/6 rounded bg-secondary"></div>
-            <div class="h-2 w-2/3 rounded bg-secondary"></div>
-            <div class="mt-3 font-semibold text-foreground text-sm">Business Problem</div>
-            <div class="h-2 w-full rounded bg-secondary"></div>
-            <div class="h-2 w-4/5 rounded bg-secondary"></div>
+
+        <!-- Mock preview panels -->
+        <div class="w-72 shrink-0 relative">
+          <!-- Preview 1: 产品简报 -->
+          <div data-preview="1" class="mock-preview absolute inset-0 p-4 overflow-hidden">
+            <div class="text-xs font-semibold text-foreground/50 mb-2">实时预览</div>
+            <div class="space-y-2 text-xs text-muted-foreground">
+              <div class="font-semibold text-foreground text-sm">AI 产品简报</div>
+              <div class="h-2 w-3/4 rounded bg-secondary"></div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="h-2 w-5/6 rounded bg-secondary"></div>
+              <div class="h-2 w-2/3 rounded bg-secondary"></div>
+              <div class="mt-3 font-semibold text-foreground text-sm">业务问题</div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="h-2 w-4/5 rounded bg-secondary"></div>
+            </div>
+          </div>
+          <!-- Preview 2: 工作流规格说明 -->
+          <div data-preview="2" class="mock-preview absolute inset-0 p-4 overflow-hidden opacity-0 pointer-events-none">
+            <div class="text-xs font-semibold text-foreground/50 mb-2">实时预览</div>
+            <div class="space-y-2 text-xs text-muted-foreground">
+              <div class="font-semibold text-foreground text-sm">工作流规格说明</div>
+              <div class="h-2 w-4/5 rounded bg-secondary"></div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="mt-3 flex items-center gap-1.5">
+                <div class="h-5 w-16 rounded bg-emerald-500/15 ring-1 ring-emerald-500/20"></div>
+                <div class="w-3 h-px bg-foreground/20"></div>
+                <div class="h-5 w-16 rounded bg-emerald-500/15 ring-1 ring-emerald-500/20"></div>
+                <div class="w-3 h-px bg-foreground/20"></div>
+                <div class="h-5 w-16 rounded bg-emerald-500/15 ring-1 ring-emerald-500/20"></div>
+              </div>
+              <div class="mt-2 h-2 w-full rounded bg-secondary"></div>
+              <div class="h-2 w-5/6 rounded bg-secondary"></div>
+              <div class="mt-3 font-semibold text-foreground text-sm">工具与边界</div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="h-2 w-3/4 rounded bg-secondary"></div>
+            </div>
+          </div>
+          <!-- Preview 3: 评估方案 -->
+          <div data-preview="3" class="mock-preview absolute inset-0 p-4 overflow-hidden opacity-0 pointer-events-none">
+            <div class="text-xs font-semibold text-foreground/50 mb-2">实时预览</div>
+            <div class="space-y-2 text-xs text-muted-foreground">
+              <div class="font-semibold text-foreground text-sm">评估方案</div>
+              <div class="h-2 w-3/4 rounded bg-secondary"></div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="mt-3 font-semibold text-foreground text-sm">测试场景</div>
+              <div class="flex flex-wrap gap-1 mt-1">
+                <div class="h-4 w-14 rounded-full bg-emerald-500/10"></div>
+                <div class="h-4 w-16 rounded-full bg-emerald-500/10"></div>
+                <div class="h-4 w-12 rounded-full bg-emerald-500/10"></div>
+              </div>
+              <div class="mt-2 font-semibold text-foreground text-sm">验收标准</div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="h-2 w-4/5 rounded bg-secondary"></div>
+            </div>
+          </div>
+          <!-- Preview 4: 导出 -->
+          <div data-preview="4" class="mock-preview absolute inset-0 p-4 overflow-hidden opacity-0 pointer-events-none">
+            <div class="text-xs font-semibold text-foreground/50 mb-2">实时预览</div>
+            <div class="space-y-3 text-xs text-muted-foreground">
+              <div class="font-semibold text-foreground text-sm">设计审查</div>
+              <div class="flex items-center gap-2">
+                <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] bg-amber-500/15 text-amber-400 font-medium">1 警告</span>
+                <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] bg-blue-500/15 text-blue-400 font-medium">2 建议</span>
+              </div>
+              <div class="mt-3 font-semibold text-foreground text-sm">生成文档</div>
+              <div class="h-2 w-full rounded bg-secondary"></div>
+              <div class="h-2 w-5/6 rounded bg-secondary"></div>
+              <div class="h-2 w-4/5 rounded bg-secondary"></div>
+              <div class="mt-3 flex gap-2">
+                <div class="h-7 w-20 rounded-md bg-emerald-600/80"></div>
+                <div class="h-7 w-20 rounded-md bg-secondary"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('mock-sidebar-zh');
+      if (!container) return;
+      const buttons = container.parentElement!.querySelectorAll<HTMLButtonElement>('.mock-step');
+      const section = container.closest('section')!;
+      const panels = section.querySelectorAll<HTMLElement>('.mock-panel');
+      const previews = section.querySelectorAll<HTMLElement>('.mock-preview');
+
+      function switchStep(step: string) {
+        buttons.forEach(btn => {
+          const isActive = btn.dataset.step === step;
+          const numSpan = btn.querySelector('span');
+          if (isActive) {
+            btn.className = 'mock-step w-full flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors text-left cursor-pointer text-emerald-400 bg-emerald-500/5';
+            if (numSpan) numSpan.className = 'w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-medium';
+          } else {
+            btn.className = 'mock-step w-full flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors text-left cursor-pointer text-muted-foreground hover:text-foreground hover:bg-secondary/50';
+            if (numSpan) numSpan.className = 'w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-[10px] font-medium';
+          }
+        });
+        panels.forEach(p => {
+          const isActive = p.dataset.panel === step;
+          p.style.opacity = isActive ? '1' : '0';
+          p.style.pointerEvents = isActive ? 'auto' : 'none';
+        });
+        previews.forEach(p => {
+          const isActive = p.dataset.preview === step;
+          p.style.opacity = isActive ? '1' : '0';
+          p.style.pointerEvents = isActive ? 'auto' : 'none';
+        });
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.step) switchStep(btn.dataset.step);
+        });
+      });
+    });
+  </script>
 
   <!-- Section 2: How It Works -->
   <section class="mb-20">

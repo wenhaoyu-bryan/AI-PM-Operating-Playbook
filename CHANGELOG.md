@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+- Evaluation Scenario Design with template insertion and product-specific suggestions
+- Rule-Based Design Review with 20 deterministic checks
+- Customer Feedback Classification example (non-Agent pattern)
+- Product-Type Quick Patterns with suitability, inputs, and evaluation guidance
+- Product-specific scenario suggestions in Evaluation guidance
+
+### Improved
+- Evaluation Plan output includes evaluation scenarios
+- Coding-Agent Handoff includes test scenarios section
+- CLAUDE.md Starter includes validation scenarios
+- Complete Pack includes Design Review section
+- Homepage metadata consistency
+
+### Privacy
+- Design Review remains fully client-side and does not use an LLM
+
 ## 1.0.0
 
 ### Added

@@ -7,6 +7,7 @@ import { generateEvaluationPlan } from './evaluationPlan';
 import { generateAcceptanceCriteria } from './acceptanceCriteria';
 import { generateCodingAgentHandoff } from './codingAgentHandoff';
 import { generateClaudeStarter } from './claudeStarter';
+import { runDesignReview, getReviewSummary } from '../designReview';
 
 interface SectionEntry {
   title: Record<Lang, string>;
@@ -91,6 +92,49 @@ export const generateCombinedPack: DocumentGenerator = (project, lang) => {
     const content = section.generator(project, lang);
     lines.push(content, '', '---', '');
   });
+
+  // Design Review section
+  const reviewFindings = runDesignReview(project);
+  if (reviewFindings.length > 0) {
+    const drTitle = lang === 'zh' ? '## 规则型设计检查' : '## Rule-Based Design Review';
+    lines.push(drTitle, '');
+
+    const summary = getReviewSummary(reviewFindings);
+    const summaryLine = lang === 'zh'
+      ? `${summary.missing} 项缺失 · ${summary.warning} 项警告 · ${summary.suggestion} 项建议`
+      : `${summary.missing} missing · ${summary.warning} warning · ${summary.suggestion} suggestion`;
+    lines.push(summaryLine, '');
+
+    const grouped: Record<string, typeof reviewFindings> = {};
+    for (const finding of reviewFindings) {
+      const key = finding.severity;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(finding);
+    }
+
+    const severityLabels: Record<string, Record<Lang, string>> = {
+      missing: { en: 'Missing', zh: '缺失' },
+      warning: { en: 'Warnings', zh: '警告' },
+      suggestion: { en: 'Suggestions', zh: '建议' },
+    };
+
+    for (const severity of ['missing', 'warning', 'suggestion'] as const) {
+      const items = grouped[severity];
+      if (items?.length) {
+        lines.push(`### ${severityLabels[severity][lang]}`, '');
+        for (const item of items) {
+          lines.push(`- ${item.title[lang]}`);
+        }
+        lines.push('');
+      }
+    }
+
+    const disclaimer = lang === 'zh'
+      ? '> 这些结果由确定性规则生成，不能替代产品、工程、安全、法务或领域专家评审。'
+      : '> These findings are generated from deterministic rules and do not replace product, engineering, security, legal, or domain review.';
+    lines.push(disclaimer, '');
+    lines.push('---', '');
+  }
 
   return lines.join('\n');
 };

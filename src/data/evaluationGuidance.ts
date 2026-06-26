@@ -1,6 +1,6 @@
 import type { ProductType, Lang } from '../lib/workbench/schema';
 
-export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record<Lang, string[]>; commonRisks: Record<Lang, string[]> }> = {
+export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record<Lang, string[]>; commonRisks: Record<Lang, string[]>; suggestedScenarios: Record<Lang, string[]> }> = {
   agent: {
     suggestedMetrics: {
       en: [
@@ -38,6 +38,26 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '超越自主性边界做出未授权决策',
         '幻觉生成的工具调用或参数',
         '过多 LLM 或 API 调用导致成本失控',
+      ],
+    },
+    suggestedScenarios: {
+      en: [
+        'Tool call succeeds with expected output',
+        'Tool returns incomplete or malformed data',
+        'Tool call times out or fails',
+        'Agent reaches low confidence and escalates',
+        'Agent requests action outside permission boundary',
+        'Human rejects agent recommendation',
+        'Agent enters retry loop and recovers',
+      ],
+      zh: [
+        '工具调用成功并返回预期输出',
+        '工具返回不完整或格式错误的数据',
+        '工具调用超时或失败',
+        '智能体置信度过低并升级求助',
+        '智能体请求超出权限边界的操作',
+        '人工拒绝智能体建议',
+        '智能体进入重试循环并恢复',
       ],
     },
   },
@@ -80,6 +100,24 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '在罕见或专业查询上性能下降',
       ],
     },
+    suggestedScenarios: {
+      en: [
+        'Answer exists clearly in a single retrieved document',
+        'Answer requires synthesizing information from multiple documents',
+        'Retrieved relevant document is outdated or superseded',
+        'User lacks permission to view the most relevant source',
+        'No supported answer exists in the knowledge base',
+        'Retrieved sources contain conflicting information',
+      ],
+      zh: [
+        '答案明确存在于单个检索文档中',
+        '需要从多个文档中综合信息才能回答',
+        '检索到的相关文档已过时或已被替代',
+        '用户无权查看最相关的来源文档',
+        '知识库中不存在可支持的答案',
+        '检索到的来源包含相互矛盾的信息',
+      ],
+    },
   },
   'content-generation': {
     suggestedMetrics: {
@@ -116,6 +154,24 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '违反品牌指南',
         '抄袭或近似重复内容',
         '不同主题领域间质量不一致',
+      ],
+    },
+    suggestedScenarios: {
+      en: [
+        'Well-specified input produces high-quality output',
+        'Input is missing key facts required for generation',
+        'Conflicting instructions in the input prompt',
+        'Generated content touches a sensitive or regulated topic',
+        'Strict tone or style constraint must be maintained',
+        'Fact-check reveals fabricated content in output',
+      ],
+      zh: [
+        '输入规格明确时生成高质量输出',
+        '输入缺少生成所需的关键信息',
+        '输入提示中包含相互矛盾的指令',
+        '生成内容涉及敏感或受监管话题',
+        '必须严格遵守语气或风格约束',
+        '事实核查发现输出中存在编造内容',
       ],
     },
   },
@@ -158,6 +214,24 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '罕见类别评估不足',
       ],
     },
+    suggestedScenarios: {
+      en: [
+        'Common class with clear textual indicators',
+        'Rare class with few training examples',
+        'Ambiguous input that overlaps multiple categories',
+        'Input about a topic not present in the taxonomy',
+        'Low-confidence result that falls below routing threshold',
+        'Severe class imbalance in batch classification',
+      ],
+      zh: [
+        '具有明显文本特征的常见类别',
+        '训练样本极少的稀有类别',
+        '与多个类别重叠的模糊输入',
+        '输入主题不在分类体系中',
+        '置信度低于路由阈值的低置信度结果',
+        '批量分类中的严重类别不平衡',
+      ],
+    },
   },
   'ontology-knowledge': {
     suggestedMetrics: {
@@ -194,6 +268,24 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '领域专家验证成为瓶颈',
         '文档间实体规范化不一致',
         '模式无法扩展到新领域或数据类型',
+      ],
+    },
+    suggestedScenarios: {
+      en: [
+        'Clear domain concept with unambiguous definition',
+        'Ambiguous synonym that could map to multiple entities',
+        'Duplicate object candidate requiring deduplication decision',
+        'Missing relationship between two known entities',
+        'Conflicting terminology across source documents',
+        'Domain expert rejects suggested schema structure',
+      ],
+      zh: [
+        '定义明确、无歧义的领域概念',
+        '可能映射到多个实体的模糊同义词',
+        '需要去重决策的重复对象候选',
+        '两个已知实体之间缺失的关系',
+        '不同来源文档中的术语冲突',
+        '领域专家拒绝建议的模式结构',
       ],
     },
   },
@@ -234,6 +326,24 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '自动化在系统间形成脆弱耦合',
       ],
     },
+    suggestedScenarios: {
+      en: [
+        'Successful end-to-end integration with third-party system',
+        'Third-party API is unavailable or returns an error',
+        'Invalid input triggers a business-rule exception',
+        'Rollback required after partial workflow completion',
+        'Human overrides an automated decision mid-workflow',
+        'Duplicate event received and must be deduplicated',
+      ],
+      zh: [
+        '与第三方系统成功完成端到端集成',
+        '第三方 API 不可用或返回错误',
+        '无效输入触发业务规则异常',
+        '工作流部分完成后需要回滚',
+        '人工在工作流中途覆盖自动化决策',
+        '收到重复事件且需要去重处理',
+      ],
+    },
   },
   other: {
     suggestedMetrics: {
@@ -268,6 +378,22 @@ export const EVALUATION_GUIDANCE: Record<ProductType, { suggestedMetrics: Record
         '评估数据不足',
         '生产环境与原型差异显著',
         '工作流变更导致用户采纳摩擦',
+      ],
+    },
+    suggestedScenarios: {
+      en: [
+        'Happy path works as expected',
+        'Edge case input that is unusual but valid',
+        'Failure scenario with graceful degradation',
+        'Human review needed before final output',
+        'Out-of-scope request that should be rejected',
+      ],
+      zh: [
+        '正常路径按预期工作',
+        '不常见但有效的边界输入',
+        '失败场景下的优雅降级',
+        '最终输出前需要人工审核',
+        '应被拒绝的超出范围请求',
       ],
     },
   },

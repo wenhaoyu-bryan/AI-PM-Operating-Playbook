@@ -109,6 +109,12 @@ export const generateCodingAgentHandoff: DocumentGenerator = (project, lang) => 
   const erTitle = lang === 'zh' ? '评估要求' : 'Evaluation Requirements';
   lines.push(`## ${erTitle}\n\n${delivery.evaluationMetrics || notFilledItalic(lang)}\n`);
 
+  // Evaluation and Test Scenarios
+  if (delivery.evaluationScenarios?.trim()) {
+    const etsTitle = lang === 'zh' ? '评估与测试场景' : 'Evaluation and Test Scenarios';
+    lines.push(`## ${etsTitle}\n\n${delivery.evaluationScenarios.trim()}\n`);
+  }
+
   // Acceptance Criteria
   const acTitle = lang === 'zh' ? '验收标准' : 'Acceptance Criteria';
   lines.push(`## ${acTitle}\n\n${delivery.acceptanceCriteria || notFilledItalic(lang)}\n`);

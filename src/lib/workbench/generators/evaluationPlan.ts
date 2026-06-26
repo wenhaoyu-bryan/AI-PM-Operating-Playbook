@@ -56,6 +56,12 @@ export const generateEvaluationPlan: DocumentGenerator = (project, lang) => {
     lines.push(`### ${cmTitle}\n\n${delivery.evaluationMetrics.trim()}\n`);
   }
 
+  // Evaluation Scenarios
+  if (delivery.evaluationScenarios?.trim()) {
+    const esTitle = lang === 'zh' ? '评估场景' : 'Evaluation Scenarios';
+    lines.push(`## ${esTitle}\n\n${delivery.evaluationScenarios.trim()}\n`);
+  }
+
   // Quality Metrics
   const qmTitle = lang === 'zh' ? '质量指标' : 'Quality Metrics';
   const qmContent = lang === 'zh'

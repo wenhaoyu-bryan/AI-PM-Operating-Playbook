@@ -26,13 +26,30 @@ The interactive planning tool guides you through four steps:
 
 ## Examples
 
-Three illustrative example projects demonstrate different AI product patterns:
+Four illustrative example projects demonstrate different AI product patterns:
 
 - **Prompt-to-Ontology** — Ontology-driven knowledge product
 - **Industrial Agent Decision Support** — Agent workflow product
 - **RAG Knowledge Assistant** — Retrieval-augmented generation product
+- **Customer Feedback Classification** — Deterministic classification workflow (non-Agent)
 
 All examples use simulated assumptions. Metrics and targets must be validated for each real project.
+
+## Design Review
+
+AI PM Operating Playbook includes deterministic rule-based checks for common product-design gaps, such as:
+
+- Agent workflows without tools or human review
+- RAG products without knowledge sources
+- Evaluation metrics without test scenarios
+- Ontology products without objects or relationships
+- Workflows whose implementation pattern may not match the selected AI approach
+
+These checks are transparent and do not use an LLM.
+
+## Evaluation Scenarios
+
+Users can define happy-path, edge, failure, human-review, and misuse scenarios so that evaluation plans can be converted into concrete test cases.
 
 ## Methodology and Writing
 
@@ -49,6 +66,7 @@ This repository focuses on the interactive tools and their implementation.
 ## Privacy
 
 - All project data stays in your browser (localStorage).
+- No LLM API calls — Design Review uses deterministic rule-based checks.
 - No data is uploaded to any server.
 - No account required.
 
