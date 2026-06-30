@@ -208,15 +208,22 @@ export function OutputStep({ project, lang, exportLang, onExportLangChange, onNa
         </div>
       )}
 
-      {/* ---- Export readiness display ---- */}
-      <div className={`ring-1 rounded-lg p-3 flex items-center gap-2 text-sm ${
+      {/* ---- Export readiness + positioning ---- */}
+      <div className={`ring-1 rounded-lg p-3 text-sm ${
         exportReady
           ? 'ring-emerald-500/20 bg-emerald-500/10 text-emerald-400'
           : 'ring-amber-500/20 bg-amber-500/10 text-amber-400'
       }`}>
-        {exportReady
-          ? (lang === 'zh' ? '可导出' : 'Ready to export')
-          : (lang === 'zh' ? '尚未就绪' : 'Not ready')}
+        <div className="flex items-center gap-2 mb-1">
+          {exportReady
+            ? (lang === 'zh' ? '✅ 可导出' : '✅ Ready to export')
+            : (lang === 'zh' ? '⚠️ 尚未就绪' : '⚠️ Not ready')}
+        </div>
+        <p className="text-xs opacity-80 m-0">
+          {lang === 'zh'
+            ? '以下文档由确定性模板根据表单内容自动生成，旨在作为初始产物供 PM 与团队校对迭代，而非最终交付件。'
+            : 'The following documents are generated deterministically from your form inputs. They are intended as starter artifacts for PM review and team iteration — not final deliverables.'}
+        </p>
       </div>
 
       {/* ---- Document selector + preview ---- */}
@@ -284,7 +291,15 @@ export function OutputStep({ project, lang, exportLang, onExportLangChange, onNa
             <div className="space-y-1.5">
               <Button variant="outline" size="sm" className="w-full justify-start" onClick={handleDownloadAll}>
                 <Download className="size-3.5" />
-                <span>{lang === 'zh' ? '下载完整包' : 'Download Complete Pack'}</span>
+                <span>{lang === 'zh' ? '下载完整包 (.md)' : 'Download Complete Pack (.md)'}</span>
+              </Button>
+              <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => {
+                const content = documents.map(d => `# ${d.title}\n\n${d.content}`).join('\n\n---\n\n');
+                navigator.clipboard.writeText(content);
+                // brief feedback via a temporary element would be ideal, but just copy works
+              }}>
+                <Copy className="size-3.5" />
+                <span>{lang === 'zh' ? '复制完整包' : 'Copy Full Pack'}</span>
               </Button>
               <Button variant="ghost" size="sm" className="w-full justify-start" onClick={handleDownloadJson}>
                 <FileJson className="size-3.5" />
