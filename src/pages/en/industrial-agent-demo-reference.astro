@@ -1,11 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import IndustrialRCADemo from '../../components/IndustrialRCADemo';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <Layout title="Industrial RCA Agent Interactive Demo" lang="en" description="Try a simulated RCA agent workflow: anomaly case → investigation plan → tool calls → evidence → HITL review → final report → evaluation.">
   <nav class="mb-8">
-    <a href={`${import.meta.env.BASE_URL}en/`} class="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+    <a href={`${base}en/`} class="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
       Back to Playbook
     </a>
