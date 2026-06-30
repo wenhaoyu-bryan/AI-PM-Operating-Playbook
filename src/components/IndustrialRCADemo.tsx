@@ -233,6 +233,14 @@ export default function IndustrialRCADemo({ lang }: { lang: Lang }) {
 
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
+      {/* Positioning note */}
+      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-500/10 ring-1 ring-blue-500/20 text-xs text-blue-400">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        {lang === 'zh'
+          ? '这是一个确定性的产品流程演示，不是真实在线 AI 系统。它用于展示 AI PM 如何设计工业 RCA Agent 的工作流闭环。'
+          : 'This is a deterministic product walkthrough, not a live AI system. It shows how an industrial RCA agent workflow can be designed from an AI PM perspective.'}
+      </div>
+
       {/* Synthetic data notice */}
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/10 ring-1 ring-amber-500/20 text-xs text-amber-400">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
