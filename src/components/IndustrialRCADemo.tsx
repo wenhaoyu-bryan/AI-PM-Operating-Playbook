@@ -225,7 +225,7 @@ export default function IndustrialRCADemo({ lang }: { lang: Lang }) {
     setTimeout(() => setPhase('done'), 600);
   }, []);
 
-  const hitlLabel: Record<HITLDecision, string> = {
+  const hitlLabel: Record<string, string> = {
     approved: lang === 'zh' ? '已批准' : 'Approved',
     revised: lang === 'zh' ? '已要求修改' : 'Revision Requested',
     rejected: lang === 'zh' ? '已驳回' : 'Rejected',
@@ -375,7 +375,7 @@ export default function IndustrialRCADemo({ lang }: { lang: Lang }) {
               {/* Decision feedback */}
               {phase === 'done' && (
                 <div className={`px-3 py-2 rounded-md text-[11px] ${hitlDecision ? 'bg-emerald-500/5 ring-1 ring-emerald-500/20 text-emerald-400' : 'bg-secondary text-muted-foreground'}`}>
-                  {hitlDecision ? T[lang][`decision${hitlDecision.charAt(0).toUpperCase() + hitlDecision.slice(1)}` as keyof typeof T['en']] : t.decisionPending}
+                  {hitlDecision ? (T[lang] as unknown as Record<string, string>)[`decision${hitlDecision.charAt(0).toUpperCase() + hitlDecision.slice(1)}`] : t.decisionPending}
                 </div>
               )}
             </div>
