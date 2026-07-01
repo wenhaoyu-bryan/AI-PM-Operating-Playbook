@@ -4,5 +4,18 @@ import { WorkbenchShell } from '../../components/workbench/WorkbenchShell.tsx';
 ---
 
 <Layout title="AI PM Operating Playbook" lang="en" description="Turn ambiguous AI product ideas into structured delivery artifacts" pageWidth="wide">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold tracking-tight mb-2">AI PM Workbench</h1>
+    <p class="text-sm text-muted-foreground max-w-2xl">
+      Turn an ambiguous AI product idea into a structured handoff pack — product brief, workflow specification, evaluation plan, acceptance criteria, coding agent handoff, and CLAUDE.md starter. Fill in the 4-step form below; your work is saved locally in your browser.
+    </p>
+  </div>
+
+  <noscript>
+    <div class="rounded-lg bg-amber-500/10 ring-1 ring-amber-500/20 p-4 text-sm text-amber-400 mb-6">
+      JavaScript is required for the interactive workbench. Please enable JavaScript to use the AI PM Workbench generator.
+    </div>
+  </noscript>
+
   <WorkbenchShell defaultLang="en" client:load />
 </Layout>

@@ -4,5 +4,18 @@ import { WorkbenchShell } from '../../components/workbench/WorkbenchShell.tsx';
 ---
 
 <Layout title="AI PM 操作手册" lang="zh-CN" description="将模糊的 AI 产品想法转化为结构化交付物" pageWidth="wide">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold tracking-tight mb-2">AI PM 工作台</h1>
+    <p class="text-sm text-muted-foreground max-w-2xl">
+      将模糊的 AI 产品想法转成结构化交付包 — 产品简报、工作流说明、评估方案、验收标准、Coding Agent 交接说明和 CLAUDE.md 初始文件。填写下方 4 步表单，您的工作会自动保存在浏览器本地。
+    </p>
+  </div>
+
+  <noscript>
+    <div class="rounded-lg bg-amber-500/10 ring-1 ring-amber-500/20 p-4 text-sm text-amber-400 mb-6">
+      交互式工作台需要 JavaScript。请启用 JavaScript 以使用 AI PM Workbench 生成器。
+    </div>
+  </noscript>
+
   <WorkbenchShell defaultLang="zh" client:load />
 </Layout>
