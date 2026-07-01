@@ -149,4 +149,4 @@ Agent 推荐
 
 ---
 
-**相关：** [工业 Agent 产品设计模式](industrial-agent-design-pattern) · [良率异常 RCA Agent 案例](quality-anomaly-rca-case) · [Agent 评估模式](agent-evaluation-pattern)
+**相关：** [工业 Agent 产品设计模式](/AI-PM-Operating-Playbook/zh-CN/industrial-agent-design-pattern/) · [良率异常 RCA Agent 案例](/AI-PM-Operating-Playbook/zh-CN/quality-anomaly-rca-case/) · [Agent 评估模式](/AI-PM-Operating-Playbook/zh-CN/agent-evaluation-pattern/)

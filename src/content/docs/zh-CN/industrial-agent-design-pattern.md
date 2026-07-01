@@ -89,11 +89,11 @@ section: "case-studies"
 
 ## 相关页面
 
-- [良率异常 RCA Agent 案例](quality-anomaly-rca-case)
-- [企业 Agent 的人工审核模式](hitl-review-pattern)
-- [Agent 评估模式](agent-evaluation-pattern)
-- [工具、知识与工作流模式](tool-knowledge-workflow-pattern)
-- [交互式 Demo](../zh-CN/industrial-agent-demo-reference/)
+- [良率异常 RCA Agent 案例](/AI-PM-Operating-Playbook/zh-CN/quality-anomaly-rca-case/)
+- [企业 Agent 的人工审核模式](/AI-PM-Operating-Playbook/zh-CN/hitl-review-pattern/)
+- [Agent 评估模式](/AI-PM-Operating-Playbook/zh-CN/agent-evaluation-pattern/)
+- [工具、知识与工作流模式](/AI-PM-Operating-Playbook/zh-CN/tool-knowledge-workflow-pattern/)
+- [交互式 Demo](/AI-PM-Operating-Playbook/zh-CN/industrial-agent-demo-reference/)
 
 ---
 

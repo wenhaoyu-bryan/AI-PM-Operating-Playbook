@@ -149,4 +149,4 @@ Reviewer decisions are a data source for product improvement. If a particular ag
 
 ---
 
-**Related:** [Industrial Agent Design Pattern](industrial-agent-design-pattern) · [Quality Anomaly RCA Agent Case](quality-anomaly-rca-case) · [Agent Evaluation Pattern](agent-evaluation-pattern)
+**Related:** [Industrial Agent Design Pattern](/AI-PM-Operating-Playbook/en/industrial-agent-design-pattern/) · [Quality Anomaly RCA Agent Case](/AI-PM-Operating-Playbook/en/quality-anomaly-rca-case/) · [Agent Evaluation Pattern](/AI-PM-Operating-Playbook/en/agent-evaluation-pattern/)

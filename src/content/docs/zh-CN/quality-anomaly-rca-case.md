@@ -185,4 +185,4 @@ Agent 质量是可衡量的，不是凭感觉的。每次调查输出都根据 7
 
 ---
 
-**相关：** [工业 Agent 产品设计模式](industrial-agent-design-pattern) · [企业 Agent 的人工审核模式](hitl-review-pattern) · [Agent 评估模式](agent-evaluation-pattern)
+**相关：** [工业 Agent 产品设计模式](/AI-PM-Operating-Playbook/zh-CN/industrial-agent-design-pattern/) · [企业 Agent 的人工审核模式](/AI-PM-Operating-Playbook/zh-CN/hitl-review-pattern/) · [Agent 评估模式](/AI-PM-Operating-Playbook/zh-CN/agent-evaluation-pattern/)

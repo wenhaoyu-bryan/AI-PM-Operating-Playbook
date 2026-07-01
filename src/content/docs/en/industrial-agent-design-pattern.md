@@ -89,11 +89,11 @@ This case module demonstrates the following AI PM capabilities:
 
 ## Related Pages
 
-- [Quality Anomaly RCA Agent Case](quality-anomaly-rca-case)
-- [HITL Review Pattern for Enterprise Agents](hitl-review-pattern)
-- [Agent Evaluation Pattern](agent-evaluation-pattern)
-- [Tool, Knowledge, and Workflow Pattern](tool-knowledge-workflow-pattern)
-- [Interactive Demo](../en/industrial-agent-demo-reference/)
+- [Quality Anomaly RCA Agent Case](/AI-PM-Operating-Playbook/en/quality-anomaly-rca-case/)
+- [HITL Review Pattern for Enterprise Agents](/AI-PM-Operating-Playbook/en/hitl-review-pattern/)
+- [Agent Evaluation Pattern](/AI-PM-Operating-Playbook/en/agent-evaluation-pattern/)
+- [Tool, Knowledge, and Workflow Pattern](/AI-PM-Operating-Playbook/en/tool-knowledge-workflow-pattern/)
+- [Interactive Demo](/AI-PM-Operating-Playbook/en/industrial-agent-demo-reference/)
 
 ---
 

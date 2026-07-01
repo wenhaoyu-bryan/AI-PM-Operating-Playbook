@@ -185,4 +185,4 @@ This case is designed to be interview-ready. It demonstrates:
 
 ---
 
-**Related:** [Industrial Agent Design Pattern](industrial-agent-design-pattern) · [HITL Review Pattern](hitl-review-pattern) · [Agent Evaluation Pattern](agent-evaluation-pattern)
+**Related:** [Industrial Agent Design Pattern](/AI-PM-Operating-Playbook/en/industrial-agent-design-pattern/) · [HITL Review Pattern](/AI-PM-Operating-Playbook/en/hitl-review-pattern/) · [Agent Evaluation Pattern](/AI-PM-Operating-Playbook/en/agent-evaluation-pattern/)

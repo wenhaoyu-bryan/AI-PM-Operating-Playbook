@@ -164,4 +164,4 @@ Users should see: the investigation plan, the tool calls, the evidence collected
 
 ---
 
-**Related:** [Industrial Agent Design Pattern](industrial-agent-design-pattern) · [Quality Anomaly RCA Agent Case](quality-anomaly-rca-case) · [HITL Review Pattern](hitl-review-pattern)
+**Related:** [Industrial Agent Design Pattern](/AI-PM-Operating-Playbook/en/industrial-agent-design-pattern/) · [Quality Anomaly RCA Agent Case](/AI-PM-Operating-Playbook/en/quality-anomaly-rca-case/) · [HITL Review Pattern](/AI-PM-Operating-Playbook/en/hitl-review-pattern/)
