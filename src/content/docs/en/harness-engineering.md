@@ -6,4 +6,4 @@ This article has moved to Wenhao Yu's personal website as part of the AI PM Oper
 
 [Read the updated article](https://wenhaoyu-bryan.github.io/playbook/harness-engineering) -->
 
-[Open Quick Tools](/AI-PM-Operating-Playbook/en/workbench/) -->
+[Open Workbench](/AI-PM-Operating-Playbook/en/workbench/) -->

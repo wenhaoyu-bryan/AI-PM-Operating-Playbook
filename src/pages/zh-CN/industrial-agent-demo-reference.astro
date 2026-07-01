@@ -12,6 +12,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
       返回操作手册
     </a>
   </nav>
+  <div class="mb-6 rounded-lg bg-emerald-500/10 ring-1 ring-emerald-500/20 p-4">
+    <p class="text-sm text-emerald-400 m-0">
+      这是一个确定性的产品流程演示，不是真实在线 AI 系统。它用于展示 AI PM 如何设计工业 RCA Agent 的工作流闭环。
+    </p>
+  </div>
   <article class="prose prose-invert max-w-none">
     <IndustrialRCADemo lang="zh" client:load />
   </article>

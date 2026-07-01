@@ -6,4 +6,4 @@
 
 [阅读更新后的文章](https://wenhaoyu-bryan.github.io/zh/playbook/harness-engineering) -->
 
-[打开快速工具](/AI-PM-Operating-Playbook/zh-CN/workbench/) -->
+[打开工作台](/AI-PM-Operating-Playbook/zh-CN/workbench/) -->
