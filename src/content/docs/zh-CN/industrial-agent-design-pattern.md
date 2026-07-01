@@ -93,7 +93,7 @@ section: "case-studies"
 - [企业 Agent 的人工审核模式](hitl-review-pattern)
 - [Agent 评估模式](agent-evaluation-pattern)
 - [工具、知识与工作流模式](tool-knowledge-workflow-pattern)
-- [交互式 Demo](industrial-agent-demo-reference)
+- [交互式 Demo](../zh-CN/industrial-agent-demo-reference/)
 
 ---
 

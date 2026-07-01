@@ -93,7 +93,7 @@ This case module demonstrates the following AI PM capabilities:
 - [HITL Review Pattern for Enterprise Agents](hitl-review-pattern)
 - [Agent Evaluation Pattern](agent-evaluation-pattern)
 - [Tool, Knowledge, and Workflow Pattern](tool-knowledge-workflow-pattern)
-- [Interactive Demo](industrial-agent-demo-reference)
+- [Interactive Demo](../en/industrial-agent-demo-reference/)
 
 ---
 
